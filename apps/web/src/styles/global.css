@@ -87,8 +87,12 @@ a:focus-visible {
   transform: none;
 }
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
+  backdrop-filter: blur(12px);
 }
 .header-inner {
   min-height: 4rem;
@@ -100,7 +104,7 @@ a:focus-visible {
 .brand {
   font-family: 'Source Serif 4', Georgia, serif;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   color: var(--text);
   text-decoration: none;
 }
@@ -113,9 +117,41 @@ a:focus-visible {
   padding-block: 0.5rem;
 }
 .portfolio-link,
-.language-link {
+.language-link,
+.github-link {
   font-size: 0.82rem;
   font-weight: 600;
+}
+.lab-sidebar {
+  position: sticky;
+  top: 4rem;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-2);
+}
+.lab-sidebar a {
+  min-height: 2.75rem;
+  display: grid;
+  place-items: center;
+  padding-inline: 1.25rem;
+  border-inline-start: 1px solid var(--border);
+  color: var(--text-2);
+  font:
+    700 0.68rem/1 'JetBrains Mono',
+    monospace;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.lab-sidebar a:last-child {
+  border-inline-end: 1px solid var(--border);
+}
+.lab-sidebar a:hover {
+  background: var(--raised);
+  color: var(--text);
 }
 .theme-control {
   display: flex;
@@ -233,18 +269,20 @@ footer {
   font-size: 0.8rem;
 }
 .experience {
-  width: min(70rem, 100%);
+  width: min(76rem, 100%);
   margin: auto;
-  padding: 0 var(--gutter) 5rem;
+  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 5rem;
 }
 .workspace-heading {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
   align-items: end;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
-.workspace-heading h2 {
+.workspace-heading h1 {
+  max-width: none;
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
   margin-bottom: 0.5rem;
 }
 .workspace-grid {
@@ -358,6 +396,22 @@ dd {
 }
 .model-evidence {
   margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.about-demo {
+  display: grid;
+  gap: 1rem 2rem;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.about-demo h2 {
+  margin-bottom: 0;
+}
+.about-demo p {
+  margin-top: 0;
+  color: var(--text-2);
 }
 .document-page {
   max-width: 50rem;
@@ -368,7 +422,10 @@ dd {
 }
 @media (min-width: 48rem) {
   .workspace-grid {
-    grid-template-columns: minmax(0, 7fr) minmax(18rem, 5fr);
+    grid-template-columns: minmax(0, 8fr) minmax(17rem, 4fr);
+  }
+  .about-demo {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
 @media (max-width: 40rem) {
@@ -376,6 +433,33 @@ dd {
     align-items: start;
     flex-direction: column;
     gap: 0.5rem;
+  }
+  .lab-sidebar {
+    top: 7.5rem;
+    overflow-x: auto;
+    justify-content: stretch;
+  }
+  .lab-sidebar a {
+    flex: 1;
+    padding-inline: 0.75rem;
+  }
+}
+@media (min-width: 86rem) {
+  .lab-sidebar {
+    position: fixed;
+    top: 9rem;
+    left: 1.25rem;
+    width: 7rem;
+    display: grid;
+    border: 1px solid var(--border);
+  }
+  .lab-sidebar a,
+  .lab-sidebar a:last-child {
+    border: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .lab-sidebar a:last-child {
+    border-bottom: 0;
   }
 }
 @media (min-width: 48rem) {
