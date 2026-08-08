@@ -7,6 +7,7 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   page.on('request', (request) => requests.push(request.url()));
   await page.goto('en/');
   await expect(page).toHaveTitle(/SketchSense/);
+  await expect(page.locator('body')).not.toContainText(/[ÃÂ]/);
   await expect(page.locator('[data-status]')).toContainText('Model ready', {
     timeout: 30_000,
   });

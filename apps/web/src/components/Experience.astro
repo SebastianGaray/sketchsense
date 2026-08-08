@@ -74,7 +74,9 @@ const t =
   <div class="workspace-heading">
     <div>
       <p class="eyebrow">
-        SketchSense Â· {lang === 'en' ? 'Local inference' : 'Inferencia local'}
+        SketchSense &middot; {
+          lang === 'en' ? 'Local inference' : 'Inferencia local'
+        }
       </p><h1 id="workspace-title">{t.draw}</h1><p>{t.hint}</p>
     </div>
     <p class="privacy">{t.privacy}</p>
@@ -140,27 +142,29 @@ const t =
   </section>
   <section id="about" class="about-demo" aria-labelledby="about-title">
     <div>
-      <p class="eyebrow">{lang === 'en' ? 'How it works' : 'CÃ³mo funciona'}</p>
+      <p class="eyebrow">
+        {lang === 'en' ? 'How it works' : 'C\u00f3mo funciona'}
+      </p>
       <h2 id="about-title">
         {
           lang === 'en'
             ? 'From stroke to prediction'
-            : 'Del trazo a la predicciÃ³n'
+            : 'Del trazo a la predicci\u00f3n'
         }
       </h2>
     </div>
     <p>
       {
         lang === 'en'
-          ? 'The canvas is cropped, centered, and normalized to the same 28 Ã— 28 contract used in training. The compact CNN then runs through ONNX Runtime Web on your device.'
-          : 'El canvas se recorta, centra y normaliza con el mismo contrato de 28 Ã— 28 usado en entrenamiento. Luego, la CNN compacta se ejecuta mediante ONNX Runtime Web en tu dispositivo.'
+          ? 'The canvas is cropped, centered, and normalized to the same 28 \u00d7 28 contract used in training. The compact CNN then runs through ONNX Runtime Web on your device.'
+          : 'El canvas se recorta, centra y normaliza con el mismo contrato de 28 \u00d7 28 usado en entrenamiento. Luego, la CNN compacta se ejecuta mediante ONNX Runtime Web en tu dispositivo.'
       }
     </p>
     <p>
       {
         lang === 'en'
           ? 'No stroke or image is sent to an application server. Model evidence and known limitations stay below the interaction instead of competing with it.'
-          : 'NingÃºn trazo ni imagen se envÃ­a a un servidor de la aplicaciÃ³n. La evidencia del modelo y sus limitaciones quedan debajo de la interacciÃ³n sin competir con ella.'
+          : 'Ning\u00fan trazo ni imagen se env\u00eda a un servidor de la aplicaci\u00f3n. La evidencia del modelo y sus limitaciones quedan debajo de la interacci\u00f3n sin competir con ella.'
       }
     </p>
   </section>
