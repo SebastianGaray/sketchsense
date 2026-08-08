@@ -1,0 +1,279 @@
+---
+import type { Language } from '../content';
+const { lang } = Astro.props as { lang: Language };
+const base = import.meta.env.BASE_URL;
+const t =
+  lang === 'en'
+    ? {
+        draw: 'Drawing area',
+        hint: 'Draw one of the 16 supported objects with a mouse, pen, or touch.',
+        clear: 'Clear',
+        predict: 'Predict',
+        loading: 'Loading the local model…',
+        ready: 'Model ready. Draw an object to begin.',
+        empty: 'Draw something before requesting a prediction.',
+        failed:
+          'The model could not load. Check browser WebAssembly support and retry.',
+        retry: 'Retry model',
+        results: 'Top predictions',
+        input: 'Model input',
+        inputHelp:
+          'The exact centered 28 × 28 grayscale tensor supplied to the model.',
+        timing: 'Measured on this device',
+        preprocess: 'Preprocessing',
+        inference: 'Inference',
+        limitation:
+          'Freehand drawing requires a pointer. All nearby actions are keyboard accessible.',
+        model: 'Model evidence',
+        architecture: 'Compact CNN · 106,256 parameters',
+        metrics: 'Test accuracy 72.71% · macro F1 73.19% · top-3 86.88%',
+        dataset: 'Quick, Draw! small-v1 · 16 classes · 3,200 samples',
+        card: 'Read the model card',
+        privacy:
+          'Your strokes, image, tensor, and predictions stay in this browser.',
+      }
+    : {
+        draw: 'Área de dibujo',
+        hint: 'Dibuja uno de los 16 objetos admitidos con mouse, lápiz o tacto.',
+        clear: 'Limpiar',
+        predict: 'Predecir',
+        loading: 'Cargando el modelo local…',
+        ready: 'Modelo listo. Dibuja un objeto para comenzar.',
+        empty: 'Dibuja algo antes de solicitar una predicción.',
+        failed:
+          'No se pudo cargar el modelo. Comprueba la compatibilidad con WebAssembly y reintenta.',
+        retry: 'Reintentar modelo',
+        results: 'Predicciones principales',
+        input: 'Entrada del modelo',
+        inputHelp:
+          'El tensor exacto de 28 × 28, centrado y en escala de grises, que recibe el modelo.',
+        timing: 'Medido en este dispositivo',
+        preprocess: 'Preprocesamiento',
+        inference: 'Inferencia',
+        limitation:
+          'El dibujo libre requiere un puntero. Las acciones cercanas son accesibles con teclado.',
+        model: 'Evidencia del modelo',
+        architecture: 'CNN compacta · 106.256 parámetros',
+        metrics:
+          'Exactitud de prueba 72,71 % · F1 macro 73,19 % · top-3 86,88 %',
+        dataset: 'Quick, Draw! small-v1 · 16 clases · 3.200 muestras',
+        card: 'Leer la ficha del modelo',
+        privacy:
+          'Tus trazos, imagen, tensor y predicciones permanecen en este navegador.',
+      };
+---
+
+<section
+  class="experience"
+  data-experience
+  data-lang={lang}
+  data-base={base}
+  aria-labelledby="workspace-title"
+>
+  <div class="workspace-heading">
+    <div>
+      <p class="eyebrow">
+        {lang === 'en' ? 'Local inference' : 'Inferencia local'}
+      </p><h2 id="workspace-title">{t.draw}</h2><p>{t.hint}</p>
+    </div>
+    <p class="privacy">{t.privacy}</p>
+  </div>
+  <div class="workspace-grid">
+    <div>
+      <canvas data-canvas width="640" height="640" aria-label={t.draw}></canvas>
+      <div class="actions">
+        <button class="secondary" data-clear disabled>{t.clear}</button><button
+          class="primary"
+          data-predict
+          disabled>{t.predict}</button
+        >
+      </div>
+      <p class="canvas-limit">{t.limitation}</p>
+    </div>
+    <aside class="evidence-rail">
+      <div class="status-box">
+        <p data-status role="status" aria-live="polite">{t.loading}</p><button
+          class="secondary"
+          data-retry
+          hidden>{t.retry}</button
+        >
+      </div>
+      <section aria-labelledby="results-title">
+        <h3 id="results-title">{t.results}</h3><ol
+          class="predictions"
+          data-results
+        >
+          <li>—</li>
+        </ol>
+      </section>
+      <section aria-labelledby="input-title">
+        <h3 id="input-title">{t.input}</h3><canvas
+          class="preview"
+          data-preview
+          width="28"
+          height="28"></canvas><p class="microcopy">{t.inputHelp}</p>
+      </section>
+      <section aria-labelledby="timing-title">
+        <h3 id="timing-title">{t.timing}</h3><dl class="timings">
+          <div><dt>{t.preprocess}</dt><dd data-preprocess>—</dd></div><div>
+            <dt>{t.inference}</dt><dd data-inference>—</dd>
+          </div>
+        </dl>
+      </section>
+    </aside>
+  </div>
+  <section class="model-evidence" aria-labelledby="model-title">
+    <h2 id="model-title">{t.model}</h2><dl>
+      <div><dt>compact-cnn-v1</dt><dd>{t.architecture}</dd></div><div>
+        <dt>small-v1</dt><dd>{t.dataset}</dd>
+      </div><div>
+        <dt>
+          {lang === 'en' ? 'Held-out evaluation' : 'Evaluación reservada'}
+        </dt><dd>{t.metrics}</dd>
+      </div><div>
+        <dt>ONNX</dt><dd>
+          441,021 bytes · opset 18 · [1, 1, 28, 28] → logits[16]
+        </dd>
+      </div>
+    </dl><a href={`${base}model-card/`}>{t.card}</a>
+  </section>
+</section>
+<script>
+  import { normalizeCanvasRgba, EmptySketchError } from '../lib/preprocessing';
+  import { SketchModel } from '../lib/inference';
+  const root = document.querySelector<HTMLElement>('[data-experience]')!;
+  const canvas = root.querySelector<HTMLCanvasElement>('[data-canvas]')!;
+  const preview = root.querySelector<HTMLCanvasElement>('[data-preview]')!;
+  const clear = root.querySelector<HTMLButtonElement>('[data-clear]')!;
+  const predict = root.querySelector<HTMLButtonElement>('[data-predict]')!;
+  const retry = root.querySelector<HTMLButtonElement>('[data-retry]')!;
+  const status = root.querySelector<HTMLElement>('[data-status]')!;
+  const results = root.querySelector<HTMLOListElement>('[data-results]')!;
+  const lang = root.dataset.lang ?? 'en';
+  const messages =
+    lang === 'en'
+      ? {
+          loading: 'Loading the local model…',
+          ready: 'Model ready. Draw an object to begin.',
+          drawn: 'Drawing ready for local prediction.',
+          empty: 'Draw something before requesting a prediction.',
+          failed:
+            'The model could not load. Check browser WebAssembly support and retry.',
+          result: 'Prediction complete. Top results are shown.',
+        }
+      : {
+          loading: 'Cargando el modelo local…',
+          ready: 'Modelo listo. Dibuja un objeto para comenzar.',
+          drawn: 'Dibujo listo para la predicción local.',
+          empty: 'Dibuja algo antes de solicitar una predicción.',
+          failed:
+            'No se pudo cargar el modelo. Comprueba la compatibilidad con WebAssembly y reintenta.',
+          result:
+            'Predicción completa. Se muestran los resultados principales.',
+        };
+  const context = canvas.getContext('2d', { willReadFrequently: true })!;
+  context.fillStyle = '#fff';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.strokeStyle = '#111';
+  context.lineWidth = 24;
+  context.lineCap = 'round';
+  context.lineJoin = 'round';
+  let drawing = false;
+  let hasDrawing = false;
+  let ready = false;
+  const model = new SketchModel(root.dataset.base ?? '/sketchsense/');
+  const load = async () => {
+    status.textContent = messages.loading;
+    retry.hidden = true;
+    try {
+      await model.load();
+      ready = true;
+      predict.disabled = !hasDrawing;
+      status.textContent = hasDrawing ? messages.drawn : messages.ready;
+    } catch {
+      ready = false;
+      status.textContent = messages.failed;
+      retry.hidden = false;
+    }
+  };
+  const point = (event: PointerEvent) => {
+    const box = canvas.getBoundingClientRect();
+    return {
+      x: ((event.clientX - box.left) * canvas.width) / box.width,
+      y: ((event.clientY - box.top) * canvas.height) / box.height,
+    };
+  };
+  canvas.addEventListener('pointerdown', (event) => {
+    drawing = true;
+    canvas.setPointerCapture(event.pointerId);
+    const p = point(event);
+    context.beginPath();
+    context.moveTo(p.x, p.y);
+    event.preventDefault();
+  });
+  canvas.addEventListener('pointermove', (event) => {
+    if (!drawing) return;
+    const p = point(event);
+    context.lineTo(p.x, p.y);
+    context.stroke();
+    hasDrawing = true;
+    clear.disabled = false;
+    predict.disabled = !ready;
+    status.textContent = messages.drawn;
+    event.preventDefault();
+  });
+  const end = (event: PointerEvent) => {
+    if (drawing) {
+      drawing = false;
+      canvas.releasePointerCapture(event.pointerId);
+    }
+  };
+  canvas.addEventListener('pointerup', end);
+  canvas.addEventListener('pointercancel', end);
+  clear.addEventListener('click', () => {
+    context.fillStyle = '#fff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    hasDrawing = false;
+    clear.disabled = true;
+    predict.disabled = true;
+    results.innerHTML = '<li>—</li>';
+    preview.getContext('2d')!.clearRect(0, 0, 28, 28);
+    status.textContent = messages.ready;
+  });
+  predict.addEventListener('click', async () => {
+    try {
+      const started = performance.now();
+      const image = context.getImageData(0, 0, canvas.width, canvas.height);
+      const input = normalizeCanvasRgba(image.data, image.width, image.height);
+      root.querySelector<HTMLElement>('[data-preprocess]')!.textContent =
+        `${(performance.now() - started).toFixed(1)} ms`;
+      const pixels = preview.getContext('2d')!.createImageData(28, 28);
+      input.forEach((value, index) => {
+        const shade = 255 - Math.round(value * 255);
+        pixels.data[index * 4] = shade;
+        pixels.data[index * 4 + 1] = shade;
+        pixels.data[index * 4 + 2] = shade;
+        pixels.data[index * 4 + 3] = 255;
+      });
+      preview.getContext('2d')!.putImageData(pixels, 0, 0);
+      const infer = performance.now();
+      const predictions = await model.predict(input);
+      root.querySelector<HTMLElement>('[data-inference]')!.textContent =
+        `${(performance.now() - infer).toFixed(1)} ms`;
+      results.replaceChildren(
+        ...predictions.map((item, index) => {
+          const li = document.createElement('li');
+          const percent = (item.probability * 100).toFixed(1);
+          li.innerHTML = `<div><strong>${index + 1}. ${item.label}</strong><span>${percent}%</span></div><progress max="100" value="${percent}">${percent}%</progress>`;
+          return li;
+        }),
+      );
+      status.textContent = messages.result;
+    } catch (error) {
+      status.textContent =
+        error instanceof EmptySketchError ? messages.empty : messages.failed;
+    }
+  });
+  retry.addEventListener('click', load);
+  void load();
+</script>

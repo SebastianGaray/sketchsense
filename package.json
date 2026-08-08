@@ -8,6 +8,7 @@
     "build": "npm --prefix apps/web run build",
     "check": "npm --prefix apps/web run check",
     "test": "npm --prefix apps/web run test",
+    "test:e2e": "npm --prefix apps/web run test:e2e",
     "format": "npm --prefix apps/web run format",
     "format:check": "npm --prefix apps/web run format:check",
     "lint": "npm --prefix apps/web run lint"

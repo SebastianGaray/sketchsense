@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout
+  lang="en"
+  title="Page not found · SketchSense"
+  description="The requested SketchSense page was not found."
+  ><main class="container document-page">
+    <p class="eyebrow">404</p><h1>Page not found</h1><p>
+      <a href={`${base}en/`}>Return to SketchSense</a>
+    </p>
+  </main></Layout
+>

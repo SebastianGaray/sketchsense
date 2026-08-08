@@ -16,7 +16,7 @@ The content width is 70 rem with 1.25/2/3 rem responsive gutters and generous se
 
 The final workspace will pair a large near-square bordered drawing surface with a narrower evidence rail. The canvas resembles paper through the shared surface and sparse, low-contrast corner guides, not texture or gradients. Prediction rows use label, numeric percentage, and a single-color bounded bar. Rank, value, and text preserve meaning without color. The 28 x 28 preview uses crisp pixels in a bordered secondary panel. Model metadata uses restrained monospace labels and rule-separated rows. Loading, empty, unsupported, and error states occupy the same stable region to avoid layout shifts.
 
-The foundation shell contains no fake drawing or prediction controls. Its status panel names the completed foundation and next engineering milestone honestly.
+The released workspace uses the real drawing and prediction controls. Its evidence rail keeps model loading, ranked results, the pixel preview, and device timings in stable regions without simulated values or layout shifts.
 
 ## Themes, navigation, and localization
 

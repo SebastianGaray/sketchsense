@@ -17,6 +17,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#fdf8f8" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={`${Astro.site}${base}/${lang}/`} />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
     <link rel="canonical" href={`${Astro.site}${base}/${lang}/`} />
     <link rel="alternate" hreflang="en" href={`${Astro.site}${base}/en/`} />
     <link rel="alternate" hreflang="es" href={`${Astro.site}${base}/es/`} />

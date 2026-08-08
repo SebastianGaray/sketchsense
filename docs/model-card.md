@@ -28,4 +28,4 @@ Dog has the lowest measured recall at 0.46667, followed by key at 0.56667 and bi
 
 ## Privacy and limitations
 
-The intended browser deployment runs locally and does not upload drawings. The training subset is small, culturally and geographically biased, and contains ambiguous or noisy sketches. Test estimates have high uncertainty because each class has only 30 examples. Canvas preprocessing parity and the full browser inference flow remain separate tasks. Exact retraining floats may vary across PyTorch, BLAS, CPU, and operating-system versions despite deterministic settings.
+The browser deployment runs locally and does not upload drawings. The training subset is small, culturally and geographically biased, and contains ambiguous or noisy sketches. Test estimates have high uncertainty because each class has only 30 examples. Shared fixtures validate Canvas preprocessing parity and Playwright exercises real browser inference. Exact retraining floats may vary across PyTorch, BLAS, CPU, and operating-system versions despite deterministic settings.

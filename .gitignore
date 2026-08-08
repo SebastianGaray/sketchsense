@@ -7,6 +7,8 @@ node_modules/
 dist/
 apps/web/.astro/
 apps/web/dist/
+apps/web/test-results/
+apps/web/playwright-report/
 apps/web/node_modules/
 ml/data/
 ml/.cache/

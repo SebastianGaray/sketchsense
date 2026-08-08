@@ -54,6 +54,8 @@ Python validation is Ruff format/check, Pyright, and pytest. Web validation is A
 
 The ONNX target is under 5 MB and ceiling is 20 MB with written justification. Raw data is zero browser bytes. Build output will record total JS, largest chunk, fonts, model, and evaluation assets before release; budgets are then set from evidence. Risks include dataset bias/noise, ambiguous sketches, preprocessing drift, WASM/browser support, cold model download, misleading confidence, mobile canvas ergonomics, font/network failure, and base-path mistakes. Mitigations are bounded data manifests, parity fixtures, calibrated copy, error states, fallbacks, responsive tests, and production-like builds.
 
+The released browser state machine loads the fixed contract from a base-path-safe URL, exposes retry on recoverable failures, performs no inference during pointer movement, and clears drawing, preview, timings, and results together. The measured v1 build ships a 441,021-byte model, an approximately 398 KB application entry, and the 21,872,216-byte ONNX Runtime SIMD WebAssembly runtime. No raw dataset is shipped. The runtime is the largest cold-load cost and is documented separately from model size.
+
 ## Milestones
 
 M1 establishes SDD, design, environments, CI, bilingual/theme shell, and static deployment. M2 produces deterministic subset and preprocessing parity. M3 trains and compares baseline/CNN. M4 evaluates, exports, validates, and manifests artifacts. M5 integrates canvas and local inference. M6 completes responsive localized product behavior. M7 publishes evidence/system card. M8 measures, audits, deploys, and hardens repository settings.

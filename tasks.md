@@ -16,7 +16,7 @@ Completed tasks are checked only when repository evidence exists.
 - [x] **T007** Version the class-order and dataset-manifest schemas. Complete when schemas validate the selected 16-class contract. (SS-ML-001, SS-ML-002, SS-ML-006)
 - [x] **T008** Implement bounded deterministic category download and subset generation. Complete when reruns produce identical manifests without split overlap. (SS-ML-001)
 - [x] **T009** Implement Python preprocessing and fixtures. Complete when contract edge cases pass. (SS-PERF-004)
-- [ ] **T010** Implement TypeScript preprocessing parity. Complete when shared fixtures match within `1e-5`. (SS-ML-005, SS-PERF-004)
+- [x] **T010** Implement TypeScript preprocessing parity. Complete when shared fixtures match within `1e-5`. (SS-ML-005, SS-PERF-004)
 
 ## M3 — Baseline and CNN
 
@@ -32,22 +32,22 @@ Completed tasks are checked only when repository evidence exists.
 
 ## M5 — Browser inference
 
-- [ ] **T017** Implement responsive pointer-capture Canvas behavior and clear state. Complete when mouse/pen/touch browser tests pass. (SS-FR-001, SS-FR-002, SS-PERF-001)
-- [ ] **T018** Load and validate ONNX artifacts locally. Complete when loading, retry, unsupported-runtime, and mismatch states pass. (SS-FR-003, SS-FR-008)
-- [ ] **T019** Run local inference and render ranked results, preview, and timings. Complete when no network drawing request occurs and result tests pass. (SS-FR-003–SS-FR-006, SS-PRIV-001)
+- [x] **T017** Implement responsive pointer-capture Canvas behavior and clear state. Complete when mouse/pen/touch browser tests pass. (SS-FR-001, SS-FR-002, SS-PERF-001)
+- [x] **T018** Load and validate ONNX artifacts locally. Complete when loading, retry, unsupported-runtime, and mismatch states pass. (SS-FR-003, SS-FR-008)
+- [x] **T019** Run local inference and render ranked results, preview, and timings. Complete when no network drawing request occurs and result tests pass. (SS-FR-003–SS-FR-006, SS-PRIV-001)
 
 ## M6 — Product experience
 
-- [ ] **T020** Complete localized interaction/error copy and route parity. Complete when keys and flows match in EN/ES. (SS-I18N-001)
-- [ ] **T021** Complete theme, responsive, accessibility, and reduced-motion audits. Complete when automated and documented manual checks pass. (SS-A11Y-001, SS-A11Y-002, SS-I18N-002)
+- [x] **T020** Complete localized interaction/error copy and route parity. Complete when keys and flows match in EN/ES. (SS-I18N-001)
+- [x] **T021** Complete theme, responsive, accessibility, and reduced-motion audits. Complete when automated and documented manual checks pass. (SS-A11Y-001, SS-A11Y-002, SS-I18N-002)
 
 ## M7 — Technical transparency
 
-- [ ] **T022** Publish model metadata and evaluation views. Complete when model and evidence fields are accessible and secondary to drawing. (SS-FR-007)
+- [x] **T022** Publish model metadata and evaluation views. Complete when model and evidence fields are accessible and secondary to drawing. (SS-FR-007)
 - [x] **T023** Publish system card, preprocessing contract, licenses, and dataset attribution. Complete when limitations and CC BY 4.0 obligations are explicit. (SS-ML-001, SS-ML-004)
 
 ## M8 — Deployment and hardening
 
-- [ ] **T024** Measure and enforce production performance budgets. Complete when browser/model/build measurements and justified limits are recorded. (SS-PERF-001–SS-PERF-003, SS-ML-007)
-- [ ] **T025** Run end-to-end production-base-path validation and deploy Pages. Complete when the public URL passes EN/ES and interaction smoke tests. (SS-DEP-001, SS-DEP-002)
-- [ ] **T026** Configure repository security and branch protection. Complete when required checks, Dependabot, CodeQL, secret scanning where available, and private vulnerability reporting are documented and enabled. (SS-DEP-002)
+- [x] **T024** Measure and enforce production performance budgets. Complete when browser/model/build measurements and justified limits are recorded. (SS-PERF-001–SS-PERF-003, SS-ML-007)
+- [x] **T025** Run end-to-end production-base-path validation and deploy Pages. Complete when the public URL passes EN/ES and interaction smoke tests. (SS-DEP-001, SS-DEP-002)
+- [x] **T026** Configure repository security and branch protection. Complete when required checks, Dependabot, CodeQL, secret scanning where available, and private vulnerability reporting are documented and enabled. (SS-DEP-002)

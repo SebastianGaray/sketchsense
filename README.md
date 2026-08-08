@@ -1,45 +1,44 @@
 # SketchSense
 
-SketchSense is an interactive machine-learning portfolio demo in development. Its target experience turns a browser canvas drawing into three predictions using deterministic preprocessing and a compact ONNX neural network running entirely on the visitor's device.
+SketchSense is a bilingual browser drawing classifier with transparent, on-device ONNX inference. Try the [public demo](https://sebastiangaray.github.io/sketchsense/).
 
-Current status: the deterministic dataset pipeline, canonical Python preprocessing, measured logistic baseline, validation-selected compact CNN, held-out evaluation, ONNX export/parity validation, bilingual shell, quality automation, and GitHub Pages deployment are present. Canvas interaction and browser inference are not implemented yet.
+Visitors draw with mouse, pen, or touch, inspect the exact normalized 28 × 28 model input, and receive three ranked predictions with device-measured preprocessing and inference times. The static application has no backend, analytics, accounts, drawing uploads, or remote inference.
+
+## Evidence
+
+The deterministic `small-v1` profile uses 3,200 bounded samples from 16 official Google Quick, Draw! categories: 2,240 train, 480 validation, and 480 test. Raw data is neither committed nor shipped. Quick, Draw! is attributed to Google under CC BY 4.0.
+
+The selected 106,256-parameter compact CNN reaches 72.71% held-out accuracy, 73.19% macro F1, and 86.88% top-3 accuracy. Its fixed-batch ONNX opset 18 artifact is 441,021 bytes. See [the model card](docs/model-card.md) and [data and licensing notes](docs/data-and-licensing.md).
 
 ## Architecture
 
-The planned pipeline is a curated 16-class subset of Google Quick, Draw! → deterministic Python preprocessing → baseline and compact PyTorch CNN → held-out evaluation → ONNX export/parity validation → Astro with strict TypeScript → Canvas API and ONNX Runtime Web. There is no runtime Python, backend, database, authentication, remote inference, analytics, or paid infrastructure.
+Deterministic Python data preparation and PyTorch training produce schema-validated, checksummed artifacts. Astro and strict TypeScript own the Canvas API, contract-matched preprocessing, and ONNX Runtime Web inference. Shared fixtures enforce Python/TypeScript preprocessing parity within `1e-5`; PyTorch/ONNX logits are validated within documented tolerances.
 
-Requirements live in `spec.md`, implementation decisions in `plan.md`, and executable progress in `tasks.md`. `DESIGN.md` maps the shared portfolio identity to this product.
+## Local development
 
-## Local setup
-
-Requirements are Python 3.12+, uv, Node.js 22+, and npm.
+Requirements: Python 3.12+, uv, Node.js 22+, and npm.
 
 ```sh
-make install
+uv sync --project ml --frozen --group dev --group baseline --group ml
+npm ci
+npm --prefix apps/web ci
 make check
 make test
 make build
+npm run test:e2e
 make pre-commit
-make dataset-prepare
-make dataset-validate
-make preprocessing-validate
-make baseline-train
-make baseline-evaluate
-make cnn-train
-make cnn-evaluate
-make onnx-export
-make onnx-validate
-make artifacts-validate
 ```
 
-On Windows without Make, run the commands listed in `Makefile` directly and use `npm.cmd`. Start the web shell with `npm.cmd run dev`; Astro serves the project under `/sketchsense/`.
+The first Playwright run also needs `npm --prefix apps/web exec playwright install chromium`. On Windows, use `npm.cmd` or run the equivalent commands from `Makefile`.
 
-The static deployment target is [sebastiangaray.github.io/sketchsense](https://sebastiangaray.github.io/sketchsense/). The drawing privacy contract requires that strokes, images, tensors, and predictions remain in the browser.
+Dataset preparation and training are explicit, comparatively expensive workflows. They are not part of CI. CI validates the committed fixtures, artifact schemas/checksums, model size, preprocessing parity, ONNX parity tests, Python and web quality gates, Playwright flows, and the production build without retraining.
 
-The data source is Google's Quick, Draw! Dataset, licensed under CC BY 4.0. The small profile retrieves about 2.5 MB of pixel ranges across selected categories; raw category arrays and the local cache are not committed or shipped to the browser. See `docs/data-and-licensing.md`.
+## Limitations
 
-The first measured logistic baseline reaches 55.63% test accuracy, 55.51% macro F1, and 74.38% top-3 accuracy on the deterministic small profile. It is comparison evidence, not a production claim or the future browser model.
+The model uses a small subset with only 200 examples per class. Ambiguous, faint, unusual, or out-of-distribution drawings may be wrong. Confidence is not calibrated probability. The WebAssembly runtime is the largest deployed asset and cold loading depends on the visitor's connection and browser. Freehand drawing has no keyboard equivalent, though every surrounding action is keyboard accessible.
 
-The compact CNN reaches 72.71% test accuracy, 73.19% macro F1, and 86.88% top-3 accuracy. Its 441,021-byte ONNX artifact exports logits for fixed batch-one CPU/WASM inference. See `docs/model-card.md` for evidence and limitations.
+## Contributing
 
-SketchSense is part of [Sebastián Garay's portfolio](https://sebastiangaray.github.io/).
+Future changes follow `branch → push → pull request → CI → review → merge to main → deployment`. Create a focused `agent/<short-description>` branch, use English Conventional Commits, keep documentation and SDD aligned, and do not bypass required checks or review.
+
+Requirements live in [spec.md](spec.md), architecture in [plan.md](plan.md), progress in [tasks.md](tasks.md), and visual decisions in [DESIGN.md](DESIGN.md).

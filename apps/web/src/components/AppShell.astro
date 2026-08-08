@@ -1,5 +1,6 @@
 ---
 import { content, type Language } from '../content';
+import Experience from './Experience.astro';
 interface Props {
   lang: Language;
 }
@@ -32,21 +33,14 @@ const base = import.meta.env.BASE_URL;
     </nav>
   </div>
 </header>
-<main id="main" class="container main-grid">
-  <section class="hero" aria-labelledby="title">
+<main id="main">
+  <section class="container hero" aria-labelledby="title">
     <p class="eyebrow">{copy.eyebrow}</p>
     <h1 id="title">{copy.title}</h1>
     <p class="intro">{copy.intro}</p>
     <p class="privacy">{copy.privacy}</p>
   </section>
-  <aside class="status-panel" aria-labelledby="status-title">
-    <p class="eyebrow">{copy.status}</p>
-    <h2 id="status-title">{copy.statusTitle}</h2>
-    <p>{copy.statusBody}</p>
-    <h3>{copy.pipeline}</h3>
-    <ol>{copy.steps.map((step) => <li>{step}</li>)}</ol>
-    <p class="note" role="status">{copy.note}</p>
-  </aside>
+  <Experience lang={lang} />
 </main>
 <footer><div class="container">{copy.footer}</div></footer>
 <script>
