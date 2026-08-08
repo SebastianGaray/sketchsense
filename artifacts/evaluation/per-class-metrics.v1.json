@@ -1,0 +1,70 @@
+{
+  "classes": {
+    "apple": {
+      "recall": 0.9666666666666667,
+      "support": 30
+    },
+    "bicycle": {
+      "recall": 0.7333333333333333,
+      "support": 30
+    },
+    "bird": {
+      "recall": 0.6333333333333333,
+      "support": 30
+    },
+    "book": {
+      "recall": 0.8666666666666667,
+      "support": 30
+    },
+    "car": {
+      "recall": 0.7333333333333333,
+      "support": 30
+    },
+    "cat": {
+      "recall": 0.6666666666666666,
+      "support": 30
+    },
+    "chair": {
+      "recall": 0.9,
+      "support": 30
+    },
+    "cloud": {
+      "recall": 0.6666666666666666,
+      "support": 30
+    },
+    "cup": {
+      "recall": 0.7333333333333333,
+      "support": 30
+    },
+    "dog": {
+      "recall": 0.4666666666666667,
+      "support": 30
+    },
+    "fish": {
+      "recall": 0.8666666666666667,
+      "support": 30
+    },
+    "flower": {
+      "recall": 0.6666666666666666,
+      "support": 30
+    },
+    "house": {
+      "recall": 0.7333333333333333,
+      "support": 30
+    },
+    "key": {
+      "recall": 0.5666666666666667,
+      "support": 30
+    },
+    "star": {
+      "recall": 0.7333333333333333,
+      "support": 30
+    },
+    "tree": {
+      "recall": 0.7,
+      "support": 30
+    }
+  },
+  "model_version": "1.0.0",
+  "schema_version": "1.0.0"
+}

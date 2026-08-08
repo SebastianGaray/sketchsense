@@ -11,6 +11,7 @@ apps/web/node_modules/
 ml/data/
 ml/.cache/
 *.onnx
+!artifacts/models/*.onnx
 *.pt
 *.pth
 .astro-preview*.log

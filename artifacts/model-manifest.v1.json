@@ -1,0 +1,59 @@
+{
+  "artifacts": {
+    "checkpoint": {
+      "bytes": 403800,
+      "path": "artifacts/models/compact-cnn.v1.checkpoint.npz",
+      "sha256": "c238edf9fd56ae1922986dfd526706356a1e9d1de97081dbf5ba1401a5d23a39"
+    },
+    "class_manifest": {
+      "bytes": 344,
+      "path": "ml/src/sketchsense/contracts/classes.v1.json",
+      "sha256": "a18bab54867b5b47b219da1572f7140771079cacd5d3fc2e7fcc9c474432e241"
+    },
+    "confusion_matrix": {
+      "bytes": 3121,
+      "path": "artifacts/evaluation/confusion-matrix.v1.json",
+      "sha256": "6aeb3b2cb277a71be52dd64b8245a20e53248a4559bc685dcd4fe01c3efdd6a1"
+    },
+    "evaluation_summary": {
+      "bytes": 1773,
+      "path": "artifacts/evaluation/evaluation-summary.v1.json",
+      "sha256": "8c0b14a359fa24d51baa067d5daecdd8855acb7899f228d3093fa570d822f07a"
+    },
+    "model_card": {
+      "bytes": 3108,
+      "path": "docs/model-card.md",
+      "sha256": "bb387fdc9f27fc769bd86846e6b84bae90df023b36ca23077491f66041142796"
+    },
+    "onnx_model": {
+      "bytes": 441021,
+      "path": "artifacts/models/compact-cnn.v1.onnx",
+      "sha256": "eef9c31406f79531ba67a5cd44000a248e1bd43640b1dad086363a030d95cb48"
+    },
+    "onnx_parity": {
+      "bytes": 998,
+      "path": "artifacts/models/onnx-parity.v1.json",
+      "sha256": "7b232bd3d65af5c691d2e3d73b01854fb3c7701b3afdf1da9d38a7742b596589"
+    },
+    "per_class_metrics": {
+      "bytes": 1355,
+      "path": "artifacts/evaluation/per-class-metrics.v1.json",
+      "sha256": "6878fdba64f5725aa44e857a267fc07087b2da4adf3b68e623ad55d088253475"
+    },
+    "preprocessing_contract": {
+      "bytes": 567,
+      "path": "ml/src/sketchsense/contracts/preprocessing.v1.json",
+      "sha256": "30bb153b425e7f9668f9ca755227b37045ae7472f79f0088e9c675eda0bbd7cb"
+    },
+    "training_metadata": {
+      "bytes": 5906,
+      "path": "artifacts/models/training-metadata.v1.json",
+      "sha256": "3f0fcc52dd4f751be87760c050f0127b26efe3138ead6eae4de75d87352af03e"
+    }
+  },
+  "class_manifest_version": "1.0.0",
+  "dataset_version": "small-v1",
+  "model_version": "1.0.0",
+  "preprocessing_version": "1.0.0",
+  "schema_version": "1.0.0"
+}

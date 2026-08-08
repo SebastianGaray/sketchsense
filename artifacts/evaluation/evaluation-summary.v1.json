@@ -1,0 +1,73 @@
+{
+  "absolute_delta_from_baseline": {
+    "accuracy": 0.17083333333333328,
+    "macro_f1": 0.17678244214388417,
+    "macro_precision": 0.1874858699434262,
+    "macro_recall": 0.1708333333333334,
+    "top_3_accuracy": 0.125
+  },
+  "baseline_metrics": {
+    "accuracy": 0.55625,
+    "macro_f1": 0.5550803161497716,
+    "macro_precision": 0.5595074833114678,
+    "macro_recall": 0.5562499999999999,
+    "top_3_accuracy": 0.74375
+  },
+  "checkpoint_sha256": "c238edf9fd56ae1922986dfd526706356a1e9d1de97081dbf5ba1401a5d23a39",
+  "dataset_version": "small-v1",
+  "evaluated_at": "2026-08-08T22:31:28Z",
+  "metrics": {
+    "accuracy": 0.7270833333333333,
+    "macro_f1": 0.7318627582936558,
+    "macro_precision": 0.746993353254894,
+    "macro_recall": 0.7270833333333333,
+    "top_3_accuracy": 0.86875
+  },
+  "model_version": "1.0.0",
+  "most_common_confusions": [
+    {
+      "actual": "dog",
+      "count": 6,
+      "predicted": "bird"
+    },
+    {
+      "actual": "bicycle",
+      "count": 5,
+      "predicted": "dog"
+    },
+    {
+      "actual": "bird",
+      "count": 5,
+      "predicted": "dog"
+    },
+    {
+      "actual": "key",
+      "count": 5,
+      "predicted": "fish"
+    },
+    {
+      "actual": "car",
+      "count": 4,
+      "predicted": "cloud"
+    },
+    {
+      "actual": "cat",
+      "count": 4,
+      "predicted": "dog"
+    },
+    {
+      "actual": "dog",
+      "count": 4,
+      "predicted": "car"
+    },
+    {
+      "actual": "flower",
+      "count": 4,
+      "predicted": "key"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "selection_note": "The checkpoint was selected by validation loss before this single held-out test evaluation.",
+  "test_evaluations": 1,
+  "test_samples": 480
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sebastiangaray.github.io/sketchsense/contracts/model-artifact-manifest.schema.json",
+  "title": "SketchSense model artifact manifest",
+  "type": "object",
+  "required": ["schema_version", "model_version", "dataset_version", "class_manifest_version", "preprocessing_version", "artifacts"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "model_version": { "const": "1.0.0" },
+    "dataset_version": { "const": "small-v1" },
+    "class_manifest_version": { "const": "1.0.0" },
+    "preprocessing_version": { "const": "1.0.0" },
+    "artifacts": {
+      "type": "object",
+      "minProperties": 8,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["path", "bytes", "sha256"],
+        "properties": {
+          "path": { "type": "string" },
+          "bytes": { "type": "integer", "minimum": 1 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

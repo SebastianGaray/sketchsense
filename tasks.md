@@ -21,14 +21,14 @@ Completed tasks are checked only when repository evidence exists.
 ## M3 — Baseline and CNN
 
 - [x] **T011** Train and evaluate the deterministic logistic baseline. Complete when its reproducible report is versioned. (SS-ML-003, SS-ML-004)
-- [ ] **T012** Implement and train the compact CNN. Complete when checkpoints and training metadata reproduce the selected model. (SS-ML-003)
-- [ ] **T013** Compare candidates on validation evidence and budgets. Complete when the selection rationale is documented. (SS-ML-004, SS-ML-007)
+- [x] **T012** Implement and train the compact CNN. Complete when checkpoints and training metadata reproduce the selected model. (SS-ML-003)
+- [x] **T013** Compare candidates on validation evidence and budgets. Complete when the selection rationale is documented. (SS-ML-004, SS-ML-007)
 
 ## M4 — Evaluation and ONNX
 
-- [ ] **T014** Evaluate the locked model on the held-out test split. Complete when aggregate/per-class metrics and confusion evidence are published. (SS-ML-004)
-- [ ] **T015** Export ONNX and validate PyTorch parity. Complete when tolerance and runtime checks pass. (SS-ML-005)
-- [ ] **T016** Publish schema-valid, hashed, bounded model artifacts. Complete when the manifest and size checks pass. (SS-ML-006, SS-ML-007)
+- [x] **T014** Evaluate the locked model on the held-out test split. Complete when aggregate/per-class metrics and confusion evidence are published. (SS-ML-004)
+- [x] **T015** Export ONNX and validate PyTorch parity. Complete when tolerance and runtime checks pass. (SS-ML-005)
+- [x] **T016** Publish schema-valid, hashed, bounded model artifacts. Complete when the manifest and size checks pass. (SS-ML-006, SS-ML-007)
 
 ## M5 — Browser inference
 
@@ -44,7 +44,7 @@ Completed tasks are checked only when repository evidence exists.
 ## M7 — Technical transparency
 
 - [ ] **T022** Publish model metadata and evaluation views. Complete when model and evidence fields are accessible and secondary to drawing. (SS-FR-007)
-- [ ] **T023** Publish system card, preprocessing contract, licenses, and dataset attribution. Complete when limitations and CC BY 4.0 obligations are explicit. (SS-ML-001, SS-ML-004)
+- [x] **T023** Publish system card, preprocessing contract, licenses, and dataset attribution. Complete when limitations and CC BY 4.0 obligations are explicit. (SS-ML-001, SS-ML-004)
 
 ## M8 — Deployment and hardening
 

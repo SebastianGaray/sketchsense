@@ -22,13 +22,17 @@ Official NPY pixels are already centered 28 x 28 grayscale bitmaps with white st
 
 ## Models, training, evaluation, and export
 
-The baseline is scikit-learn logistic regression on flattened normalized pixels, using multinomial softmax behavior, L2 regularization, fixed seed, `lbfgs`, and recorded convergence metadata. It is fitted on the deterministic train split, inspected on validation, and reported once on test. A compact coefficient/intercept NPZ supports reproducibility but is not a browser artifact. The main model remains a future compact CNN: two or three convolution/ReLU/pooling stages, adaptive pooling or a small dense head, and 16 logits.
+The baseline is scikit-learn logistic regression on flattened normalized pixels, using multinomial softmax behavior, L2 regularization, fixed seed, `lbfgs`, and recorded convergence metadata. It is fitted on the deterministic train split, inspected on validation, and reported once on test. A compact coefficient/intercept NPZ supports reproducibility but is not a browser artifact.
+
+The primary `compact-cnn-v1` model has 106,256 parameters. Its feature extractor is `Conv2d(1,16,3,padding=1) → ReLU → MaxPool2d(2) → Conv2d(16,32,3,padding=1) → ReLU → MaxPool2d(2)`. The classifier is `Flatten → Linear(1568,64) → ReLU → Linear(64,16)`. Adam uses learning rate `0.001`, weight decay `0.0001`, batch size `64`, and at most 30 epochs. Checkpoint selection minimizes validation cross-entropy with minimum improvement `0.0005` and patience six. The fixed seed is `20260808`; deterministic PyTorch algorithms and a single-threaded, zero-worker CPU loader are enforced.
 
 Training fixes Python/NumPy/PyTorch seeds, records deterministic-mode limitations, config, dependency lock, data manifest, class order, epoch metrics, best-checkpoint rule, and hardware. Test data is opened only for final evaluation. Reports include accuracy, macro precision/recall/F1, per-class support and recall, confusion matrix, baseline delta, and measured limitations.
 
 The measured `small-v1` logistic baseline trains on 2,240 samples and evaluates on 480 validation and 480 test samples. With seed `20260808`, scikit-learn 1.9.0, L2 `C=1.0`, and 172 converged LBFGS iterations, test accuracy is `0.55625`, macro precision `0.55951`, macro recall `0.55625`, macro F1 `0.55508`, and top-3 accuracy `0.74375`. These are baseline evidence only. They confirm the classes are learnable at small scale while leaving material room for the CNN; they are not performance targets or production claims.
 
 Export uses a named float32 input of shape `[1,1,28,28]`, fixed batch one unless measurements justify dynamic batch, a supported opset, and logits output. ONNX Runtime Python is compared with PyTorch on shared fixtures and a bounded held-out sample using documented absolute/relative tolerances. The artifact manifest is JSON Schema validated and includes SHA-256, bytes, model/version, preprocessing schema, class-order hash, ONNX opset/runtime compatibility, data/training provenance, metrics, and timestamps.
+
+The final checkpoint is epoch 13; early stopping completed at epoch 19. One held-out test evaluation measures accuracy `0.72708`, macro precision `0.74699`, macro recall `0.72708`, macro F1 `0.73186`, and top-3 accuracy `0.86875`, improving on every recorded baseline metric. The single-file ONNX artifact uses opset 18, fixed batch one, `input` and `logits` names, and applies no softmax internally. Its measured size is 441,021 bytes. Three shared fixtures match PyTorch within absolute tolerance `1e-5` and relative tolerance `1e-4`; the observed maximum absolute difference is `1.19e-6`.
 
 ## Browser application
 

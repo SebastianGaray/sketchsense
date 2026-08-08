@@ -1,0 +1,48 @@
+{
+  "absolute_tolerance": 1e-05,
+  "cases": [
+    {
+      "max_absolute_difference": 1.1920928955078125e-06,
+      "name": "centered-rectangle",
+      "output_shape": [
+        1,
+        16
+      ]
+    },
+    {
+      "max_absolute_difference": 9.5367431640625e-07,
+      "name": "vertical-stroke",
+      "output_shape": [
+        1,
+        16
+      ]
+    },
+    {
+      "max_absolute_difference": 1.0728836059570312e-06,
+      "name": "translucent-bar",
+      "output_shape": [
+        1,
+        16
+      ]
+    }
+  ],
+  "input_dtype": "float32",
+  "input_name": "input",
+  "input_shape": [
+    1,
+    1,
+    28,
+    28
+  ],
+  "malformed_input_rejected": true,
+  "model_version": "1.0.0",
+  "onnx_sha256": "eef9c31406f79531ba67a5cd44000a248e1bd43640b1dad086363a030d95cb48",
+  "output_name": "logits",
+  "output_shape": [
+    1,
+    16
+  ],
+  "relative_tolerance": 0.0001,
+  "schema_version": "1.0.0",
+  "softmax_location": "application-boundary"
+}
