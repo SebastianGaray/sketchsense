@@ -1,4 +1,5 @@
 import json
+import shutil
 from pathlib import Path
 
 import numpy as np
@@ -68,8 +69,10 @@ def test_evaluation_artifacts_have_complete_dimensions() -> None:
     assert sum(sum(row) for row in confusion["matrix"]) == 480
 
 
-def test_onnx_runtime_parity_and_size_budget() -> None:
-    report_path = validate_onnx_parity(MODEL_DIR)
+def test_onnx_runtime_parity_and_size_budget(tmp_path: Path) -> None:
+    for name in ("compact-cnn.v1.checkpoint.npz", "compact-cnn.v1.onnx"):
+        shutil.copy2(MODEL_DIR / name, tmp_path / name)
+    report_path = validate_onnx_parity(tmp_path)
     report = json.loads(report_path.read_text(encoding="utf-8"))
     assert len(report["cases"]) == 3
     assert max(case["max_absolute_difference"] for case in report["cases"]) <= ABSOLUTE_TOLERANCE
