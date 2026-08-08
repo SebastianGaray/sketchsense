@@ -11,12 +11,12 @@
       "sha256": "a18bab54867b5b47b219da1572f7140771079cacd5d3fc2e7fcc9c474432e241"
     },
     "confusion_matrix": {
-      "bytes": 3121,
+      "bytes": 2809,
       "path": "artifacts/evaluation/confusion-matrix.v1.json",
       "sha256": "994b41d46b72f9494df49faa660bf0cd07436f738bf8462156733966f130ed2e"
     },
     "evaluation_summary": {
-      "bytes": 1773,
+      "bytes": 1700,
       "path": "artifacts/evaluation/evaluation-summary.v1.json",
       "sha256": "396eb91599af9a111ff8e68f69bd06260969846ded901fd8f3b32afe3791a9f7"
     },
@@ -31,12 +31,12 @@
       "sha256": "eef9c31406f79531ba67a5cd44000a248e1bd43640b1dad086363a030d95cb48"
     },
     "onnx_parity": {
-      "bytes": 998,
+      "bytes": 950,
       "path": "artifacts/models/onnx-parity.v1.json",
       "sha256": "95d3a39a9512b5ae0bf76dd9603979687350559b4e3d3b5e5a9cfc35c4d65810"
     },
     "per_class_metrics": {
-      "bytes": 1355,
+      "bytes": 1285,
       "path": "artifacts/evaluation/per-class-metrics.v1.json",
       "sha256": "0e880abd674480c07070b11caaa2045043e34f674bc02bdfb1f3085286ae66cf"
     },
@@ -46,7 +46,7 @@
       "sha256": "30bb153b425e7f9668f9ca755227b37045ae7472f79f0088e9c675eda0bbd7cb"
     },
     "training_metadata": {
-      "bytes": 5906,
+      "bytes": 5704,
       "path": "artifacts/models/training-metadata.v1.json",
       "sha256": "07ca0e7b220883dad91bc43d214785e67261b068900db72a1fda412848c91d4a"
     }

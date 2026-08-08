@@ -46,7 +46,7 @@ def create_model_manifest(repository_root: Path) -> Path:
     artifacts = {
         name: {
             "path": path.relative_to(repository_root).as_posix(),
-            "bytes": path.stat().st_size,
+            "bytes": len(_artifact_bytes(path)),
             "sha256": _sha256(path),
         }
         for name, path in files.items()
@@ -83,7 +83,7 @@ def validate_model_manifest(
     for artifact in payload["artifacts"].values():
         artifact_path = repository_root / artifact["path"]
         if (
-            artifact_path.stat().st_size != artifact["bytes"]
+            len(_artifact_bytes(artifact_path)) != artifact["bytes"]
             or _sha256(artifact_path) != artifact["sha256"]
         ):
             raise ValueError(f"Artifact integrity failed: {artifact['path']}")
@@ -94,7 +94,10 @@ def validate_model_manifest(
 
 
 def _sha256(path: Path) -> str:
+    return hashlib.sha256(_artifact_bytes(path)).hexdigest()
+
+
+def _artifact_bytes(path: Path) -> bytes:
     if path.suffix in {".json", ".md"}:
-        canonical = path.read_text(encoding="utf-8").replace("\r\n", "\n").encode("utf-8")
-        return hashlib.sha256(canonical).hexdigest()
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+        return path.read_text(encoding="utf-8").replace("\r\n", "\n").encode("utf-8")
+    return path.read_bytes()
