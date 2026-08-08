@@ -38,7 +38,9 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.getByRole('link', { name: 'Español' }).click();
   await expect(page).toHaveURL(/\/es\/$/);
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Dibuja');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    /rea de dibujo$/,
+  );
 });
 
 test('fits a mobile viewport without horizontal overflow', async ({ page }) => {

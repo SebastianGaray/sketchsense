@@ -8,6 +8,15 @@ const { lang } = Astro.props;
 const copy = content[lang];
 const alternate = lang === 'en' ? 'es' : 'en';
 const base = import.meta.env.BASE_URL;
+const navigation =
+  lang === 'en'
+    ? { label: 'Demo sections', draw: 'Draw', model: 'Model', about: 'About' }
+    : {
+        label: 'Secciones de la demo',
+        draw: 'Dibujar',
+        model: 'Modelo',
+        about: 'Acerca de',
+      };
 ---
 
 <a class="skip-link" href="#main">{copy.skip}</a>
@@ -25,6 +34,10 @@ const base = import.meta.env.BASE_URL;
       <a class="language-link" href={`${base}${alternate}/`} lang={alternate}
         >{copy.language}</a
       >
+      <a
+        class="github-link"
+        href="https://github.com/SebastianGaray/sketchsense">GitHub ↗</a
+      >
       <div class="theme-control" role="group" aria-label={copy.theme}>
         <button type="button" data-theme-value="system">{copy.system}</button>
         <button type="button" data-theme-value="light">{copy.light}</button>
@@ -33,13 +46,12 @@ const base = import.meta.env.BASE_URL;
     </nav>
   </div>
 </header>
+<nav class="lab-sidebar" aria-label={navigation.label}>
+  <a href="#draw">{navigation.draw}</a>
+  <a href="#model">{navigation.model}</a>
+  <a href="#about">{navigation.about}</a>
+</nav>
 <main id="main">
-  <section class="container hero" aria-labelledby="title">
-    <p class="eyebrow">{copy.eyebrow}</p>
-    <h1 id="title">{copy.title}</h1>
-    <p class="intro">{copy.intro}</p>
-    <p class="privacy">{copy.privacy}</p>
-  </section>
   <Experience lang={lang} />
 </main>
 <footer><div class="container">{copy.footer}</div></footer>
