@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "dataset": "Google Quick, Draw! Dataset",
+  "source": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/",
+  "license": "CC BY 4.0",
+  "classes": [
+    "apple", "bicycle", "bird", "book", "car", "cat", "chair", "cloud",
+    "cup", "dog", "fish", "flower", "house", "key", "star", "tree"
+  ]
+}

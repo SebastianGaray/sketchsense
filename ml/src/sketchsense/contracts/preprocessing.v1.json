@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "canvas": {
+    "input": "RGBA uint8",
+    "background": 255,
+    "foreground": 0,
+    "foreground_luminance_threshold": 250,
+    "padding_fraction": 0.1,
+    "minimum_padding_pixels": 2,
+    "content_size": 20,
+    "output_size": 28,
+    "interpolation": "bilinear-half-pixel",
+    "normalization": "(255-luminance)/255",
+    "output": "float32 NCHW [1,1,28,28]"
+  },
+  "dataset_npy": {
+    "input": "uint8 [28,28], black background and white stroke",
+    "normalization": "pixel/255",
+    "output": "float32 NCHW [1,1,28,28]"
+  }
+}

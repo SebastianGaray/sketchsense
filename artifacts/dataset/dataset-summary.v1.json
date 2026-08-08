@@ -1,0 +1,144 @@
+{
+  "cache": {
+    "file": "small-v1.npz",
+    "sha256": "46cc5ed14f51aad588a256e37ed13106854b84e197e036c596571ad3f89f2af3"
+  },
+  "classes": [
+    "apple",
+    "bicycle",
+    "bird",
+    "book",
+    "car",
+    "cat",
+    "chair",
+    "cloud",
+    "cup",
+    "dog",
+    "fish",
+    "flower",
+    "house",
+    "key",
+    "star",
+    "tree"
+  ],
+  "dataset": {
+    "license": "CC BY 4.0",
+    "name": "Google Quick, Draw! Dataset",
+    "source": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap"
+  },
+  "profile": {
+    "name": "small-v1",
+    "samples_per_class": 200,
+    "seed": 20260808
+  },
+  "sample_records": 3200,
+  "schema_version": "1.0.0",
+  "source_arrays": {
+    "apple": {
+      "data_offset": 80,
+      "selected_start": 11924,
+      "total_samples": 144722,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/apple.npy"
+    },
+    "bicycle": {
+      "data_offset": 80,
+      "selected_start": 121489,
+      "total_samples": 126527,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/bicycle.npy"
+    },
+    "bird": {
+      "data_offset": 80,
+      "selected_start": 105656,
+      "total_samples": 133572,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/bird.npy"
+    },
+    "book": {
+      "data_offset": 80,
+      "selected_start": 21150,
+      "total_samples": 119364,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/book.npy"
+    },
+    "car": {
+      "data_offset": 80,
+      "selected_start": 115829,
+      "total_samples": 182764,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/car.npy"
+    },
+    "cat": {
+      "data_offset": 80,
+      "selected_start": 60173,
+      "total_samples": 123202,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/cat.npy"
+    },
+    "chair": {
+      "data_offset": 80,
+      "selected_start": 31385,
+      "total_samples": 222706,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/chair.npy"
+    },
+    "cloud": {
+      "data_offset": 80,
+      "selected_start": 56898,
+      "total_samples": 120265,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/cloud.npy"
+    },
+    "cup": {
+      "data_offset": 80,
+      "selected_start": 28929,
+      "total_samples": 130721,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/cup.npy"
+    },
+    "dog": {
+      "data_offset": 80,
+      "selected_start": 59019,
+      "total_samples": 152159,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/dog.npy"
+    },
+    "fish": {
+      "data_offset": 80,
+      "selected_start": 50198,
+      "total_samples": 134150,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/fish.npy"
+    },
+    "flower": {
+      "data_offset": 80,
+      "selected_start": 53772,
+      "total_samples": 144818,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/flower.npy"
+    },
+    "house": {
+      "data_offset": 80,
+      "selected_start": 39312,
+      "total_samples": 135420,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/house.npy"
+    },
+    "key": {
+      "data_offset": 80,
+      "selected_start": 10289,
+      "total_samples": 160965,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/key.npy"
+    },
+    "star": {
+      "data_offset": 80,
+      "selected_start": 133189,
+      "total_samples": 137619,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/star.npy"
+    },
+    "tree": {
+      "data_offset": 80,
+      "selected_start": 24932,
+      "total_samples": 144721,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/tree.npy"
+    }
+  },
+  "split_totals": {
+    "test": 480,
+    "train": 2240,
+    "validation": 480
+  },
+  "splits": {
+    "test": 30,
+    "train": 140,
+    "validation": 30
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sebastiangaray.github.io/sketchsense/contracts/dataset-manifest.schema.json",
+  "title": "SketchSense dataset manifest",
+  "type": "object",
+  "required": ["schema_version", "dataset", "profile", "classes", "splits", "source_arrays", "cache", "samples"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "dataset": {
+      "type": "object",
+      "required": ["name", "source", "license"],
+      "properties": {
+        "name": { "const": "Google Quick, Draw! Dataset" },
+        "source": { "type": "string", "format": "uri" },
+        "license": { "const": "CC BY 4.0" }
+      },
+      "additionalProperties": false
+    },
+    "profile": {
+      "type": "object",
+      "required": ["name", "seed", "samples_per_class"],
+      "properties": {
+        "name": { "type": "string" },
+        "seed": { "type": "integer" },
+        "samples_per_class": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "classes": { "type": "array", "minItems": 16, "maxItems": 16, "uniqueItems": true, "items": { "type": "string" } },
+    "splits": {
+      "type": "object",
+      "required": ["train", "validation", "test"],
+      "properties": {
+        "train": { "type": "integer" }, "validation": { "type": "integer" }, "test": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "source_arrays": { "type": "object", "minProperties": 16 },
+    "cache": {
+      "type": "object",
+      "required": ["file", "sha256"],
+      "properties": {
+        "file": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "additionalProperties": false
+    },
+    "samples": { "type": "array", "items": { "$ref": "#/$defs/sample" } }
+  },
+  "$defs": {
+    "sample": {
+      "type": "object",
+      "required": ["sample_id", "class_name", "class_index", "source_index", "split", "sha256"],
+      "properties": {
+        "sample_id": { "type": "string" }, "class_name": { "type": "string" },
+        "class_index": { "type": "integer", "minimum": 0 }, "source_index": { "type": "integer", "minimum": 0 },
+        "split": { "enum": ["train", "validation", "test"] }, "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -27,13 +27,13 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             apps/web/package-lock.json
-      - run: uv sync --project ml --frozen --group dev
+      - run: uv sync --project ml --frozen --group dev --group baseline
       - run: npm ci
       - run: npm --prefix apps/web ci
-      - run: uv run --project ml ruff check ml
-      - run: uv run --project ml ruff format --check ml
-      - run: uv run --project ml pyright
-      - run: uv run --project ml pytest
+      - run: uv run --project ml --group baseline ruff check ml
+      - run: uv run --project ml --group baseline ruff format --check ml
+      - run: uv run --project ml --group baseline pyright
+      - run: uv run --project ml --group baseline pytest
       - run: npm run lint
       - run: npm run format:check
       - run: npm run check

@@ -9,6 +9,7 @@ apps/web/.astro/
 apps/web/dist/
 apps/web/node_modules/
 ml/data/
+ml/.cache/
 *.onnx
 *.pt
 *.pth

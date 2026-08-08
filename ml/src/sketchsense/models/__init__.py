@@ -1,0 +1,1 @@
+"""SketchSense model implementations."""

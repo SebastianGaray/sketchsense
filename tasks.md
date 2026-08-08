@@ -13,14 +13,14 @@ Completed tasks are checked only when repository evidence exists.
 
 ## M2 — Dataset and preprocessing
 
-- [ ] **T007** Version the class-order and dataset-manifest schemas. Complete when schemas validate the selected 16-class contract. (SS-ML-001, SS-ML-002, SS-ML-006)
-- [ ] **T008** Implement bounded deterministic category download and subset generation. Complete when reruns produce identical manifests without split overlap. (SS-ML-001)
-- [ ] **T009** Implement Python preprocessing and fixtures. Complete when contract edge cases pass. (SS-PERF-004)
+- [x] **T007** Version the class-order and dataset-manifest schemas. Complete when schemas validate the selected 16-class contract. (SS-ML-001, SS-ML-002, SS-ML-006)
+- [x] **T008** Implement bounded deterministic category download and subset generation. Complete when reruns produce identical manifests without split overlap. (SS-ML-001)
+- [x] **T009** Implement Python preprocessing and fixtures. Complete when contract edge cases pass. (SS-PERF-004)
 - [ ] **T010** Implement TypeScript preprocessing parity. Complete when shared fixtures match within `1e-5`. (SS-ML-005, SS-PERF-004)
 
 ## M3 — Baseline and CNN
 
-- [ ] **T011** Train and evaluate the deterministic logistic baseline. Complete when its reproducible report is versioned. (SS-ML-003, SS-ML-004)
+- [x] **T011** Train and evaluate the deterministic logistic baseline. Complete when its reproducible report is versioned. (SS-ML-003, SS-ML-004)
 - [ ] **T012** Implement and train the compact CNN. Complete when checkpoints and training metadata reproduce the selected model. (SS-ML-003)
 - [ ] **T013** Compare candidates on validation evidence and budgets. Complete when the selection rationale is documented. (SS-ML-004, SS-ML-007)
 
