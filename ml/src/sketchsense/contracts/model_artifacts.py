@@ -94,4 +94,7 @@ def validate_model_manifest(
 
 
 def _sha256(path: Path) -> str:
+    if path.suffix in {".json", ".md"}:
+        canonical = path.read_text(encoding="utf-8").replace("\r\n", "\n").encode("utf-8")
+        return hashlib.sha256(canonical).hexdigest()
     return hashlib.sha256(path.read_bytes()).hexdigest()

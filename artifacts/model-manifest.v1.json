@@ -13,12 +13,12 @@
     "confusion_matrix": {
       "bytes": 3121,
       "path": "artifacts/evaluation/confusion-matrix.v1.json",
-      "sha256": "6aeb3b2cb277a71be52dd64b8245a20e53248a4559bc685dcd4fe01c3efdd6a1"
+      "sha256": "994b41d46b72f9494df49faa660bf0cd07436f738bf8462156733966f130ed2e"
     },
     "evaluation_summary": {
       "bytes": 1773,
       "path": "artifacts/evaluation/evaluation-summary.v1.json",
-      "sha256": "8c0b14a359fa24d51baa067d5daecdd8855acb7899f228d3093fa570d822f07a"
+      "sha256": "396eb91599af9a111ff8e68f69bd06260969846ded901fd8f3b32afe3791a9f7"
     },
     "model_card": {
       "bytes": 3108,
@@ -33,12 +33,12 @@
     "onnx_parity": {
       "bytes": 998,
       "path": "artifacts/models/onnx-parity.v1.json",
-      "sha256": "7b232bd3d65af5c691d2e3d73b01854fb3c7701b3afdf1da9d38a7742b596589"
+      "sha256": "95d3a39a9512b5ae0bf76dd9603979687350559b4e3d3b5e5a9cfc35c4d65810"
     },
     "per_class_metrics": {
       "bytes": 1355,
       "path": "artifacts/evaluation/per-class-metrics.v1.json",
-      "sha256": "6878fdba64f5725aa44e857a267fc07087b2da4adf3b68e623ad55d088253475"
+      "sha256": "0e880abd674480c07070b11caaa2045043e34f674bc02bdfb1f3085286ae66cf"
     },
     "preprocessing_contract": {
       "bytes": 567,
@@ -48,7 +48,7 @@
     "training_metadata": {
       "bytes": 5906,
       "path": "artifacts/models/training-metadata.v1.json",
-      "sha256": "3f0fcc52dd4f751be87760c050f0127b26efe3138ead6eae4de75d87352af03e"
+      "sha256": "07ca0e7b220883dad91bc43d214785e67261b068900db72a1fda412848c91d4a"
     }
   },
   "class_manifest_version": "1.0.0",
