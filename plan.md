@@ -1,0 +1,53 @@
+# SketchSense Implementation Plan
+
+## Architecture and environments
+
+The repository is a small monorepo: `apps/web` contains a static Astro 5 application with strict TypeScript and browser-owned Canvas/ONNX behavior; `ml` is a Python 3.12+ uv project with `src/sketchsense` and pytest tests; `artifacts` will hold only bounded, versioned model/evaluation outputs; `docs` will hold the system card and data/license notes. Root npm scripts orchestrate both environments.
+
+Python uses uv, NumPy, PyTorch, ONNX, ONNX Runtime, pytest, Ruff, and Pyright. Heavy ML dependencies are grouped as an optional `ml` dependency group so foundation validation stays quick; the lock includes them for reproducibility. Web uses Astro, strict TypeScript, ONNX Runtime Web when inference is implemented, Vitest, and Playwright for important flows. No React or Tailwind is required.
+
+## Dataset and class contract
+
+The official Quick, Draw! documentation and `categories.txt` are the source of truth. The initial v1 class-order target is 16 categories: `apple`, `bicycle`, `bird`, `book`, `car`, `cat`, `chair`, `cloud`, `cup`, `dog`, `fish`, `flower`, `house`, `key`, `star`, `tree`. This mixes silhouette-friendly classes with useful confusions such as cat/dog, bird/fish, and flower/tree.
+
+A future dataset command downloads only named category files into ignored local storage. It records source URLs, retrieval time, source hashes where available, filter rules, seed, requested/accepted counts, and stable sample keys. Recognized examples are deterministically ordered by a hash of seed, class, and sample key, then sliced to a documented bound. Split assignment is derived from a separate stable hash before any augmentation. Duplicate keys or hashes across splits fail generation. Class order lives in a versioned JSON contract and is never inferred from directory order. Quick, Draw! data is attributed to Google and licensed CC BY 4.0; large/raw inputs are never committed.
+
+## Preprocessing contract
+
+The authoritative input is an RGBA raster of the drawing surface. Background is opaque white (`255`); strokes are opaque black (`0`). Alpha is composited over white. A pixel is foreground when luminance is below `250`. Empty inputs return an explicit empty result.
+
+For non-empty input, compute the inclusive foreground bounds, expand by 10% of the larger bound dimension with a minimum two-source-pixel pad, clamp to the raster, and crop. Preserve aspect ratio and fit into a `20 x 20` content box. Resize using bilinear interpolation with half-pixel coordinate mapping, place it on a centered `28 x 28` white canvas, and resolve an odd leftover pixel to the right/bottom. Convert using sRGB luminance `round(0.2126R + 0.7152G + 0.0722B)`. Invert and normalize once as `(255 - luminance) / 255`, yielding float32 background `0`, foreground `1`, row-major NCHW tensor `[1, 1, 28, 28]`. No mean/std standardization or thresholding follows resize.
+
+Python and TypeScript must share small deterministic RGBA fixtures plus expected float tensors. Tests compare every output within `1e-5`; bounds, empty handling, shape, value range, centering, and interpolation edge cases also receive unit tests. Any contract change increments its schema version and invalidates incompatible artifacts.
+
+## Models, training, evaluation, and export
+
+The baseline is multinomial logistic regression on flattened normalized pixels with fixed seed and recorded regularization. The main model is a compact CNN: two or three convolution/ReLU/pooling stages, adaptive pooling or a small dense head, and 16 logits. Architecture selection is based on held-out validation evidence and artifact/runtime budgets, not model size alone. ResNet, transformers, pretrained vision encoders, and transfer learning are excluded.
+
+Training fixes Python/NumPy/PyTorch seeds, records deterministic-mode limitations, config, dependency lock, data manifest, class order, epoch metrics, best-checkpoint rule, and hardware. Test data is opened only for final evaluation. Reports include accuracy, macro precision/recall/F1, per-class support and recall, confusion matrix, baseline delta, and measured limitations.
+
+Export uses a named float32 input of shape `[1,1,28,28]`, fixed batch one unless measurements justify dynamic batch, a supported opset, and logits output. ONNX Runtime Python is compared with PyTorch on shared fixtures and a bounded held-out sample using documented absolute/relative tolerances. The artifact manifest is JSON Schema validated and includes SHA-256, bytes, model/version, preprocessing schema, class-order hash, ONNX opset/runtime compatibility, data/training provenance, metrics, and timestamps.
+
+## Browser application
+
+The Canvas controller owns pointer capture, coordinate scaling for device pixel ratio, stroke history, redraw, clear state, and resize preservation. It does not infer on pointer movement. A preprocessing module creates the exact 28 x 28 tensor and preview. An inference adapter loads a base-path-safe ONNX artifact once, selects WASM execution by default, validates manifest compatibility, warms up when suitable, and reports preprocessing and inference timings separately.
+
+UI state is explicit: `idle`, `model-loading`, `ready-empty`, `ready-drawn`, `preprocessing`, `inferencing`, `result`, and recoverable/fatal `error`. Controls derive their enabled state from this model. The foundation shell intentionally shows development status without fake canvas controls or predictions.
+
+English and Spanish content uses typed dictionaries with matching keys and route helpers. `/en/` and `/es/` are generated pages; `/` redirects to `/en/`. A pre-paint inline script applies stored `system|light|dark` preference, System follows media changes, and the UI communicates selection with text and `aria-pressed` rather than color. Visual tokens reproduce the canonical warm palette, typography roles, one-pixel borders, four-pixel radii, restrained shadows, focus ring, and attribution, while the drawing/input/prediction composition provides project personality.
+
+## Accessibility and quality
+
+Use landmarks, one h1, skip navigation, live loading/result status, native buttons, visible focus, 44 px targets, textual confidence, reduced motion, and an adjacent honest canvas limitation. Responsive verification covers 320, 768, and 1280 CSS pixels, both languages and themes, zoom, keyboard navigation, and no horizontal overflow.
+
+Python validation is Ruff format/check, Pyright, and pytest. Web validation is Astro check, Vitest, production build, and later Playwright for drawing and navigation flows. Pre-commit mirrors cheap checks. CI pins actions to immutable SHAs, gives validation read-only permissions, caches through official setup actions, and never deploys pull requests. Pages deployment builds the validated static artifact from `main`, uses explicit concurrency, and receives only Pages/id-token permissions.
+
+## Documentation, budgets, and risks
+
+`docs/system-card.md` will explain intended use, data, preprocessing, architecture, metrics, parity, privacy, limitations, and responsible interpretation. Dataset attribution, CC BY 4.0 obligations, source code license, model artifact terms, and third-party notices must be explicit before release.
+
+The ONNX target is under 5 MB and ceiling is 20 MB with written justification. Raw data is zero browser bytes. Build output will record total JS, largest chunk, fonts, model, and evaluation assets before release; budgets are then set from evidence. Risks include dataset bias/noise, ambiguous sketches, preprocessing drift, WASM/browser support, cold model download, misleading confidence, mobile canvas ergonomics, font/network failure, and base-path mistakes. Mitigations are bounded data manifests, parity fixtures, calibrated copy, error states, fallbacks, responsive tests, and production-like builds.
+
+## Milestones
+
+M1 establishes SDD, design, environments, CI, bilingual/theme shell, and static deployment. M2 produces deterministic subset and preprocessing parity. M3 trains and compares baseline/CNN. M4 evaluates, exports, validates, and manifests artifacts. M5 integrates canvas and local inference. M6 completes responsive localized product behavior. M7 publishes evidence/system card. M8 measures, audits, deploys, and hardens repository settings.

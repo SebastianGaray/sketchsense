@@ -1,0 +1,85 @@
+---
+import { content, type Language } from '../content';
+interface Props {
+  lang: Language;
+}
+const { lang } = Astro.props;
+const copy = content[lang];
+const alternate = lang === 'en' ? 'es' : 'en';
+const base = import.meta.env.BASE_URL;
+---
+
+<a class="skip-link" href="#main">{copy.skip}</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={`${base}${lang}/`} aria-label="SketchSense home"
+      >SketchSense</a
+    >
+    <nav
+      aria-label={lang === 'en' ? 'Project controls' : 'Controles del proyecto'}
+    >
+      <a class="portfolio-link" href="https://sebastiangaray.github.io/"
+        >← {copy.portfolio}</a
+      >
+      <a class="language-link" href={`${base}${alternate}/`} lang={alternate}
+        >{copy.language}</a
+      >
+      <div class="theme-control" role="group" aria-label={copy.theme}>
+        <button type="button" data-theme-value="system">{copy.system}</button>
+        <button type="button" data-theme-value="light">{copy.light}</button>
+        <button type="button" data-theme-value="dark">{copy.dark}</button>
+      </div>
+    </nav>
+  </div>
+</header>
+<main id="main" class="container main-grid">
+  <section class="hero" aria-labelledby="title">
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h1 id="title">{copy.title}</h1>
+    <p class="intro">{copy.intro}</p>
+    <p class="privacy">{copy.privacy}</p>
+  </section>
+  <aside class="status-panel" aria-labelledby="status-title">
+    <p class="eyebrow">{copy.status}</p>
+    <h2 id="status-title">{copy.statusTitle}</h2>
+    <p>{copy.statusBody}</p>
+    <h3>{copy.pipeline}</h3>
+    <ol>{copy.steps.map((step) => <li>{step}</li>)}</ol>
+    <p class="note" role="status">{copy.note}</p>
+  </aside>
+</main>
+<footer><div class="container">{copy.footer}</div></footer>
+<script>
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const buttons = [
+    ...document.querySelectorAll<HTMLButtonElement>('[data-theme-value]'),
+  ];
+  const apply = (preference: string) => {
+    const theme =
+      preference === 'system' ? (media.matches ? 'dark' : 'light') : preference;
+    document.documentElement.dataset.themePreference = preference;
+    document.documentElement.dataset.theme = theme;
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', theme === 'dark' ? '#1b1918' : '#fdf8f8');
+    buttons.forEach((button) =>
+      button.setAttribute(
+        'aria-pressed',
+        String(button.dataset.themeValue === preference),
+      ),
+    );
+  };
+  buttons.forEach((button) =>
+    button.addEventListener('click', () => {
+      const value = button.dataset.themeValue ?? 'system';
+      if (value === 'system') localStorage.removeItem('sketchsense-theme');
+      else localStorage.setItem('sketchsense-theme', value);
+      apply(value);
+    }),
+  );
+  media.addEventListener('change', () => {
+    if (document.documentElement.dataset.themePreference === 'system')
+      apply('system');
+  });
+  apply(document.documentElement.dataset.themePreference ?? 'system');
+</script>

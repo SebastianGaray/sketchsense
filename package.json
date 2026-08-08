@@ -1,0 +1,15 @@
+{
+  "name": "sketchsense",
+  "private": true,
+  "version": "0.1.0",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "npm --prefix apps/web run dev",
+    "build": "npm --prefix apps/web run build",
+    "check": "npm --prefix apps/web run check",
+    "test": "npm --prefix apps/web run test",
+    "format": "npm --prefix apps/web run format",
+    "format:check": "npm --prefix apps/web run format:check",
+    "lint": "npm --prefix apps/web run lint"
+  }
+}

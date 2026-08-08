@@ -1,0 +1,44 @@
+---
+import '../styles/global.css';
+import type { Language } from '../content';
+interface Props {
+  lang: Language;
+  title: string;
+  description: string;
+}
+const { lang, title, description } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<!doctype html>
+<html lang={lang} data-theme-preference="system">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fdf8f8" />
+    <link rel="canonical" href={`${Astro.site}${base}/${lang}/`} />
+    <link rel="alternate" hreflang="en" href={`${Astro.site}${base}/en/`} />
+    <link rel="alternate" hreflang="es" href={`${Astro.site}${base}/es/`} />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={`${Astro.site}${base}/en/`}
+    />
+    <script is:inline>
+      (() => {
+        const key = 'sketchsense-theme';
+        const saved = localStorage.getItem(key);
+        const preference =
+          saved === 'light' || saved === 'dark' ? saved : 'system';
+        const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme =
+          preference === 'system' ? (dark ? 'dark' : 'light') : preference;
+        document.documentElement.dataset.themePreference = preference;
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <title>{title}</title>
+  </head>
+  <body><slot /></body>
+</html>

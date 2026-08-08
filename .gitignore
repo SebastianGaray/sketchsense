@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.astro/
+node_modules/
+dist/
+apps/web/.astro/
+apps/web/dist/
+apps/web/node_modules/
+ml/data/
+*.onnx
+*.pt
+*.pth
+.astro-preview*.log
