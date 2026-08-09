@@ -23,6 +23,8 @@ Version 1 excludes accounts, cloud inference, saved drawings, social features, h
 - **SS-FR-007 Transparency:** model version, architecture, class count/order, input shape, artifact size, training timestamp, dataset subset, and evaluation summary are visible or linked from the experience.
 - **SS-FR-008 Loading and errors:** model loading exposes an accessible status update; failures do not create fake results and offer a retry where recovery is possible.
 - **SS-FR-009 Navigation:** a localized, clearly visible link returns to `https://sebastiangaray.github.io/`.
+- **SS-FR-010 Progressive prediction:** after the model is ready, predictions update on a bounded debounce while drawing and immediately after a completed stroke; manual prediction remains available and inference never runs for every pointer event.
+- **SS-FR-011 Drawing guidance:** visitors can adjust stroke width and open localized guidance listing every supported category with non-dataset illustrative prompts and practical tips.
 
 ## Machine-learning requirements
 

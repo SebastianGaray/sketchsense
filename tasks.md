@@ -51,3 +51,9 @@ Completed tasks are checked only when repository evidence exists.
 - [x] **T024** Measure and enforce production performance budgets. Complete when browser/model/build measurements and justified limits are recorded. (SS-PERF-001–SS-PERF-003, SS-ML-007)
 - [x] **T025** Run end-to-end production-base-path validation and deploy Pages. Complete when the public URL passes EN/ES and interaction smoke tests. (SS-DEP-001, SS-DEP-002)
 - [x] **T026** Configure repository security and branch protection. Complete when required checks, Dependabot, CodeQL, secret scanning where available, and private vulnerability reporting are documented and enabled. (SS-DEP-002)
+
+## Post-v1 interaction refinement
+
+- [x] **T027** Add bounded progressive inference during drawing and after pointer release while retaining manual prediction. (SS-FR-010, SS-PERF-001)
+- [x] **T028** Add an accessible stroke-width control with a thinner default. (SS-FR-011)
+- [x] **T029** Publish localized category guidance with authored prompts and drawing tips without exposing dataset samples. (SS-FR-011, SS-ML-001)
