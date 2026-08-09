@@ -269,7 +269,9 @@ const t =
     hasDrawing = false;
     clear.disabled = true;
     predict.disabled = true;
-    results.innerHTML = '<li>—</li>';
+    const emptyResult = document.createElement('li');
+    emptyResult.textContent = '—';
+    results.replaceChildren(emptyResult);
     leadingPrediction.textContent = '—';
     preview.getContext('2d')!.clearRect(0, 0, 28, 28);
     status.textContent = ready ? messages.ready : messages.loading;
@@ -426,14 +428,30 @@ const t =
         ...predictions.map((item, index) => {
           const li = document.createElement('li');
           const percent = (item.probability * 100).toFixed(1);
-          li.innerHTML = `<div><strong>${index + 1}. ${item.label}</strong><span>${percent}%</span></div><progress max="100" value="${percent}">${percent}%</progress>`;
+          const summary = document.createElement('div');
+          const label = document.createElement('strong');
+          label.textContent = `${index + 1}. ${item.label}`;
+          const probability = document.createElement('span');
+          probability.textContent = `${percent}%`;
+          summary.append(label, probability);
+          const progress = document.createElement('progress');
+          progress.max = 100;
+          progress.value = Number(percent);
+          progress.textContent = `${percent}%`;
+          li.append(summary, progress);
           return li;
         }),
       );
       const leader = predictions[0];
-      leadingPrediction.innerHTML = leader
-        ? `<strong>${leader.label}</strong><span>${(leader.probability * 100).toFixed(1)}%</span>`
-        : '—';
+      if (leader) {
+        const label = document.createElement('strong');
+        label.textContent = leader.label;
+        const probability = document.createElement('span');
+        probability.textContent = `${(leader.probability * 100).toFixed(1)}%`;
+        leadingPrediction.replaceChildren(label, probability);
+      } else {
+        leadingPrediction.textContent = '—';
+      }
       status.textContent = isUncertain(predictions)
         ? messages.uncertain
         : messages.result;

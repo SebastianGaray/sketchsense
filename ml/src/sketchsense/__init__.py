@@ -1,3 +1,3 @@
 """SketchSense machine-learning contracts and pipeline."""
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
