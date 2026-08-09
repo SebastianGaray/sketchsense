@@ -6,26 +6,26 @@ const base = import.meta.env.BASE_URL;
 <Layout
   lang="en"
   title="Model card · SketchSense"
-  description="SketchSense compact CNN evidence and limitations."
+  description="SketchSense browser CNN evidence and limitations."
 >
   <main class="container document-page">
     <a href={`${base}en/`}>← Back to SketchSense</a><h1>Model card</h1><p>
-      The compact-cnn-v2 model classifies drawings across 16 Quick, Draw!
-      categories. It runs locally in the browser and never transmits the
-      drawing.
+      Sketch-cnn-v3 classifies drawings across 16 Quick, Draw! categories. It
+      runs locally in the browser, never transmits the drawing, and abstains on
+      weak evidence.
     </p><h2>Measured evaluation</h2><p>
-      On the final fresh 1,600-sample release test: 82.31% accuracy, 82.37%
-      macro precision, 82.31% macro recall, 82.20% macro F1, and 92.63% top-3
-      accuracy. Worst-class recall is 60%.
+      On the held-out 8,000-drawing vector test: 94.63% accuracy, 94.61% macro
+      F1, 98.76% top-3 accuracy, and 79.8% worst-class recall.
     </p><h2>Architecture and artifact</h2><p>
-      Two convolution blocks and a two-layer classifier contain 106,256
-      parameters. The fixed-batch ONNX opset 18 artifact is 441,021 bytes and
-      outputs 16 logits.
+      Two batch-normalized convolution blocks and a two-layer classifier contain
+      422,608 parameters. The fixed-batch ONNX opset 18 artifact is 1,707,724
+      bytes and outputs 16 logits from a 28 × 28 input.
     </p><h2>Limitations</h2><p>
-      Only 16 categories are supported. Bird, dog, and cat remain among the
-      harder classes. Ambiguous, unusual, faint, or out-of-distribution sketches
-      may be wrong and confidence is not calibrated probability. The model is an
-      educational portfolio demonstration, not a safety-critical classifier.
+      Only 16 categories are supported. Ambiguous, unusual, faint, or
+      out-of-distribution sketches may still be wrong. Confidence is a model
+      score rather than a guarantee, even when the interface does not abstain.
+      The model is an educational portfolio demonstration, not a safety-critical
+      classifier.
     </p><p>
       <a
         href="https://github.com/SebastianGaray/sketchsense/blob/main/docs/model-card.md"

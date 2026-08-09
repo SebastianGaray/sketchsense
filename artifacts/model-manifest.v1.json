@@ -21,9 +21,9 @@
       "sha256": "396eb91599af9a111ff8e68f69bd06260969846ded901fd8f3b32afe3791a9f7"
     },
     "model_card": {
-      "bytes": 4878,
+      "bytes": 6521,
       "path": "docs/model-card.md",
-      "sha256": "1b03164d336f356f4de794fd75f77963b42af2c910f98e85ebf4f4b85feeffda"
+      "sha256": "c373b40e11b2d231310f7be58f290534e46f46e91bc4eebb6d8b32c15a26f923"
     },
     "onnx_model": {
       "bytes": 441021,

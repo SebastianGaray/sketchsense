@@ -2,6 +2,8 @@
 
 SketchSense uses a bounded subset of the [Google Quick, Draw! Dataset](https://github.com/googlecreativelab/quickdraw-dataset). Google describes the source as 50 million drawings across 345 categories and provides per-category 28 x 28 NumPy bitmap files.
 
+The released `vector-v3` profile reads the official simplified vector stream and selects 11,000 recognized drawings per category: 10,000 train, 500 validation, and 500 held-out test examples. The strokes are rasterized locally at high resolution, then normalized using the browser crop, padding, centering, and resize geometry. The ignored cache contains both 28 x 28 and 56 x 56 vector-native renderings. Only the 28 x 28 candidate was released because it already improved macro F1 from 82.20% to 94.61%, while the 56 x 56 experiment exceeded the memory safety budget of the 8 GB development device.
+
 The source dataset is made available by Google, Inc. under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/). SketchSense does not own the source drawings. Any redistributed derived metadata and model documentation must preserve this attribution and link to the license.
 
 The `small-v1` development profile selects only the sixteen classes in `classes.v1.json`. It retrieves 200 contiguous samples per class from a deterministic hash-derived source offset using bounded HTTP byte ranges. Local pixels live under ignored `ml/data/`; raw category arrays and the cached subset are not committed or shipped with the web application. The committed manifest summary, inspection grid, and baseline report are derived documentation artifacts.

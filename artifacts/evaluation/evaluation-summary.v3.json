@@ -1,0 +1,91 @@
+{
+  "architecture": "widened-bn",
+  "baseline_v2_macro_f1": 0.8219862767934112,
+  "checkpoint_sha256": "1d3e805f66dfc9937a78d5e378628bf3e381fc5daa45b62767ab83f22f181cfa",
+  "dataset_version": "vector-v3",
+  "input_size": 28,
+  "metrics": {
+    "accuracy": 0.94625,
+    "macro_f1": 0.9460864272226346,
+    "macro_precision": 0.94657307077336,
+    "macro_recall": 0.9462499999999999,
+    "top_3_accuracy": 0.987625
+  },
+  "model_version": "3.0.0",
+  "onnx_bytes": 1707724,
+  "onnx_max_absolute_difference": 4.0531158447265625e-06,
+  "onnx_sha256": "35089644644b8ea880205c33ed5295e3ed5b9f93c9a994318a3213faa734dee2",
+  "parameters": 422608,
+  "per_class": {
+    "apple": {
+      "recall": 0.974,
+      "support": 500
+    },
+    "bicycle": {
+      "recall": 0.972,
+      "support": 500
+    },
+    "bird": {
+      "recall": 0.92,
+      "support": 500
+    },
+    "book": {
+      "recall": 0.978,
+      "support": 500
+    },
+    "car": {
+      "recall": 0.972,
+      "support": 500
+    },
+    "cat": {
+      "recall": 0.892,
+      "support": 500
+    },
+    "chair": {
+      "recall": 0.986,
+      "support": 500
+    },
+    "cloud": {
+      "recall": 0.948,
+      "support": 500
+    },
+    "cup": {
+      "recall": 0.938,
+      "support": 500
+    },
+    "dog": {
+      "recall": 0.798,
+      "support": 500
+    },
+    "fish": {
+      "recall": 0.97,
+      "support": 500
+    },
+    "flower": {
+      "recall": 0.954,
+      "support": 500
+    },
+    "house": {
+      "recall": 0.978,
+      "support": 500
+    },
+    "key": {
+      "recall": 0.936,
+      "support": 500
+    },
+    "star": {
+      "recall": 0.98,
+      "support": 500
+    },
+    "tree": {
+      "recall": 0.944,
+      "support": 500
+    }
+  },
+  "resolution_decision": "Keep 28 x 28: v3 clears the quality comparison; the 56px candidate exceeded the 8GB development-device memory safety budget.",
+  "schema_version": "3.0.0",
+  "test_samples": 8000,
+  "training_samples": 160000,
+  "validation_samples": 8000,
+  "worst_class_recall": 0.798
+}

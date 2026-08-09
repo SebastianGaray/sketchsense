@@ -48,6 +48,14 @@ def test_empty_canvas_is_explicit() -> None:
         normalize_canvas_rgba(white_canvas())
 
 
+def test_canvas_preprocessing_supports_vector_native_56_input() -> None:
+    image = white_canvas(64, 64)
+    image[12:52, 28:36, :3] = 0
+    tensor = normalize_canvas_rgba(image, output_size=56, content_size=40)
+    assert tensor.shape == (1, 1, 56, 56)
+    assert float(tensor.max()) == 1.0
+
+
 def test_committed_fixture_is_stable() -> None:
     fixture = Path(__file__).parents[2] / "fixtures" / "preprocessing.v1.json"
     assert validate_fixtures(fixture) == 3

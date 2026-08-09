@@ -135,6 +135,7 @@ const t =
 <script>
   import { normalizeCanvasRgba, EmptySketchError } from '../lib/preprocessing';
   import { SketchModel } from '../lib/inference';
+  import { isUncertain } from '../lib/confidence';
   const root = document.querySelector<HTMLElement>('[data-experience]')!;
   const canvas = root.querySelector<HTMLCanvasElement>('[data-canvas]')!;
   const preview = root.querySelector<HTMLCanvasElement>('[data-preview]')!;
@@ -160,6 +161,8 @@ const t =
           failed:
             'The model could not load. Check browser WebAssembly support and retry.',
           result: 'Prediction complete. Top results are shown.',
+          uncertain:
+            'Not sure yet. Add more defining details or try a different view.',
         }
       : {
           loading: 'Cargando el modelo local…',
@@ -170,6 +173,8 @@ const t =
             'No se pudo cargar el modelo. Comprueba la compatibilidad con WebAssembly y reintenta.',
           result:
             'Predicción completa. Se muestran los resultados principales.',
+          uncertain:
+            'Aún no estoy seguro. Agrega detalles distintivos o prueba otra vista.',
         };
   const context = canvas.getContext('2d', { willReadFrequently: true })!;
   context.fillStyle = '#fff';
@@ -281,7 +286,9 @@ const t =
           return li;
         }),
       );
-      status.textContent = messages.result;
+      status.textContent = isUncertain(predictions)
+        ? messages.uncertain
+        : messages.result;
     } catch (error) {
       status.textContent =
         error instanceof EmptySketchError ? messages.empty : messages.failed;

@@ -1,6 +1,18 @@
 # SketchSense Compact CNN Model Card
 
-## Released model v2
+## Released model v3
+
+Model v3 is a 422,608-parameter widened batch-normalized CNN trained from 160,000 official Quick, Draw! simplified vector sketches. Another 8,000 examples select training progress and 8,000 disjoint drawings form the held-out test. Every vector is rendered to a high-resolution white canvas and passed through the same crop, 10% padding, centered-content, and bilinear resize geometry used by browser input.
+
+On the held-out vector test, v3 reaches 0.94625 accuracy, 0.94609 macro F1, and 0.98763 top-3 accuracy. Worst-class recall is 0.798 for dog. Cat reaches 0.892 recall and bird reaches 0.920, compared with 0.66 and 0.60 in v2. The 1,707,724-byte ONNX opset 18 artifact matches PyTorch within `1e-4` and remains below the 5 MB browser target.
+
+The 28 x 28 contract remains deliberate. A vector-native 56 x 56 dataset was generated, but concurrent candidate training left only 1.59 GB free on the 8 GB development device. The run was stopped without publishing a partial result. The vector-native 28 x 28 candidate already improves macro F1 by 12.41 percentage points, so increasing browser memory and compute was not justified.
+
+SketchSense remains a closed-set classifier: every input receives scores for sixteen categories. The interface therefore abstains when the leading score is below 0.55 or its margin over the second score is below 0.15. Abstention communicates insufficient evidence; it is not an additional learned class.
+
+The examples page uses correctly classified held-out v3 drawings selected after training. They are validated prompts, not hand-authored icons and not additional training evidence.
+
+## Previous model v2
 
 Model v2 retains the 106,256-parameter architecture and float32 `[1, 1, 28, 28]` browser contract while replacing its training evidence. It uses 12,800 training and 1,600 validation examples from `medium-v2`, deterministic moderate canvas-domain augmentation, and seed 20260809. Two larger or smaller candidates were rejected on latency or quality evidence.
 
