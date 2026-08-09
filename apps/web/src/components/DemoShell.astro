@@ -71,14 +71,6 @@ const links = [
         <span class:list={[lang === 'es' && 'active']}>ES</span>
       </a>
       <a
-        class="portfolio-link"
-        data-portfolio-return
-        href="https://sebastiangaray.github.io/"
-        aria-label={lang === 'en'
-          ? 'Return to portfolio'
-          : 'Volver al portafolio'}>← {copy.portfolio}</a
-      >
-      <a
         class="github-link"
         href="https://github.com/SebastianGaray/sketchsense">GitHub ↗</a
       >
@@ -95,6 +87,9 @@ const links = [
               </a>
             ))
           }
+          <a data-portfolio-return href="https://sebastiangaray.github.io/">
+            {copy.portfolio}
+          </a>
         </div>
       </details>
     </nav>

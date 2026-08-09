@@ -7,8 +7,9 @@ async function navigateTo(page: Page, label: string): Promise<void> {
 
 test('localizes the portfolio return', async ({ page }) => {
   await page.goto('es/');
+  await page.locator('.project-menu summary').click();
   await expect(page.locator('[data-portfolio-return]')).toHaveText(
-    '← Portafolio',
+    'Portafolio',
   );
 });
 
@@ -25,15 +26,14 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   });
   await expect(page.locator('[data-global-control="theme"]')).toBeVisible();
   await expect(page.locator('[data-global-control="language"]')).toBeVisible();
-  await expect(page.locator('[data-portfolio-return]')).toHaveText(
-    '← Portfolio',
-  );
+  await page.locator('.project-menu summary').click();
+  await expect(page.locator('[data-portfolio-return]')).toHaveText('Portfolio');
   await expect(page.locator('[data-portfolio-return]')).toHaveAttribute(
     'href',
     'https://sebastiangaray.github.io/',
   );
   await expect(page.locator('.project-menu')).toBeVisible();
-  await expect(page.locator('.project-menu a')).toHaveCount(5);
+  await expect(page.locator('.project-menu a')).toHaveCount(6);
   const canvas = page.locator('[data-canvas]');
   await canvas.scrollIntoViewIfNeeded();
   await expect(page.locator('[data-stroke-width]')).toHaveValue('14');
