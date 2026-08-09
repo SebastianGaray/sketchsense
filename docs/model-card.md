@@ -8,7 +8,7 @@ On the final fresh 1,600-example release test, v2 reaches 0.82313 accuracy, 0.82
 
 The initially selected widened candidate reached stronger aggregate quality but was rejected because its measured p95 runtime regression exceeded the 20% release budget. A compact candidate with stronger augmentation then missed the worst-class gate on a fresh replacement test. Those outcomes remain recorded. The final moderate-augmentation candidate was selected by validation and evaluated on a third non-overlapping locked test.
 
-The 640 x 640 canvas is intentionally unchanged. Browser preprocessing crops and centers the drawing into the fixed 28 x 28 tensor, so a larger internal canvas would increase memory and pointer-coordinate work without adding model information. Responsive CSS already uses the available viewport width.
+The 640 x 640 drawing canvas and 28 x 28 tensor are intentionally unchanged. Quick, Draw! bitmap training data is natively 28 x 28, so enlarging those bitmaps would interpolate existing pixels rather than add information. A meaningful 56 x 56 experiment would need deterministic rasterization from the original vector strokes and a fresh accuracy, latency, and artifact-size comparison. The interface displays the exact 28 x 28 tensor at 168 CSS pixels so its contents remain easy to inspect.
 
 ## Historical model v1
 
