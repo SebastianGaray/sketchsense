@@ -1,0 +1,16 @@
+---
+import AboutPage from '../../../components/AboutPage.astro';
+import DemoShell from '../../../components/DemoShell.astro';
+import Layout from '../../../layouts/Layout.astro';
+---
+
+<Layout
+  lang="es"
+  path="about/"
+  title="Cómo funciona SketchSense"
+  description="El flujo privado en el navegador desde un trazo libre hasta una predicción local de SketchSense."
+>
+  <DemoShell lang="es" active="about" alternatePath="about/">
+    <AboutPage lang="es" />
+  </DemoShell>
+</Layout>

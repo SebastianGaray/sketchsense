@@ -56,6 +56,8 @@ The ONNX target is under 5 MB and ceiling is 20 MB with written justification. R
 
 The released browser state machine loads the fixed contract from a base-path-safe URL, exposes retry on recoverable failures, bounds progressive inference with a trailing timer instead of running for every pointer event, and clears drawing, preview, timings, and results together. The measured v1 build ships a 441,021-byte model, an approximately 398 KB application entry, and the 21,872,216-byte ONNX Runtime SIMD WebAssembly runtime. No raw dataset is shipped. The runtime is the largest cold-load cost and is documented separately from model size.
 
+The bilingual demo uses one shared shell across four routes per language: Canvas, Examples, Model, and About. The persistent menu owns cross-page navigation and current-page state; page components own only their main content. Model evidence and pipeline explanation do not compete with the drawing workspace.
+
 Post-v1 interaction refinement uses one trailing 450 ms prediction timer during an active stroke and a near-immediate prediction after pointer release. Each new request supersedes older results, preserving responsive drawing and avoiding inference per pointer event. Stroke width is adjustable from 8 through 32 canvas pixels with a thinner default of 14. Localized category guidance uses authored symbolic prompts and never publishes source dataset sketches.
 
 ## Milestones

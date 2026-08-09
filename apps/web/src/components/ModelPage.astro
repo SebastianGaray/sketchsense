@@ -1,0 +1,63 @@
+---
+import type { Language } from '../content';
+
+const { lang } = Astro.props as { lang: Language };
+const copy =
+  lang === 'en'
+    ? {
+        eyebrow: 'Measured model evidence',
+        title: 'Model',
+        intro:
+          'The released compact CNN is selected from reproducible experiments and runs entirely in this browser.',
+        architecture: 'Compact CNN · 106,256 parameters',
+        dataset:
+          'Quick, Draw! medium-v2 · 16 classes · 16,000 development samples',
+        evaluation: 'Held-out evaluation',
+        metrics:
+          'Accuracy 82.31% · macro F1 82.20% · top-3 92.63% · worst recall 60%',
+        limitations: 'Limitations',
+        limitationText:
+          'Only 16 categories are supported. Bird, dog, and cat remain among the harder classes. Confidence is a model score, not a calibrated guarantee.',
+        card: 'Read the complete reproducibility record',
+      }
+    : {
+        eyebrow: 'Evidencia medida del modelo',
+        title: 'Modelo',
+        intro:
+          'La CNN compacta publicada se selecciona mediante experimentos reproducibles y se ejecuta completamente en este navegador.',
+        architecture: 'CNN compacta · 106.256 parámetros',
+        dataset:
+          'Quick, Draw! medium-v2 · 16 clases · 16.000 muestras de desarrollo',
+        evaluation: 'Evaluación reservada',
+        metrics:
+          'Exactitud 82,31 % · F1 macro 82,20 % · top-3 92,63 % · peor recall 60 %',
+        limitations: 'Limitaciones',
+        limitationText:
+          'Solo se admiten 16 categorías. Pájaro, perro y gato siguen entre las clases más difíciles. La confianza es una puntuación del modelo, no una garantía calibrada.',
+        card: 'Leer el registro completo de reproducibilidad',
+      };
+---
+
+<section class="secondary-page container" aria-labelledby="model-page-title">
+  <p class="eyebrow">{copy.eyebrow}</p>
+  <h1 id="model-page-title">{copy.title}</h1>
+  <p class="page-intro">{copy.intro}</p>
+  <dl class="evidence-list">
+    <div><dt>compact-cnn-v2</dt><dd>{copy.architecture}</dd></div>
+    <div><dt>medium-v2</dt><dd>{copy.dataset}</dd></div>
+    <div><dt>{copy.evaluation}</dt><dd>{copy.metrics}</dd></div>
+    <div>
+      <dt>ONNX</dt><dd>
+        441,021 bytes · opset 18 · [1, 1, 28, 28] → logits[16]
+      </dd>
+    </div>
+  </dl>
+  <section class="page-section" aria-labelledby="limitations-title">
+    <h2 id="limitations-title">{copy.limitations}</h2>
+    <p>{copy.limitationText}</p>
+  </section>
+  <a
+    href="https://github.com/SebastianGaray/sketchsense/blob/main/docs/model-card.md"
+    >{copy.card} ↗</a
+  >
+</section>

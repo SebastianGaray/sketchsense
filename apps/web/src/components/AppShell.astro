@@ -1,91 +1,15 @@
 ---
-import { content, type Language } from '../content';
+import type { Language } from '../content';
+import DemoShell from './DemoShell.astro';
 import Experience from './Experience.astro';
+
 interface Props {
   lang: Language;
 }
+
 const { lang } = Astro.props;
-const copy = content[lang];
-const alternate = lang === 'en' ? 'es' : 'en';
-const base = import.meta.env.BASE_URL;
-const navigation =
-  lang === 'en'
-    ? { label: 'Demo sections', draw: 'Draw', model: 'Model', about: 'About' }
-    : {
-        label: 'Secciones de la demo',
-        draw: 'Dibujar',
-        model: 'Modelo',
-        about: 'Acerca de',
-      };
 ---
 
-<a class="skip-link" href="#main">{copy.skip}</a>
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href={`${base}${lang}/`} aria-label="SketchSense home"
-      >SketchSense</a
-    >
-    <nav
-      aria-label={lang === 'en' ? 'Project controls' : 'Controles del proyecto'}
-    >
-      <a class="portfolio-link" href="https://sebastiangaray.github.io/"
-        >← {copy.portfolio}</a
-      >
-      <a class="language-link" href={`${base}${alternate}/`} lang={alternate}
-        >{copy.language}</a
-      >
-      <a
-        class="github-link"
-        href="https://github.com/SebastianGaray/sketchsense">GitHub ↗</a
-      >
-      <div class="theme-control" role="group" aria-label={copy.theme}>
-        <button type="button" data-theme-value="system">{copy.system}</button>
-        <button type="button" data-theme-value="light">{copy.light}</button>
-        <button type="button" data-theme-value="dark">{copy.dark}</button>
-      </div>
-    </nav>
-  </div>
-</header>
-<nav class="lab-sidebar" aria-label={navigation.label}>
-  <a href="#draw">{navigation.draw}</a>
-  <a href="#model">{navigation.model}</a>
-  <a href="#about">{navigation.about}</a>
-</nav>
-<main id="main">
+<DemoShell lang={lang} active="draw">
   <Experience lang={lang} />
-</main>
-<footer><div class="container">{copy.footer}</div></footer>
-<script>
-  const media = window.matchMedia('(prefers-color-scheme: dark)');
-  const buttons = [
-    ...document.querySelectorAll<HTMLButtonElement>('[data-theme-value]'),
-  ];
-  const apply = (preference: string) => {
-    const theme =
-      preference === 'system' ? (media.matches ? 'dark' : 'light') : preference;
-    document.documentElement.dataset.themePreference = preference;
-    document.documentElement.dataset.theme = theme;
-    document
-      .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', theme === 'dark' ? '#1b1918' : '#fdf8f8');
-    buttons.forEach((button) =>
-      button.setAttribute(
-        'aria-pressed',
-        String(button.dataset.themeValue === preference),
-      ),
-    );
-  };
-  buttons.forEach((button) =>
-    button.addEventListener('click', () => {
-      const value = button.dataset.themeValue ?? 'system';
-      if (value === 'system') localStorage.removeItem('sketchsense-theme');
-      else localStorage.setItem('sketchsense-theme', value);
-      apply(value);
-    }),
-  );
-  media.addEventListener('change', () => {
-    if (document.documentElement.dataset.themePreference === 'system')
-      apply('system');
-  });
-  apply(document.documentElement.dataset.themePreference ?? 'system');
-</script>
+</DemoShell>

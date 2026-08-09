@@ -1,0 +1,16 @@
+---
+import DemoShell from '../../../components/DemoShell.astro';
+import ModelPage from '../../../components/ModelPage.astro';
+import Layout from '../../../layouts/Layout.astro';
+---
+
+<Layout
+  lang="en"
+  path="model/"
+  title="Model evidence · SketchSense"
+  description="Measured model, dataset, evaluation, artifact, and limitation evidence for SketchSense."
+>
+  <DemoShell lang="en" active="model" alternatePath="model/">
+    <ModelPage lang="en" />
+  </DemoShell>
+</Layout>

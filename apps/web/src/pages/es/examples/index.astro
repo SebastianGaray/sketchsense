@@ -1,5 +1,6 @@
 ---
 import ExamplesPage from '../../../components/ExamplesPage.astro';
+import DemoShell from '../../../components/DemoShell.astro';
 import Layout from '../../../layouts/Layout.astro';
 ---
 
@@ -7,5 +8,8 @@ import Layout from '../../../layouts/Layout.astro';
   lang="es"
   title="Categorías y consejos · SketchSense"
   description="Las 16 categorías disponibles en SketchSense y consejos prácticos para dibujar."
-  ><ExamplesPage lang="es" /></Layout
+  path="examples/"
+  ><DemoShell lang="es" active="examples" alternatePath="examples/"
+    ><ExamplesPage lang="es" /></DemoShell
+  ></Layout
 >

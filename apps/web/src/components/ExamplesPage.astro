@@ -1,7 +1,6 @@
 ---
 import type { Language } from '../content';
 const { lang } = Astro.props as { lang: Language };
-const base = import.meta.env.BASE_URL;
 const categories = [
   ['apple', 'manzana'],
   ['bicycle', 'bicicleta'],
@@ -74,25 +73,10 @@ const copy =
       };
 ---
 
-<a class="skip-link" href="#main"
-  >{lang === 'en' ? 'Skip to content' : 'Saltar al contenido'}</a
->
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href={`${base}${lang}/`}>SketchSense</a><nav
-      aria-label={copy.back}
-    >
-      <a href={`${base}${lang}/`}>← {copy.back}</a><a
-        href={`${base}${lang === 'en' ? 'es' : 'en'}/examples/`}
-        >{lang === 'en' ? 'Español' : 'English'}</a
-      >
-    </nav>
-  </div>
-</header>
-<main id="main" class="examples-page container">
-  <p class="eyebrow">{copy.eyebrow}</p><h1>{copy.title}</h1><p
-    class="examples-intro"
-  >
+<section class="examples-page container" aria-labelledby="examples-title">
+  <p class="eyebrow">{copy.eyebrow}</p><h1 id="examples-title">
+    {copy.title}
+  </h1><p class="examples-intro">
     {copy.intro}
   </p>
   <ul class="category-grid">
@@ -120,4 +104,4 @@ const copy =
       {copy.tipItems.map((tip) => <li>{tip}</li>)}
     </ul>
   </section>
-</main>
+</section>

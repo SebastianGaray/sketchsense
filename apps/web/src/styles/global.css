@@ -153,6 +153,10 @@ a:focus-visible {
   background: var(--raised);
   color: var(--text);
 }
+.lab-sidebar a[aria-current='page'] {
+  background: var(--text);
+  color: var(--bg);
+}
 .theme-control {
   display: flex;
   border: 1px solid var(--border);
@@ -446,6 +450,52 @@ dd {
   max-width: 50rem;
   padding-block: 4rem;
 }
+.secondary-page {
+  max-width: 70rem;
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+.secondary-page h1 {
+  max-width: 48rem;
+}
+.page-intro {
+  max-width: 48rem;
+  color: var(--text-2);
+  font-size: 1.08rem;
+}
+.evidence-list {
+  margin: 3rem 0;
+}
+.evidence-list div {
+  display: grid;
+  grid-template-columns: minmax(10rem, 1fr) minmax(0, 2fr);
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+}
+.page-section {
+  max-width: 48rem;
+  margin-block: 3rem 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1rem;
+  margin: 3rem 0;
+  padding: 0;
+  list-style: none;
+}
+.process-grid li {
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.process-grid h2 {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0;
+}
 .examples-page {
   padding-block: clamp(3rem, 7vw, 6rem);
 }
@@ -533,7 +583,7 @@ dd {
     grid-column: 1 / -1;
   }
 }
-@media (min-width: 86rem) {
+@media (min-width: 64rem) {
   .lab-sidebar {
     position: fixed;
     top: 9rem;
@@ -549,6 +599,10 @@ dd {
   }
   .lab-sidebar a:last-child {
     border-bottom: 0;
+  }
+  main,
+  footer {
+    margin-left: 8.5rem;
   }
 }
 @media (min-width: 48rem) {
@@ -592,6 +646,14 @@ dd {
     min-width: 0;
     flex: 1;
     padding-inline: 0.35rem;
+  }
+}
+@media (max-width: 32rem) {
+  .evidence-list div {
+    grid-template-columns: 1fr;
+  }
+  .evidence-list dd {
+    text-align: left;
   }
 }
 @media (prefers-reduced-motion: reduce) {

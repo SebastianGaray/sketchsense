@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://sebastiangaray.github.io/sketchsense/en/</loc></url><url><loc>https://sebastiangaray.github.io/sketchsense/en/examples/</loc></url><url><loc>https://sebastiangaray.github.io/sketchsense/es/</loc></url><url><loc>https://sebastiangaray.github.io/sketchsense/es/examples/</loc></url><url><loc>https://sebastiangaray.github.io/sketchsense/model-card/</loc></url></urlset>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://sebastiangaray.github.io/sketchsense/en/</loc></url>
+  <url><loc>https://sebastiangaray.github.io/sketchsense/en/examples/</loc></url>
+  <url><loc>https://sebastiangaray.github.io/sketchsense/en/model/</loc></url>
+  <url><loc>https://sebastiangaray.github.io/sketchsense/en/about/</loc></url>
+  <url><loc>https://sebastiangaray.github.io/sketchsense/es/</loc></url>
+  <url><loc>https://sebastiangaray.github.io/sketchsense/es/examples/</loc></url>
+  <url><loc>https://sebastiangaray.github.io/sketchsense/es/model/</loc></url>
+  <url><loc>https://sebastiangaray.github.io/sketchsense/es/about/</loc></url>
+  <url><loc>https://sebastiangaray.github.io/sketchsense/model-card/</loc></url>
+</urlset>

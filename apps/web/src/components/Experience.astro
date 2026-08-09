@@ -24,17 +24,10 @@ const t =
         inference: 'Inference',
         limitation:
           'Freehand drawing requires a pointer. All nearby actions are keyboard accessible.',
-        model: 'Model evidence',
-        architecture: 'Compact CNN · 106,256 parameters',
-        metrics: 'Test accuracy 82.31% · macro F1 82.20% · top-3 92.63%',
-        dataset:
-          'Quick, Draw! medium-v2 · 16 classes · 16,000 development samples',
-        card: 'Read the model card',
         privacy:
           'Your strokes, image, tensor, and predictions stay in this browser.',
         stroke: 'Stroke width',
         live: 'Predictions update while you draw.',
-        examples: 'See categories and drawing tips',
       }
     : {
         draw: 'Área de dibujo',
@@ -56,18 +49,10 @@ const t =
         inference: 'Inferencia',
         limitation:
           'El dibujo libre requiere un puntero. Las acciones cercanas son accesibles con teclado.',
-        model: 'Evidencia del modelo',
-        architecture: 'CNN compacta · 106.256 parámetros',
-        metrics:
-          'Exactitud de prueba 82,31 % · F1 macro 82,20 % · top-3 92,63 %',
-        dataset:
-          'Quick, Draw! medium-v2 · 16 clases · 16.000 muestras de desarrollo',
-        card: 'Leer la ficha del modelo',
         privacy:
           'Tus trazos, imagen, tensor y predicciones permanecen en este navegador.',
         stroke: 'Grosor del trazo',
         live: 'Las predicciones se actualizan mientras dibujas.',
-        examples: 'Ver categorías y consejos de dibujo',
       };
 ---
 
@@ -113,9 +98,6 @@ const t =
         >
       </div>
       <p class="canvas-limit">{t.live} {t.limitation}</p>
-      <a class="examples-link" href={`${base}${lang}/examples/`}
-        >{t.examples} →</a
-      >
     </div>
     <aside class="evidence-rail">
       <div class="status-box">
@@ -149,49 +131,6 @@ const t =
       </section>
     </aside>
   </div>
-  <section id="model" class="model-evidence" aria-labelledby="model-title">
-    <h2 id="model-title">{t.model}</h2><dl>
-      <div><dt>compact-cnn-v2</dt><dd>{t.architecture}</dd></div><div>
-        <dt>medium-v2</dt><dd>{t.dataset}</dd>
-      </div><div>
-        <dt>
-          {lang === 'en' ? 'Held-out evaluation' : 'Evaluación reservada'}
-        </dt><dd>{t.metrics}</dd>
-      </div><div>
-        <dt>ONNX</dt><dd>
-          441,021 bytes · opset 18 · [1, 1, 28, 28] → logits[16]
-        </dd>
-      </div>
-    </dl><a href={`${base}model-card/`}>{t.card}</a>
-  </section>
-  <section id="about" class="about-demo" aria-labelledby="about-title">
-    <div>
-      <p class="eyebrow">
-        {lang === 'en' ? 'How it works' : 'C\u00f3mo funciona'}
-      </p>
-      <h2 id="about-title">
-        {
-          lang === 'en'
-            ? 'From stroke to prediction'
-            : 'Del trazo a la predicci\u00f3n'
-        }
-      </h2>
-    </div>
-    <p>
-      {
-        lang === 'en'
-          ? 'The canvas is cropped, centered, and normalized to the same 28 \u00d7 28 contract used in training. The compact CNN then runs through ONNX Runtime Web on your device.'
-          : 'El canvas se recorta, centra y normaliza con el mismo contrato de 28 \u00d7 28 usado en entrenamiento. Luego, la CNN compacta se ejecuta mediante ONNX Runtime Web en tu dispositivo.'
-      }
-    </p>
-    <p>
-      {
-        lang === 'en'
-          ? 'No stroke or image is sent to an application server. Model evidence and known limitations stay below the interaction instead of competing with it.'
-          : 'Ning\u00fan trazo ni imagen se env\u00eda a un servidor de la aplicaci\u00f3n. La evidencia del modelo y sus limitaciones quedan debajo de la interacci\u00f3n sin competir con ella.'
-      }
-    </p>
-  </section>
 </section>
 <script>
   import { normalizeCanvasRgba, EmptySketchError } from '../lib/preprocessing';
