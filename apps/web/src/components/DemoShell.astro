@@ -4,7 +4,7 @@ import ThemeControl from './ThemeControl.astro';
 
 interface Props {
   lang: Language;
-  active: 'draw' | 'examples' | 'model' | 'about';
+  active: 'draw' | 'examples' | 'model' | 'about' | 'engineering';
   alternatePath?: string;
 }
 
@@ -20,6 +20,7 @@ const navigation =
         examples: 'Examples',
         model: 'Model',
         about: 'About',
+        engineering: 'Engineering',
       }
     : {
         label: 'Páginas de la demo',
@@ -27,6 +28,7 @@ const navigation =
         examples: 'Ejemplos',
         model: 'Modelo',
         about: 'Acerca de',
+        engineering: 'Ingeniería',
       };
 const links = [
   { key: 'draw', label: navigation.draw, href: `${base}${lang}/` },
@@ -37,21 +39,29 @@ const links = [
   },
   { key: 'model', label: navigation.model, href: `${base}${lang}/model/` },
   { key: 'about', label: navigation.about, href: `${base}${lang}/about/` },
+  {
+    key: 'engineering',
+    label: navigation.engineering,
+    href: `${base}${lang}/engineering/`,
+  },
 ] as const;
 ---
 
 <a class="skip-link" href="#main">{copy.skip}</a>
 <header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href={`${base}${lang}/`} aria-label="SketchSense home"
-      >SketchSense</a
-    >
-    <nav
-      aria-label={lang === 'en' ? 'Project controls' : 'Controles del proyecto'}
-    >
+  <div class="container header-primary">
+    <div class="header-identity">
+      <a class="brand" href={`${base}${lang}/`} aria-label="SketchSense home"
+        >SketchSense</a
+      >
       <a class="portfolio-link" href="https://sebastiangaray.github.io/"
         >← {copy.portfolio}</a
       >
+    </div>
+    <nav
+      class="utility-nav"
+      aria-label={lang === 'en' ? 'Project controls' : 'Controles del proyecto'}
+    >
       <ThemeControl lang={lang} />
       <a
         class="language-switch"
@@ -71,18 +81,20 @@ const links = [
       >
     </nav>
   </div>
+  <nav class="page-nav" aria-label={navigation.label}>
+    <div class="container page-nav-inner">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            aria-current={active === link.key ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
 </header>
-<nav class="lab-sidebar" aria-label={navigation.label}>
-  {
-    links.map((link) => (
-      <a
-        href={link.href}
-        aria-current={active === link.key ? 'page' : undefined}
-      >
-        {link.label}
-      </a>
-    ))
-  }
-</nav>
 <main id="main"><slot /></main>
 <footer><div class="container">{copy.footer}</div></footer>

@@ -41,6 +41,8 @@ The model still covers only 16 classes. Ambiguous, faint, unusual, or out-of-dis
 
 Future changes follow `branch → push → pull request → CI → review → merge to main → deployment`. Create a focused `agent/<short-description>` branch, use English Conventional Commits, keep documentation and SDD aligned, and do not bypass required checks or review.
 
+Specification-driven development records requirements and acceptance criteria before meaningful implementation. AI-assisted tools may support exploration, implementation, review, documentation, and test generation, but their output is treated as a proposal. Product intent, model tradeoffs, validation thresholds, and final approval remain human decisions. The public demo exposes this process and links directly to its versioned evidence.
+
 Requirements live in [spec.md](spec.md), architecture in [plan.md](plan.md), progress in [tasks.md](tasks.md), and visual decisions in [DESIGN.md](DESIGN.md).
 
 The current quality upgrade is recorded in [the model v3 SDD](sdd/model-v3/spec.md), including vector-native preprocessing, resolution evidence, uncertainty behavior, and release criteria.

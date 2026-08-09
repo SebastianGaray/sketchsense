@@ -1,0 +1,106 @@
+---
+import type { Language } from '../content';
+
+const { lang } = Astro.props as { lang: Language };
+const repository = 'https://github.com/SebastianGaray/sketchsense/blob/main';
+const copy =
+  lang === 'en'
+    ? {
+        eyebrow: 'Engineering process',
+        title: 'How SketchSense was specified, assisted, and verified',
+        intro:
+          'The implementation followed versioned requirements, bounded AI assistance, human product decisions, and repeatable evidence.',
+        steps: [
+          [
+            '01',
+            'Specification',
+            'SDD recorded the drawing contract, preprocessing behavior, model evaluation, accessibility, and release criteria before each meaningful change.',
+          ],
+          [
+            '02',
+            'AI assistance',
+            'AI-assisted tools supported option exploration, implementation, review, documentation, and test generation. Their output was treated as a proposal to inspect, not as proof.',
+          ],
+          [
+            '03',
+            'Human ownership',
+            'Product scope, model tradeoffs, category selection, UX decisions, acceptance thresholds, and final approval remained human decisions.',
+          ],
+          [
+            '04',
+            'Validation evidence',
+            'Formatting, linting, type checks, unit tests, browser flows, production-base builds, dependency audits, and held-out model metrics gate published changes.',
+          ],
+        ],
+        evidence: 'Versioned evidence',
+        evidenceIntro:
+          'The repository keeps requirements, implementation plans, and completed tasks beside the code.',
+        links: [
+          ['Canvas input SDD', `${repository}/sdd/canvas-input-v4/spec.md`],
+          ['Model SDD', `${repository}/sdd/model-v3/spec.md`],
+          ['Project README', `${repository}/README.md`],
+        ],
+      }
+    : {
+        eyebrow: 'Proceso de ingeniería',
+        title: 'Cómo se especificó, asistió y verificó SketchSense',
+        intro:
+          'La implementación siguió requisitos versionados, asistencia de IA acotada, decisiones humanas de producto y evidencia repetible.',
+        steps: [
+          [
+            '01',
+            'Especificación',
+            'SDD registró el contrato de dibujo, el preprocesamiento, la evaluación del modelo, la accesibilidad y los criterios de publicación antes de cada cambio relevante.',
+          ],
+          [
+            '02',
+            'Asistencia de IA',
+            'Las herramientas con IA apoyaron la exploración de opciones, implementación, revisión, documentación y generación de pruebas. Sus resultados se trataron como propuestas por revisar, no como evidencia.',
+          ],
+          [
+            '03',
+            'Responsabilidad humana',
+            'El alcance, los compromisos del modelo, las categorías, las decisiones de UX, los umbrales de aceptación y la aprobación final permanecieron bajo responsabilidad humana.',
+          ],
+          [
+            '04',
+            'Evidencia de validación',
+            'Formato, lint, tipos, pruebas unitarias, flujos de navegador, builds con la ruta de producción, auditorías y métricas del conjunto reservado condicionan cada publicación.',
+          ],
+        ],
+        evidence: 'Evidencia versionada',
+        evidenceIntro:
+          'El repositorio conserva requisitos, planes de implementación y tareas terminadas junto al código.',
+        links: [
+          ['SDD del canvas', `${repository}/sdd/canvas-input-v4/spec.md`],
+          ['SDD del modelo', `${repository}/sdd/model-v3/spec.md`],
+          ['README del proyecto', `${repository}/README.md`],
+        ],
+      };
+---
+
+<section class="secondary-page container" aria-labelledby="engineering-title">
+  <p class="eyebrow">{copy.eyebrow}</p>
+  <h1 id="engineering-title">{copy.title}</h1>
+  <p class="page-intro">{copy.intro}</p>
+  <ol class="engineering-grid">
+    {
+      copy.steps.map(([number, title, body]) => (
+        <li>
+          <>
+            <span>{number}</span>
+            <h2>{title}</h2>
+            <p>{body}</p>
+          </>
+        </li>
+      ))
+    }
+  </ol>
+  <section class="page-section" aria-labelledby="engineering-evidence">
+    <h2 id="engineering-evidence">{copy.evidence}</h2>
+    <p>{copy.evidenceIntro}</p>
+    <div class="evidence-links">
+      {copy.links.map(([label, href]) => <a href={href}>{label} ↗</a>)}
+    </div>
+  </section>
+</section>
