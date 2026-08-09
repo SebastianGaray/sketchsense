@@ -108,6 +108,32 @@ a:focus-visible {
   color: var(--text);
   text-decoration: none;
 }
+.desktop-nav {
+  display: none;
+}
+.desktop-nav a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.desktop-nav a[aria-current='page'] {
+  color: var(--text);
+  font-weight: 700;
+}
+.desktop-nav a::after {
+  width: 100%;
+  height: 2px;
+  display: block;
+  background: var(--text);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 160ms ease;
+}
+.desktop-nav a:hover::after,
+.desktop-nav a[aria-current='page']::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
 .utility-nav {
   display: flex;
   align-items: center;
@@ -116,10 +142,17 @@ a:focus-visible {
   flex-wrap: wrap;
   padding-block: 0.5rem;
 }
-.language-switch,
-.github-link {
+.language-switch {
   font-size: 0.82rem;
   font-weight: 600;
+}
+.github-mark {
+  display: none;
+  color: var(--text-2);
+}
+.github-mark svg {
+  width: 1.45rem;
+  fill: currentColor;
 }
 .language-switch {
   display: inline-flex;
@@ -375,12 +408,34 @@ h3 {
   color: var(--text-2);
   font-size: 0.88rem;
 }
-footer {
-  padding-block: 1.5rem;
+.site-footer {
+  padding-block: 2.25rem;
   border-top: 1px solid var(--border);
   background: var(--bg-2);
+}
+.footer-shell,
+.footer-shell > div,
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+.footer-shell {
+  justify-content: space-between;
+}
+.footer-brand {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.2rem;
+}
+.footer-shell small {
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+.site-footer nav a {
+  color: var(--accent);
+  font-size: 0.75rem;
 }
 .experience {
   width: min(76rem, 100%);
@@ -782,6 +837,17 @@ dd {
   .status-panel {
     padding: 2rem;
   }
+  .theme-control summary > span {
+    width: auto;
+    height: auto;
+    position: static;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+  .github-mark {
+    display: inline-flex;
+  }
 }
 @media (min-width: 64rem) {
   :root {
@@ -789,6 +855,13 @@ dd {
   }
   .site-header {
     min-height: 4.5rem;
+  }
+  .desktop-nav {
+    display: flex;
+    gap: 2rem;
+  }
+  .project-menu {
+    display: none;
   }
 }
 @media (max-width: 40rem) {
@@ -810,9 +883,6 @@ dd {
   .project-menu summary {
     padding-inline: 0.35rem;
   }
-  .github-link {
-    display: none;
-  }
   .theme-menu {
     position: fixed;
     top: 4.25rem;
@@ -831,6 +901,10 @@ dd {
   .language-switch .active,
   .language-switch span[aria-hidden='true'] {
     display: none;
+  }
+  .footer-shell {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 @media (max-width: 32rem) {

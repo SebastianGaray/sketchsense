@@ -1,11 +1,19 @@
 import { expect, test, type Page } from '@playwright/test';
 
 async function navigateTo(page: Page, label: string): Promise<void> {
+  const desktopLink = page
+    .locator('.desktop-nav')
+    .getByRole('link', { name: label, exact: true });
+  if (await desktopLink.isVisible()) {
+    await desktopLink.click();
+    return;
+  }
   await page.locator('.project-menu summary').click();
   await page.getByRole('link', { name: label, exact: true }).click();
 }
 
 test('localizes the portfolio return', async ({ page }) => {
+  await page.setViewportSize({ width: 800, height: 800 });
   await page.goto('es/');
   await page.locator('.project-menu summary').click();
   await expect(page.locator('[data-portfolio-return]')).toHaveText(
@@ -26,6 +34,14 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   });
   await expect(page.locator('[data-global-control="theme"]')).toBeVisible();
   await expect(page.locator('[data-global-control="language"]')).toBeVisible();
+  await expect(page.locator('.desktop-nav')).toBeVisible();
+  await expect(page.locator('.desktop-nav a')).toHaveCount(5);
+  await expect(page.locator('.github-mark')).toBeVisible();
+  await expect(page.locator('[data-theme-current]')).toHaveText('System');
+  await expect(page.locator('[data-theme-current]')).toBeVisible();
+  await expect(page.locator('.site-footer nav a')).toHaveCount(3);
+  await expect(page.locator('.site-footer')).toContainText('Built with Astro.');
+  await page.setViewportSize({ width: 800, height: 800 });
   await page.locator('.project-menu summary').click();
   await expect(page.locator('[data-portfolio-return]')).toHaveText('Portfolio');
   await expect(page.locator('[data-portfolio-return]')).toHaveAttribute(
@@ -131,12 +147,13 @@ test('lists every supported category with validated held-out prompts', async ({
     'src',
     /examples\/v3\/.+\.png/,
   );
-  await page.locator('.project-menu summary').click();
-  await expect(page.getByRole('link', { name: 'Examples' })).toHaveAttribute(
-    'aria-current',
-    'page',
-  );
-  await page.getByRole('link', { name: 'Canvas', exact: true }).click();
+  await expect(
+    page.locator('.desktop-nav').getByRole('link', { name: 'Examples' }),
+  ).toHaveAttribute('aria-current', 'page');
+  await page
+    .locator('.desktop-nav')
+    .getByRole('link', { name: 'Canvas', exact: true })
+    .click();
   await expect(page).toHaveURL(/\/en\/$/);
   await navigateTo(page, 'Model');
   await expect(page).toHaveURL(/\/en\/model\/$/);
@@ -159,6 +176,13 @@ test('lists every supported category with validated held-out prompts', async ({
 test('fits a mobile viewport without horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('en/');
+  await expect(page.locator('.desktop-nav')).toBeHidden();
+  await expect(page.locator('.project-menu')).toBeVisible();
+  expect(
+    await page
+      .locator('[data-theme-current]')
+      .evaluate((element) => getComputedStyle(element).position),
+  ).toBe('absolute');
   const leadingBox = await page.locator('.leading-prediction').boundingBox();
   const canvasBox = await page.locator('[data-canvas]').boundingBox();
   if (!leadingBox || !canvasBox) throw new Error('Interaction layout missing');
