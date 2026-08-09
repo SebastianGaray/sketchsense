@@ -12,7 +12,7 @@ Primary actions use black/white in Light and `#e3dad2`/`#211e1c` in Dark. Source
 
 ## Composition and components
 
-The content width is 70 rem with 1.25/2/3 rem responsive gutters and generous section rhythm. The shell uses a compact header with project identity, portfolio return, language links, and a three-option theme group. The hero states what is implemented now before describing the target architecture.
+The content width is 70 rem with 1.25/2/3 rem responsive gutters and generous section rhythm. The shell uses a compact header with project identity, portfolio return, the canonical theme disclosure, the `EN / ES` language switch, and the repository link. Theme precedes language in the utility group; stateful controls remain in the header rather than the footer. The hero states what is implemented now before describing the target architecture.
 
 The final workspace will pair a large near-square bordered drawing surface with a narrower evidence rail. The canvas resembles paper through the shared surface and sparse, low-contrast corner guides, not texture or gradients. Prediction rows use label, numeric percentage, and a single-color bounded bar. Rank, value, and text preserve meaning without color. The 28 x 28 preview uses crisp pixels in a bordered secondary panel. Model metadata uses restrained monospace labels and rule-separated rows. Loading, empty, unsupported, and error states occupy the same stable region to avoid layout shifts.
 
@@ -20,7 +20,7 @@ The released workspace uses the real drawing and prediction controls. The drawin
 
 ## Themes, navigation, and localization
 
-System is the default and follows the operating system. Light and Dark overrides persist in `sketchsense-theme`; pre-paint initialization prevents an incorrect-theme flash. Selection uses `aria-pressed` and visible treatment. English lives at `/en/`, Spanish at `/es/`, and root redirects to English. No flags are used. Every route provides a localized portfolio-return link to `https://sebastiangaray.github.io/` and a localized language counterpart.
+System is the default and follows the operating system. Light and Dark overrides persist in `sketchsense-theme`; pre-paint initialization prevents an incorrect-theme flash. The compact disclosure contains three real buttons, and selection uses `aria-pressed`, elevated background, weight, and a checkmark. English lives at `/en/`, Spanish at `/es/`, and root redirects to English. No flags are used. The `EN / ES` switch marks the current locale and preserves the active subpage. Every route provides a localized portfolio-return link to `https://sebastiangaray.github.io/`.
 
 ## Responsive and accessible behavior
 

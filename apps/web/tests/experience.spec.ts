@@ -11,6 +11,8 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   await expect(page.locator('[data-status]')).toContainText('Model ready', {
     timeout: 30_000,
   });
+  await expect(page.locator('[data-global-control="theme"]')).toBeVisible();
+  await expect(page.locator('[data-global-control="language"]')).toBeVisible();
   const canvas = page.locator('[data-canvas]');
   await canvas.scrollIntoViewIfNeeded();
   await expect(page.locator('[data-stroke-width]')).toHaveValue('14');
@@ -68,7 +70,14 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   });
   await page.locator('[data-clear]').click();
   await expect(page.locator('[data-predict]')).toBeDisabled();
+  await page.locator('[data-theme-control] summary').click();
   await page.getByRole('button', { name: 'Dark' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.locator('[data-theme-control]')).not.toHaveAttribute(
+    'open',
+    '',
+  );
+  await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.getByRole('link', { name: 'Espa\u00f1ol' }).click();
   await expect(page).toHaveURL(/\/es\/$/);

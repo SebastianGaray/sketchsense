@@ -1,5 +1,6 @@
 ---
 import { content, type Language } from '../content';
+import ThemeControl from './ThemeControl.astro';
 
 interface Props {
   lang: Language;
@@ -51,20 +52,23 @@ const links = [
       <a class="portfolio-link" href="https://sebastiangaray.github.io/"
         >← {copy.portfolio}</a
       >
+      <ThemeControl lang={lang} />
       <a
-        class="language-link"
+        class="language-switch"
+        data-global-control="language"
         href={`${base}${alternate}/${alternatePath}`}
-        lang={alternate}>{copy.language}</a
+        lang={alternate}
+        hreflang={alternate}
+        aria-label={copy.language}
       >
+        <span class:list={[lang === 'en' && 'active']}>EN</span>
+        <span aria-hidden="true">/</span>
+        <span class:list={[lang === 'es' && 'active']}>ES</span>
+      </a>
       <a
         class="github-link"
         href="https://github.com/SebastianGaray/sketchsense">GitHub ↗</a
       >
-      <div class="theme-control" role="group" aria-label={copy.theme}>
-        <button type="button" data-theme-value="system">{copy.system}</button>
-        <button type="button" data-theme-value="light">{copy.light}</button>
-        <button type="button" data-theme-value="dark">{copy.dark}</button>
-      </div>
     </nav>
   </div>
 </header>
@@ -82,37 +86,3 @@ const links = [
 </nav>
 <main id="main"><slot /></main>
 <footer><div class="container">{copy.footer}</div></footer>
-<script>
-  const media = window.matchMedia('(prefers-color-scheme: dark)');
-  const buttons = [
-    ...document.querySelectorAll<HTMLButtonElement>('[data-theme-value]'),
-  ];
-  const apply = (preference: string) => {
-    const theme =
-      preference === 'system' ? (media.matches ? 'dark' : 'light') : preference;
-    document.documentElement.dataset.themePreference = preference;
-    document.documentElement.dataset.theme = theme;
-    document
-      .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', theme === 'dark' ? '#1b1918' : '#fdf8f8');
-    buttons.forEach((button) =>
-      button.setAttribute(
-        'aria-pressed',
-        String(button.dataset.themeValue === preference),
-      ),
-    );
-  };
-  buttons.forEach((button) =>
-    button.addEventListener('click', () => {
-      const value = button.dataset.themeValue ?? 'system';
-      if (value === 'system') localStorage.removeItem('sketchsense-theme');
-      else localStorage.setItem('sketchsense-theme', value);
-      apply(value);
-    }),
-  );
-  media.addEventListener('change', () => {
-    if (document.documentElement.dataset.themePreference === 'system')
-      apply('system');
-  });
-  apply(document.documentElement.dataset.themePreference ?? 'system');
-</script>
