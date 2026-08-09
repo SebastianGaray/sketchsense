@@ -12,11 +12,11 @@ const copy =
         steps: [
           [
             '1. Capture',
-            'Pointer strokes are recorded on a responsive 640 × 640 canvas.',
+            'Freehand pointer strokes remain vector paths, or users can paint the model’s enlarged 28 × 28 pixel grid directly.',
           ],
           [
             '2. Normalize',
-            'The occupied bounds are cropped, padded, centered, and resized to the exact 28 × 28 grayscale model input.',
+            'Vector bounds are centered and antialiased with bounded thickness; pixel mode already is the exact 28 × 28 model input.',
           ],
           [
             '3. Infer',
@@ -39,11 +39,11 @@ const copy =
         steps: [
           [
             '1. Captura',
-            'Los trazos del puntero se registran en un canvas adaptable de 640 × 640.',
+            'Los trazos libres permanecen como rutas vectoriales, o se puede pintar directamente en la cuadrícula ampliada de 28 × 28.',
           ],
           [
             '2. Normalización',
-            'Los límites ocupados se recortan, rellenan, centran y redimensionan a la entrada exacta de 28 × 28 en escala de grises.',
+            'Los límites vectoriales se centran y suavizan con grosor acotado; el modo píxel ya es la entrada exacta de 28 × 28.',
           ],
           [
             '3. Inferencia',
