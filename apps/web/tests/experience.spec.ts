@@ -30,6 +30,7 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   await expect(page.locator('[data-results] li')).toHaveCount(3, {
     timeout: 30_000,
   });
+  await expect(page.locator('[data-leading-prediction] strong')).toBeVisible();
   await page.mouse.move(box.x + box.width * 0.7, box.y + box.height * 0.7, {
     steps: 8,
   });
@@ -50,9 +51,7 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   await expect(page.locator('[data-predict]')).toBeDisabled();
   await page.getByRole('radio', { name: '28 × 28 pixels' }).check();
   await expect(canvas).toHaveAttribute('data-input-mode', 'pixels');
-  await expect(page.locator('[data-mode-help]')).toContainText(
-    'directly on the enlarged 28 × 28',
-  );
+  await expect(page.locator('[data-stroke-control]')).toBeHidden();
   await canvas.scrollIntoViewIfNeeded();
   const pixelBox = await canvas.boundingBox();
   if (!pixelBox) throw new Error('Pixel canvas missing');
@@ -72,6 +71,9 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   });
   await page.locator('[data-clear]').click();
   await expect(page.locator('[data-predict]')).toBeDisabled();
+  await expect(page.locator('[data-leading-prediction]')).toHaveText('—');
+  await page.getByRole('radio', { name: 'Freehand' }).check();
+  await expect(page.locator('[data-stroke-control]')).toBeVisible();
   await page.locator('[data-theme-control] summary').click();
   await page.getByRole('button', { name: 'Dark' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
@@ -137,6 +139,10 @@ test('lists every supported category with validated held-out prompts', async ({
 test('fits a mobile viewport without horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('en/');
+  const leadingBox = await page.locator('.leading-prediction').boundingBox();
+  const canvasBox = await page.locator('[data-canvas]').boundingBox();
+  if (!leadingBox || !canvasBox) throw new Error('Interaction layout missing');
+  expect(leadingBox.y + leadingBox.height).toBeLessThan(canvasBox.y);
   await page.locator('[data-theme-control] summary').click();
   const themeMenu = await page.locator('.theme-menu').boundingBox();
   if (!themeMenu) throw new Error('Theme menu missing');

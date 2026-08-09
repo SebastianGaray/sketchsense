@@ -333,15 +333,6 @@ h3 {
   color: var(--text-2);
   max-width: 39rem;
 }
-.privacy {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.6rem 0.75rem;
-  background: var(--raised);
-  font:
-    600 0.75rem/1.4 'JetBrains Mono',
-    monospace;
-}
 .status-panel {
   align-self: start;
   padding: 1.5rem;
@@ -386,19 +377,51 @@ footer {
 .experience {
   width: min(76rem, 100%);
   margin: auto;
-  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 5rem;
+  padding: clamp(1.5rem, 4vw, 3rem) var(--gutter) 5rem;
 }
 .workspace-heading {
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-  align-items: end;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 .workspace-heading h1 {
   max-width: none;
   font-size: clamp(2.25rem, 5vw, 3.75rem);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
+}
+.leading-prediction {
+  min-height: 3.25rem;
+  margin-bottom: 1rem;
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.leading-prediction h2 {
+  margin: 0;
+  color: var(--text-2);
+  font:
+    700 0.68rem/1 'JetBrains Mono',
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.leading-prediction p {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.leading-prediction strong {
+  font-size: 1.05rem;
+  text-transform: capitalize;
+}
+.leading-prediction span {
+  color: var(--text-2);
+  font:
+    600 0.78rem/1 'JetBrains Mono',
+    monospace;
 }
 .workspace-grid {
   display: grid;
@@ -457,12 +480,6 @@ footer {
   outline: 2px solid var(--focus);
   outline-offset: 4px;
 }
-.mode-help {
-  min-height: 2.7rem;
-  margin: 0 0 0.75rem;
-  color: var(--muted);
-  font-size: 0.82rem;
-}
 [data-canvas][data-input-mode='pixels'] {
   image-rendering: pixelated;
 }
@@ -481,6 +498,9 @@ footer {
   border: 1px solid var(--border);
   background: var(--bg-2);
   font-size: 0.82rem;
+}
+.drawing-tools[hidden] {
+  display: none;
 }
 .drawing-tools label {
   font-weight: 700;
@@ -523,7 +543,6 @@ button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
-.canvas-limit,
 .microcopy {
   color: var(--muted);
   font-size: 0.82rem;
@@ -738,11 +757,6 @@ dd {
   }
 }
 @media (max-width: 40rem) {
-  .workspace-heading {
-    align-items: start;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
   .page-nav-inner {
     width: max-content;
     min-width: 100%;
