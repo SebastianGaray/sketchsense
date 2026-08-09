@@ -13,6 +13,8 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   });
   await expect(page.locator('[data-global-control="theme"]')).toBeVisible();
   await expect(page.locator('[data-global-control="language"]')).toBeVisible();
+  await expect(page.locator('.page-nav')).toBeVisible();
+  await expect(page.locator('.page-nav a')).toHaveCount(5);
   const canvas = page.locator('[data-canvas]');
   await canvas.scrollIntoViewIfNeeded();
   await expect(page.locator('[data-stroke-width]')).toHaveValue('14');
@@ -112,7 +114,7 @@ test('lists every supported category with validated held-out prompts', async ({
     'aria-current',
     'page',
   );
-  await page.getByRole('link', { name: 'Canvas' }).click();
+  await page.getByRole('link', { name: 'Canvas', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/$/);
   await page.getByRole('link', { name: 'Model' }).click();
   await expect(page).toHaveURL(/\/en\/model\/$/);
@@ -122,11 +124,24 @@ test('lists every supported category with validated held-out prompts', async ({
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
     'From stroke to prediction',
   );
+  await page.getByRole('link', { name: 'Engineering' }).click();
+  await expect(page).toHaveURL(/\/en\/engineering\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    'specified, assisted, and verified',
+  );
+  await expect(page.locator('.engineering-grid li')).toHaveCount(4);
+  await page.getByRole('link', { name: 'Canvas', exact: true }).click();
+  await expect(page).toHaveURL(/\/en\/$/);
 });
 
 test('fits a mobile viewport without horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('en/');
+  await page.locator('[data-theme-control] summary').click();
+  const themeMenu = await page.locator('.theme-menu').boundingBox();
+  if (!themeMenu) throw new Error('Theme menu missing');
+  expect(themeMenu.x).toBeGreaterThanOrEqual(0);
+  expect(themeMenu.x + themeMenu.width).toBeLessThanOrEqual(320);
   expect(
     await page.evaluate(
       () =>
