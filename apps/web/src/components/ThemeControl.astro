@@ -1,0 +1,88 @@
+---
+import { content, type Language } from '../content';
+
+const { lang } = Astro.props as { lang: Language };
+const copy = content[lang];
+const options = [
+  {
+    value: 'system',
+    label: copy.system,
+    path: 'M4 5h16v11H4zM9 20h6m-3-4v4',
+  },
+  {
+    value: 'light',
+    label: copy.light,
+    path: 'M12 3v2m0 14v2m9-9h-2M5 12H3m15.4-6.4L17 7M7 17l-1.4 1.4m12.8 0L17 17M7 7 5.6 5.6M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z',
+  },
+  {
+    value: 'dark',
+    label: copy.dark,
+    path: 'M20 15.2A8.5 8.5 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2Z',
+  },
+] as const;
+---
+
+<details class="theme-control" data-theme-control data-global-control="theme">
+  <summary aria-label={copy.theme}>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="8"></circle>
+      <path d="M12 4a8 8 0 0 1 0 16Z"></path>
+    </svg>
+    <span data-theme-current>{copy.system}</span>
+  </summary>
+  <div class="theme-menu" role="group" aria-label={copy.theme}>
+    {
+      options.map((option) => (
+        <button
+          type="button"
+          data-theme-value={option.value}
+          aria-pressed="false"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d={option.path} />
+          </svg>
+          <span>{option.label}</span>
+        </button>
+      ))
+    }
+  </div>
+</details>
+
+<script>
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const control = document.querySelector<HTMLDetailsElement>(
+    '[data-theme-control]',
+  );
+  const current = control?.querySelector<HTMLElement>('[data-theme-current]');
+  const buttons =
+    control?.querySelectorAll<HTMLButtonElement>('[data-theme-value]');
+  const apply = (preference: string) => {
+    const theme =
+      preference === 'system' ? (media.matches ? 'dark' : 'light') : preference;
+    document.documentElement.dataset.themePreference = preference;
+    document.documentElement.dataset.theme = theme;
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', theme === 'dark' ? '#1b1918' : '#fdf8f8');
+    buttons?.forEach((button) => {
+      const selected = button.dataset.themeValue === preference;
+      button.setAttribute('aria-pressed', String(selected));
+      if (selected && current)
+        current.textContent = button.textContent?.trim() ?? '';
+    });
+  };
+  buttons?.forEach((button) =>
+    button.addEventListener('click', () => {
+      const value = button.dataset.themeValue ?? 'system';
+      if (value === 'system') localStorage.removeItem('sketchsense-theme');
+      else localStorage.setItem('sketchsense-theme', value);
+      apply(value);
+      control?.removeAttribute('open');
+    }),
+  );
+  media.addEventListener('change', () => {
+    if (document.documentElement.dataset.themePreference === 'system')
+      apply('system');
+  });
+  apply(document.documentElement.dataset.themePreference ?? 'system');
+</script>
