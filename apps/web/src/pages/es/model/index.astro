@@ -1,0 +1,16 @@
+---
+import DemoShell from '../../../components/DemoShell.astro';
+import ModelPage from '../../../components/ModelPage.astro';
+import Layout from '../../../layouts/Layout.astro';
+---
+
+<Layout
+  lang="es"
+  path="model/"
+  title="Evidencia del modelo · SketchSense"
+  description="Evidencia medida del modelo, los datos, la evaluación, el artefacto y las limitaciones de SketchSense."
+>
+  <DemoShell lang="es" active="model" alternatePath="model/">
+    <ModelPage lang="es" />
+  </DemoShell>
+</Layout>

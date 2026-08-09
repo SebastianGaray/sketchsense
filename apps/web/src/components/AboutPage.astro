@@ -1,0 +1,83 @@
+---
+import type { Language } from '../content';
+
+const { lang } = Astro.props as { lang: Language };
+const copy =
+  lang === 'en'
+    ? {
+        eyebrow: 'How it works',
+        title: 'From stroke to prediction',
+        intro:
+          'SketchSense turns a freehand canvas drawing into a private, local prediction in four bounded steps.',
+        steps: [
+          [
+            '1. Capture',
+            'Pointer strokes are recorded on a responsive 640 × 640 canvas.',
+          ],
+          [
+            '2. Normalize',
+            'The occupied bounds are cropped, padded, centered, and resized to the exact 28 × 28 grayscale model input.',
+          ],
+          [
+            '3. Infer',
+            'The compact ONNX model runs through WebAssembly on the current device.',
+          ],
+          [
+            '4. Explain',
+            'The interface shows the normalized tensor, three ranked predictions, and measured local timings.',
+          ],
+        ],
+        privacy: 'Nothing leaves the browser',
+        privacyText:
+          'No stroke, image, tensor, or prediction is sent to an application server. There is no visitor tracking or drawing upload.',
+      }
+    : {
+        eyebrow: 'Cómo funciona',
+        title: 'Del trazo a la predicción',
+        intro:
+          'SketchSense convierte un dibujo libre en una predicción privada y local mediante cuatro pasos acotados.',
+        steps: [
+          [
+            '1. Captura',
+            'Los trazos del puntero se registran en un canvas adaptable de 640 × 640.',
+          ],
+          [
+            '2. Normalización',
+            'Los límites ocupados se recortan, rellenan, centran y redimensionan a la entrada exacta de 28 × 28 en escala de grises.',
+          ],
+          [
+            '3. Inferencia',
+            'El modelo ONNX compacto se ejecuta mediante WebAssembly en el dispositivo actual.',
+          ],
+          [
+            '4. Explicación',
+            'La interfaz muestra el tensor normalizado, tres predicciones ordenadas y los tiempos locales medidos.',
+          ],
+        ],
+        privacy: 'Nada sale del navegador',
+        privacyText:
+          'Ningún trazo, imagen, tensor o predicción se envía a un servidor de la aplicación. No hay seguimiento de visitantes ni carga de dibujos.',
+      };
+---
+
+<section class="secondary-page container" aria-labelledby="about-page-title">
+  <p class="eyebrow">{copy.eyebrow}</p>
+  <h1 id="about-page-title">{copy.title}</h1>
+  <p class="page-intro">{copy.intro}</p>
+  <ol class="process-grid">
+    {
+      copy.steps.map(([title, body]) => (
+        <li>
+          <>
+            <h2>{title}</h2>
+            <p>{body}</p>
+          </>
+        </li>
+      ))
+    }
+  </ol>
+  <section class="page-section" aria-labelledby="privacy-title">
+    <h2 id="privacy-title">{copy.privacy}</h2>
+    <p>{copy.privacyText}</p>
+  </section>
+</section>

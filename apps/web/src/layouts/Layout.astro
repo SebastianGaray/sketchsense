@@ -5,9 +5,11 @@ interface Props {
   lang: Language;
   title: string;
   description: string;
+  path?: string;
 }
-const { lang, title, description } = Astro.props;
+const { lang, title, description, path = '' } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const localizedPath = `${lang}/${path}`;
 ---
 
 <!doctype html>
@@ -20,15 +22,23 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={`${Astro.site}${base}/${lang}/`} />
+    <meta property="og:url" content={`${Astro.site}${base}/${localizedPath}`} />
     <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
-    <link rel="canonical" href={`${Astro.site}${base}/${lang}/`} />
-    <link rel="alternate" hreflang="en" href={`${Astro.site}${base}/en/`} />
-    <link rel="alternate" hreflang="es" href={`${Astro.site}${base}/es/`} />
+    <link rel="canonical" href={`${Astro.site}${base}/${localizedPath}`} />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href={`${Astro.site}${base}/en/${path}`}
+    />
+    <link
+      rel="alternate"
+      hreflang="es"
+      href={`${Astro.site}${base}/es/${path}`}
+    />
     <link
       rel="alternate"
       hreflang="x-default"
-      href={`${Astro.site}${base}/en/`}
+      href={`${Astro.site}${base}/en/${path}`}
     />
     <script is:inline>
       (() => {

@@ -67,6 +67,20 @@ test('lists every supported category without publishing dataset sketches', async
   ).toBeVisible();
   await expect(page.getByText('training samples')).toBeVisible();
   await expect(page.locator('img')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Examples' })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+  await page.getByRole('link', { name: 'Canvas' }).click();
+  await expect(page).toHaveURL(/\/en\/$/);
+  await page.getByRole('link', { name: 'Model' }).click();
+  await expect(page).toHaveURL(/\/en\/model\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Model');
+  await page.getByRole('link', { name: 'About' }).click();
+  await expect(page).toHaveURL(/\/en\/about\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    'From stroke to prediction',
+  );
 });
 
 test('fits a mobile viewport without horizontal overflow', async ({ page }) => {
