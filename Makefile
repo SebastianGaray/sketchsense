@@ -1,4 +1,4 @@
-.PHONY: install check test build pre-commit
+.PHONY: install check test build audit pre-commit
 install:
 	uv sync --project ml --group dev --group baseline --group ml
 	npm.cmd install
@@ -15,6 +15,9 @@ test:
 	npm.cmd test
 build:
 	npm.cmd run build
+audit:
+	uv run --project ml --group baseline --group ml pip-audit
+	npm.cmd run audit
 pre-commit:
 	uvx pre-commit run --all-files
 dataset-prepare:

@@ -2,7 +2,10 @@
   "name": "sketchsense",
   "private": true,
   "version": "0.1.0",
-  "engines": { "node": ">=22" },
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "npm --prefix apps/web run dev",
     "build": "npm --prefix apps/web run build",
@@ -11,6 +14,7 @@
     "test:e2e": "npm --prefix apps/web run test:e2e",
     "format": "npm --prefix apps/web run format",
     "format:check": "npm --prefix apps/web run format:check",
-    "lint": "npm --prefix apps/web run lint"
+    "lint": "npm --prefix apps/web run lint",
+    "audit": "npm audit --audit-level=high && npm --prefix apps/web audit --audit-level=high"
   }
 }

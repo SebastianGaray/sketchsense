@@ -36,10 +36,12 @@ jobs:
       - run: uv run --project ml --group baseline --group ml pytest
       - run: uv run --project ml --group baseline --group ml sketchsense preprocessing-validate
       - run: uv run --project ml --group baseline --group ml sketchsense artifacts-validate
+      - run: uv run --project ml --group baseline --group ml pip-audit
       - run: npm run lint
       - run: npm run format:check
       - run: npm run check
       - run: npm test
+      - run: npm run audit
       - run: npm run build
       - run: npm exec playwright install --with-deps chromium
         working-directory: apps/web
