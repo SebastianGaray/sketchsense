@@ -17,6 +17,7 @@ class CompactSketchCNN(nn.Module):
             nn.Conv2d(16, 32, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2),
+            nn.AdaptiveAvgPool2d((7, 7)),
         )
         self.classifier = nn.Sequential(
             nn.Flatten(),
@@ -43,6 +44,7 @@ class WidenedBatchNormCNN(nn.Module):
             nn.BatchNorm2d(64),
             nn.ReLU(),
             nn.MaxPool2d(2),
+            nn.AdaptiveAvgPool2d((7, 7)),
         )
         self.classifier = nn.Sequential(
             nn.Flatten(),

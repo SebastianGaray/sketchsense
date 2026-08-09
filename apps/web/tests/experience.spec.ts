@@ -53,7 +53,7 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   );
 });
 
-test('lists every supported category without publishing dataset sketches', async ({
+test('lists every supported category with validated held-out prompts', async ({
   page,
 }) => {
   await page.goto('en/examples/');
@@ -65,8 +65,16 @@ test('lists every supported category without publishing dataset sketches', async
   await expect(
     page.locator('.category-grid li').filter({ hasText: 'cat' }).first(),
   ).toBeVisible();
-  await expect(page.getByText('training samples')).toBeVisible();
-  await expect(page.locator('img')).toHaveCount(0);
+  await expect(page.getByText('held-out Quick, Draw! sketch')).toBeVisible();
+  await expect(page.locator('.category-grid img')).toHaveCount(16);
+  await expect(page.locator('.category-grid img').first()).toHaveAttribute(
+    'src',
+    /examples\/v3\/.+\.png/,
+  );
+  await expect(page.locator('.category-grid img').last()).toHaveAttribute(
+    'src',
+    /examples\/v3\/.+\.png/,
+  );
   await expect(page.getByRole('link', { name: 'Examples' })).toHaveAttribute(
     'aria-current',
     'page',

@@ -1,4 +1,17 @@
-# Version 2 release validation
+# Version 3 release validation
+
+## Model v3 evidence
+
+- ONNX model: 1,707,724 bytes, below the 5 MB target.
+- Held-out vector test: 94.63% accuracy, 94.61% macro F1, 98.76% top-3 accuracy, and 79.8% worst-class recall across 8,000 drawings.
+- Weak-class improvement: cat 89.2% recall, bird 92.0%, and dog 79.8%.
+- Training profile: 160,000 train, 8,000 validation, and 8,000 held-out official simplified-vector drawings.
+- Input remains `[1, 1, 28, 28]`. A vector-native 56 x 56 cache was generated, but training was stopped when free memory fell to 1.59 GB on the 8 GB development device. The 28px candidate already improved macro F1 by 12.41 percentage points.
+- The examples page contains correctly classified held-out prompts. Confidence UX abstains below a 0.55 leading score or a 0.15 top-two margin.
+
+The model comparison and per-class recall charts are deterministic SVG artifacts derived from the evaluation summary. Exact training-loss curves were not published because the first completed training run reached checkpoint creation before a Windows console encoding failure interrupted history serialization. The checkpoint was preserved and its held-out evaluation and ONNX parity were rerun successfully.
+
+## Previous model v2
 
 ## Production measurements
 

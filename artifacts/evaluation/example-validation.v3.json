@@ -1,0 +1,98 @@
+[
+  {
+    "category": "apple",
+    "predicted": "apple",
+    "confidence": 0.9997413754463196,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "bicycle",
+    "predicted": "bicycle",
+    "confidence": 0.9999734163284302,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "bird",
+    "predicted": "bird",
+    "confidence": 0.999953031539917,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "book",
+    "predicted": "book",
+    "confidence": 0.9999949932098389,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "car",
+    "predicted": "car",
+    "confidence": 0.9999443292617798,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "cat",
+    "predicted": "cat",
+    "confidence": 0.999982476234436,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "chair",
+    "predicted": "chair",
+    "confidence": 0.9999719858169556,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "cloud",
+    "predicted": "cloud",
+    "confidence": 0.9999604225158691,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "cup",
+    "predicted": "cup",
+    "confidence": 0.9999659061431885,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "dog",
+    "predicted": "dog",
+    "confidence": 0.9999600648880005,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "fish",
+    "predicted": "fish",
+    "confidence": 0.9999504089355469,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "flower",
+    "predicted": "flower",
+    "confidence": 0.9999717473983765,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "house",
+    "predicted": "house",
+    "confidence": 0.9999486207962036,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "key",
+    "predicted": "key",
+    "confidence": 0.9998371601104736,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "star",
+    "predicted": "star",
+    "confidence": 0.9999594688415527,
+    "source": "held-out vector-v3 test"
+  },
+  {
+    "category": "tree",
+    "predicted": "tree",
+    "confidence": 0.9999791383743286,
+    "source": "held-out vector-v3 test"
+  }
+]

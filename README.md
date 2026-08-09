@@ -6,9 +6,9 @@ Visitors draw with mouse, pen, or touch, inspect the exact normalized 28 × 28 m
 
 ## Evidence
 
-The deterministic `medium-v2` development profile uses 16,000 bounded samples from 16 official Google Quick, Draw! categories: 12,800 train, 1,600 validation, and 1,600 initially locked test examples. A separate non-overlapping 1,600-example release test was used after artifact-level candidate rejection. Raw data is neither committed nor shipped. Quick, Draw! is attributed to Google under CC BY 4.0.
+The deterministic `vector-v3` profile uses 176,000 recognized vector drawings from 16 official Google Quick, Draw! categories: 160,000 train, 8,000 validation, and 8,000 held-out test examples. Strokes are rasterized through the same crop, padding, centering, and resize geometry used by the browser. Raw data is neither committed nor shipped. Quick, Draw! is attributed to Google under CC BY 4.0.
 
-The selected 106,256-parameter compact CNN reaches 82.31% release-test accuracy, 82.20% macro F1, 92.63% top-3 accuracy, and 60% worst-class recall. Its fixed-batch ONNX opset 18 artifact is 441,021 bytes. See [the model card](docs/model-card.md) and [data and licensing notes](docs/data-and-licensing.md).
+The selected 422,608-parameter CNN reaches 94.63% held-out accuracy, 94.61% macro F1, 98.76% top-3 accuracy, and 79.8% worst-class recall. Its fixed-batch ONNX opset 18 artifact is 1,707,724 bytes. The interface abstains on weak or closely matched scores. See [the model card](docs/model-card.md) and [data and licensing notes](docs/data-and-licensing.md).
 
 ## Architecture
 
@@ -43,4 +43,4 @@ Future changes follow `branch → push → pull request → CI → review → me
 
 Requirements live in [spec.md](spec.md), architecture in [plan.md](plan.md), progress in [tasks.md](tasks.md), and visual decisions in [DESIGN.md](DESIGN.md).
 
-Future model-quality work is scoped separately in [the model v2 SDD](sdd/model-v2/spec.md). It requires a fresh test partition and measurable cross-class improvement before replacing the released model.
+The current quality upgrade is recorded in [the model v3 SDD](sdd/model-v3/spec.md), including vector-native preprocessing, resolution evidence, uncertainty behavior, and release criteria.

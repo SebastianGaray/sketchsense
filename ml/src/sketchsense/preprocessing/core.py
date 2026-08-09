@@ -22,7 +22,9 @@ def normalize_dataset_bitmap(image: Uint8Image) -> FloatTensor:
     return (image.astype(np.float32) / np.float32(255.0)).reshape(1, 1, 28, 28)
 
 
-def normalize_canvas_rgba(rgba: Uint8Image) -> FloatTensor:
+def normalize_canvas_rgba(
+    rgba: Uint8Image, output_size: int = 28, content_size: int | None = None
+) -> FloatTensor:
     """Apply the version 1 canvas crop, resize, center, and normalization contract."""
     if rgba.ndim != 3 or rgba.shape[2] != 4:
         raise ValueError(f"Expected an HxWx4 RGBA image, received {rgba.shape}")
@@ -50,17 +52,22 @@ def normalize_canvas_rgba(rgba: Uint8Image) -> FloatTensor:
     y0, y1 = max(0, y0 - padding), min(luminance.shape[0] - 1, y1 + padding)
     crop = luminance[y0 : y1 + 1, x0 : x1 + 1]
 
-    scale = min(20.0 / crop.shape[1], 20.0 / crop.shape[0])
-    target_width = max(1, min(20, round(crop.shape[1] * scale)))
-    target_height = max(1, min(20, round(crop.shape[0] * scale)))
+    if output_size < 8:
+        raise ValueError("Output size must be at least 8")
+    content_size = content_size or round(output_size * 20 / 28)
+    if not 1 <= content_size <= output_size:
+        raise ValueError("Content size must fit inside the output")
+    scale = min(content_size / crop.shape[1], content_size / crop.shape[0])
+    target_width = max(1, min(content_size, round(crop.shape[1] * scale)))
+    target_height = max(1, min(content_size, round(crop.shape[0] * scale)))
     resized = _resize_bilinear_half_pixel(crop, target_height, target_width)
 
-    canvas = np.full((28, 28), 255, dtype=np.uint8)
-    left = (28 - target_width) // 2
-    top = (28 - target_height) // 2
+    canvas = np.full((output_size, output_size), 255, dtype=np.uint8)
+    left = (output_size - target_width) // 2
+    top = (output_size - target_height) // 2
     canvas[top : top + target_height, left : left + target_width] = resized
     normalized = (np.float32(255.0) - canvas.astype(np.float32)) / np.float32(255.0)
-    return normalized.reshape(1, 1, 28, 28)
+    return normalized.reshape(1, 1, output_size, output_size)
 
 
 def _resize_bilinear_half_pixel(image: Uint8Image, height: int, width: int) -> Uint8Image:
