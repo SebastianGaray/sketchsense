@@ -7,8 +7,6 @@ const copy =
     ? {
         eyebrow: 'How it works',
         title: 'From stroke to prediction',
-        intro:
-          'SketchSense turns a freehand canvas drawing into a private, local prediction in four bounded steps.',
         steps: [
           [
             '1. Capture',
@@ -28,14 +26,11 @@ const copy =
           ],
         ],
         privacy: 'Nothing leaves the browser',
-        privacyText:
-          'No stroke, image, tensor, or prediction is sent to an application server. There is no visitor tracking or drawing upload.',
+        privacyText: 'Drawings and predictions remain on the current device.',
       }
     : {
         eyebrow: 'Cómo funciona',
         title: 'Del trazo a la predicción',
-        intro:
-          'SketchSense convierte un dibujo libre en una predicción privada y local mediante cuatro pasos acotados.',
         steps: [
           [
             '1. Captura',
@@ -56,14 +51,13 @@ const copy =
         ],
         privacy: 'Nada sale del navegador',
         privacyText:
-          'Ningún trazo, imagen, tensor o predicción se envía a un servidor de la aplicación. No hay seguimiento de visitantes ni carga de dibujos.',
+          'Los dibujos y las predicciones permanecen en el dispositivo.',
       };
 ---
 
 <section class="secondary-page container" aria-labelledby="about-page-title">
   <p class="eyebrow">{copy.eyebrow}</p>
   <h1 id="about-page-title">{copy.title}</h1>
-  <p class="page-intro">{copy.intro}</p>
   <ol class="process-grid">
     {
       copy.steps.map(([title, body]) => (
