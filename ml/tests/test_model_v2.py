@@ -1,6 +1,6 @@
-from pathlib import Path
 import hashlib
 import json
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -53,9 +53,7 @@ def test_released_v2_artifact_and_evidence_pass_contracts() -> None:
     evaluation = json.loads(
         (root / "artifacts/evaluation/evaluation-summary.v2.json").read_text(encoding="utf-8")
     )
-    parity = json.loads(
-        (root / "artifacts/models/onnx-parity.v2.json").read_text(encoding="utf-8")
-    )
+    parity = json.loads((root / "artifacts/models/onnx-parity.v2.json").read_text(encoding="utf-8"))
     assert evaluation["quality_gates_passed"] is True
     assert evaluation["test_evaluations"] == 1
     assert evaluation["worst_class_recall"] >= 0.60
@@ -64,12 +62,24 @@ def test_released_v2_artifact_and_evidence_pass_contracts() -> None:
 
 def test_authored_browser_regression_suite_covers_every_class() -> None:
     root = Path(__file__).parents[2]
-    payload = json.loads(
-        (root / "fixtures/authored-sketches.v2.json").read_text(encoding="utf-8")
-    )
+    payload = json.loads((root / "fixtures/authored-sketches.v2.json").read_text(encoding="utf-8"))
     cases = payload["cases"]
     assert {case["category"] for case in cases} == {
-        "apple", "bicycle", "bird", "book", "car", "cat", "chair", "cloud",
-        "cup", "dog", "fish", "flower", "house", "key", "star", "tree",
+        "apple",
+        "bicycle",
+        "bird",
+        "book",
+        "car",
+        "cat",
+        "chair",
+        "cloud",
+        "cup",
+        "dog",
+        "fish",
+        "flower",
+        "house",
+        "key",
+        "star",
+        "tree",
     }
     assert all(8 <= case["width"] <= 16 and len(case["points"]) >= 4 for case in cases)
