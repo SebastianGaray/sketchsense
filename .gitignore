@@ -12,6 +12,8 @@ apps/web/playwright-report/
 apps/web/node_modules/
 ml/data/
 ml/.cache/
+ml/runs/
+artifacts/models-v2/
 *.onnx
 !artifacts/models/*.onnx
 !apps/web/public/models/*.onnx

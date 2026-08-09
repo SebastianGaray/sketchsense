@@ -10,22 +10,22 @@ const base = import.meta.env.BASE_URL;
 >
   <main class="container document-page">
     <a href={`${base}en/`}>← Back to SketchSense</a><h1>Model card</h1><p>
-      The compact-cnn-v1 model classifies drawings across 16 Quick, Draw!
+      The compact-cnn-v2 model classifies drawings across 16 Quick, Draw!
       categories. It runs locally in the browser and never transmits the
       drawing.
     </p><h2>Measured evaluation</h2><p>
-      On the locked 480-sample held-out test split: 72.71% accuracy, 74.70%
-      macro precision, 72.71% macro recall, 73.19% macro F1, and 86.88% top-3
-      accuracy.
+      On the final fresh 1,600-sample release test: 82.31% accuracy, 82.37%
+      macro precision, 82.31% macro recall, 82.20% macro F1, and 92.63% top-3
+      accuracy. Worst-class recall is 60%.
     </p><h2>Architecture and artifact</h2><p>
       Two convolution blocks and a two-layer classifier contain 106,256
       parameters. The fixed-batch ONNX opset 18 artifact is 441,021 bytes and
       outputs 16 logits.
     </p><h2>Limitations</h2><p>
-      The small deterministic subset has only 200 examples per class. Ambiguous,
-      unusual, faint, or out-of-distribution sketches may be wrong and
-      confidence is not calibrated probability. The model is an educational
-      portfolio demonstration, not a safety-critical classifier.
+      Only 16 categories are supported. Bird, dog, and cat remain among the
+      harder classes. Ambiguous, unusual, faint, or out-of-distribution sketches
+      may be wrong and confidence is not calibrated probability. The model is an
+      educational portfolio demonstration, not a safety-critical classifier.
     </p><p>
       <a
         href="https://github.com/SebastianGaray/sketchsense/blob/main/docs/model-card.md"

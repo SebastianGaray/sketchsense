@@ -1,0 +1,42 @@
+{
+  "cases": [
+    {
+      "max_absolute_difference": 9.5367431640625e-07,
+      "name": "centered-rectangle"
+    },
+    {
+      "max_absolute_difference": 7.152557373046875e-07,
+      "name": "vertical-stroke"
+    },
+    {
+      "max_absolute_difference": 8.344650268554688e-07,
+      "name": "translucent-bar"
+    }
+  ],
+  "input_shape": [
+    1,
+    1,
+    28,
+    28
+  ],
+  "latency_gate_passed": true,
+  "model_version": "2.0.0",
+  "onnx_bytes": 441021,
+  "onnx_sha256": "517302689aff79fbf16021a15f97bcd478cc7fcc1749e9ab650175af322949a2",
+  "output_shape": [
+    1,
+    16
+  ],
+  "runtime_cpu": {
+    "p95_regression": -0.015538238568109763,
+    "v1": {
+      "p50_ms": 0.038400059565901756,
+      "p95_ms": 0.04280508728697896
+    },
+    "v2": {
+      "p50_ms": 0.0381499994546175,
+      "p95_ms": 0.04213997162878512
+    }
+  },
+  "schema_version": "2.0.0"
+}

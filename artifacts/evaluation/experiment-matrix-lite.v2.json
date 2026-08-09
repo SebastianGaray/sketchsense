@@ -1,0 +1,56 @@
+[
+  {
+    "architecture": "compact",
+    "augmentation": true,
+    "best_epoch": 10,
+    "configuration": "compact-aug",
+    "parameters": 106256,
+    "run": "compact-canvas-lite-20260808",
+    "seed": 20260808,
+    "training_seconds": 24.825100400019437,
+    "validation": {
+      "accuracy": 0.826875,
+      "macro_f1": 0.8296792494257075,
+      "macro_precision": 0.8422850348990121,
+      "macro_recall": 0.826875,
+      "top_3_accuracy": 0.93625
+    },
+    "worst_class_recall": 0.64
+  },
+  {
+    "architecture": "compact",
+    "augmentation": true,
+    "best_epoch": 12,
+    "configuration": "compact-aug",
+    "parameters": 106256,
+    "run": "compact-canvas-lite-20260809",
+    "seed": 20260809,
+    "training_seconds": 23.99826160003431,
+    "validation": {
+      "accuracy": 0.8375,
+      "macro_f1": 0.8367402872664926,
+      "macro_precision": 0.8415953253951085,
+      "macro_recall": 0.8375,
+      "top_3_accuracy": 0.940625
+    },
+    "worst_class_recall": 0.6
+  },
+  {
+    "architecture": "compact",
+    "augmentation": true,
+    "best_epoch": 12,
+    "configuration": "compact-aug",
+    "parameters": 106256,
+    "run": "compact-canvas-lite-20260810",
+    "seed": 20260810,
+    "training_seconds": 23.272478899918497,
+    "validation": {
+      "accuracy": 0.83375,
+      "macro_f1": 0.8342850666355348,
+      "macro_precision": 0.8381029180535104,
+      "macro_recall": 0.83375,
+      "top_3_accuracy": 0.940625
+    },
+    "worst_class_recall": 0.62
+  }
+]

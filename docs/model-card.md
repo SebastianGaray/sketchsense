@@ -1,5 +1,17 @@
 # SketchSense Compact CNN Model Card
 
+## Released model v2
+
+Model v2 retains the 106,256-parameter architecture and float32 `[1, 1, 28, 28]` browser contract while replacing its training evidence. It uses 12,800 training and 1,600 validation examples from `medium-v2`, deterministic moderate canvas-domain augmentation, and seed 20260809. Two larger or smaller candidates were rejected on latency or quality evidence.
+
+On the final fresh 1,600-example release test, v2 reaches 0.82313 accuracy, 0.82372 macro precision, 0.82313 macro recall, 0.82199 macro F1, and 0.92625 top-3 accuracy. Worst-class recall is 0.60 for bird, followed by dog at 0.62 and cat at 0.66. Expected calibration error is 0.03296. The 441,021-byte ONNX model matches PyTorch within `1e-5` and showed no p95 CPU-runtime regression against v1 in the recorded local benchmark.
+
+The initially selected widened candidate reached stronger aggregate quality but was rejected because its measured p95 runtime regression exceeded the 20% release budget. A compact candidate with stronger augmentation then missed the worst-class gate on a fresh replacement test. Those outcomes remain recorded. The final moderate-augmentation candidate was selected by validation and evaluated on a third non-overlapping locked test.
+
+The 640 x 640 canvas is intentionally unchanged. Browser preprocessing crops and centers the drawing into the fixed 28 x 28 tensor, so a larger internal canvas would increase memory and pointer-coordinate work without adding model information. Responsive CSS already uses the available viewport width.
+
+## Historical model v1
+
 ## Intended use
 
 Compact CNN v1 classifies a single normalized 28 x 28 sketch among sixteen versioned Quick, Draw! categories for an educational, browser-local portfolio demonstration. It returns logits; the application boundary will apply softmax and present the three highest scores.
