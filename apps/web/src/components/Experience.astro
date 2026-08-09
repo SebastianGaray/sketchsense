@@ -31,6 +31,9 @@ const t =
         card: 'Read the model card',
         privacy:
           'Your strokes, image, tensor, and predictions stay in this browser.',
+        stroke: 'Stroke width',
+        live: 'Predictions update while you draw.',
+        examples: 'See categories and drawing tips',
       }
     : {
         draw: 'Área de dibujo',
@@ -60,6 +63,9 @@ const t =
         card: 'Leer la ficha del modelo',
         privacy:
           'Tus trazos, imagen, tensor y predicciones permanecen en este navegador.',
+        stroke: 'Grosor del trazo',
+        live: 'Las predicciones se actualizan mientras dibujas.',
+        examples: 'Ver categorías y consejos de dibujo',
       };
 ---
 
@@ -84,6 +90,19 @@ const t =
   <div class="workspace-grid">
     <div>
       <canvas data-canvas width="640" height="640" aria-label={t.draw}></canvas>
+      <div class="drawing-tools">
+        <label for={`stroke-width-${lang}`}>{t.stroke}</label>
+        <input
+          id={`stroke-width-${lang}`}
+          data-stroke-width
+          type="range"
+          min="8"
+          max="32"
+          step="2"
+          value="14"
+        />
+        <output data-stroke-output for={`stroke-width-${lang}`}>14 px</output>
+      </div>
       <div class="actions">
         <button class="secondary" data-clear disabled>{t.clear}</button><button
           class="primary"
@@ -91,7 +110,10 @@ const t =
           disabled>{t.predict}</button
         >
       </div>
-      <p class="canvas-limit">{t.limitation}</p>
+      <p class="canvas-limit">{t.live} {t.limitation}</p>
+      <a class="examples-link" href={`${base}${lang}/examples/`}
+        >{t.examples} →</a
+      >
     </div>
     <aside class="evidence-rail">
       <div class="status-box">
@@ -180,6 +202,12 @@ const t =
   const retry = root.querySelector<HTMLButtonElement>('[data-retry]')!;
   const status = root.querySelector<HTMLElement>('[data-status]')!;
   const results = root.querySelector<HTMLOListElement>('[data-results]')!;
+  const strokeWidth = root.querySelector<HTMLInputElement>(
+    '[data-stroke-width]',
+  )!;
+  const strokeOutput = root.querySelector<HTMLOutputElement>(
+    '[data-stroke-output]',
+  )!;
   const lang = root.dataset.lang ?? 'en';
   const messages =
     lang === 'en'
@@ -206,12 +234,14 @@ const t =
   context.fillStyle = '#fff';
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.strokeStyle = '#111';
-  context.lineWidth = 24;
+  context.lineWidth = Number(strokeWidth.value);
   context.lineCap = 'round';
   context.lineJoin = 'round';
   let drawing = false;
   let hasDrawing = false;
   let ready = false;
+  let predictionTimer: number | undefined;
+  let predictionSequence = 0;
   const model = new SketchModel(root.dataset.base ?? '/sketchsense/');
   const load = async () => {
     status.textContent = messages.loading;
@@ -251,17 +281,25 @@ const t =
     clear.disabled = false;
     predict.disabled = !ready;
     status.textContent = messages.drawn;
+    schedulePrediction(450);
     event.preventDefault();
   });
   const end = (event: PointerEvent) => {
     if (drawing) {
       drawing = false;
       canvas.releasePointerCapture(event.pointerId);
+      schedulePrediction(40);
     }
   };
   canvas.addEventListener('pointerup', end);
   canvas.addEventListener('pointercancel', end);
+  strokeWidth.addEventListener('input', () => {
+    context.lineWidth = Number(strokeWidth.value);
+    strokeOutput.value = `${strokeWidth.value} px`;
+  });
   clear.addEventListener('click', () => {
+    window.clearTimeout(predictionTimer);
+    predictionSequence += 1;
     context.fillStyle = '#fff';
     context.fillRect(0, 0, canvas.width, canvas.height);
     hasDrawing = false;
@@ -271,7 +309,9 @@ const t =
     preview.getContext('2d')!.clearRect(0, 0, 28, 28);
     status.textContent = messages.ready;
   });
-  predict.addEventListener('click', async () => {
+  const runPrediction = async () => {
+    if (!ready || !hasDrawing) return;
+    const sequence = ++predictionSequence;
     try {
       const started = performance.now();
       const image = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -289,6 +329,7 @@ const t =
       preview.getContext('2d')!.putImageData(pixels, 0, 0);
       const infer = performance.now();
       const predictions = await model.predict(input);
+      if (sequence !== predictionSequence) return;
       root.querySelector<HTMLElement>('[data-inference]')!.textContent =
         `${(performance.now() - infer).toFixed(1)} ms`;
       results.replaceChildren(
@@ -304,7 +345,13 @@ const t =
       status.textContent =
         error instanceof EmptySketchError ? messages.empty : messages.failed;
     }
-  });
+  };
+  function schedulePrediction(delay: number) {
+    window.clearTimeout(predictionTimer);
+    if (!ready || !hasDrawing) return;
+    predictionTimer = window.setTimeout(() => void runPrediction(), delay);
+  }
+  predict.addEventListener('click', () => void runPrediction());
   retry.addEventListener('click', load);
   void load();
 </script>

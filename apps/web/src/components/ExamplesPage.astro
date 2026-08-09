@@ -1,0 +1,94 @@
+---
+import type { Language } from '../content';
+const { lang } = Astro.props as { lang: Language };
+const base = import.meta.env.BASE_URL;
+const categories = [
+  ['apple', 'manzana', '○'],
+  ['bicycle', 'bicicleta', '◇'],
+  ['bird', 'pájaro', '⌁'],
+  ['book', 'libro', '▭'],
+  ['car', 'auto', '▱'],
+  ['cat', 'gato', '△'],
+  ['chair', 'silla', '⌑'],
+  ['cloud', 'nube', '☁'],
+  ['cup', 'taza', '∪'],
+  ['dog', 'perro', '▽'],
+  ['fish', 'pez', '><>'],
+  ['flower', 'flor', '✿'],
+  ['house', 'casa', '⌂'],
+  ['key', 'llave', '⚿'],
+  ['star', 'estrella', '☆'],
+  ['tree', 'árbol', '♧'],
+] as const;
+const copy =
+  lang === 'en'
+    ? {
+        back: 'Back to drawing',
+        eyebrow: '16 supported categories',
+        title: 'What can SketchSense recognize?',
+        intro:
+          'These symbols are illustrative prompts, not training samples. Draw the complete silhouette with a medium or thin stroke and leave some white space around it.',
+        tips: 'Drawing tips',
+        tipItems: [
+          'Prefer the whole object over a close-up face.',
+          'Make defining parts visible: cat ears, bicycle wheels, cup handle.',
+          'Use the normalized preview to check what survives at 28 × 28.',
+          'Low confidence means the sketch is ambiguous to this small model.',
+        ],
+      }
+    : {
+        back: 'Volver al dibujo',
+        eyebrow: '16 categorías disponibles',
+        title: '¿Qué puede reconocer SketchSense?',
+        intro:
+          'Estos símbolos son referencias ilustrativas, no muestras de entrenamiento. Dibuja la silueta completa con un trazo medio o delgado y deja espacio blanco alrededor.',
+        tips: 'Consejos para dibujar',
+        tipItems: [
+          'Prefiere el objeto completo en vez de un primer plano del rostro.',
+          'Haz visibles las partes distintivas: orejas del gato, ruedas de la bicicleta, asa de la taza.',
+          'Revisa la vista normalizada para comprobar qué se conserva a 28 × 28.',
+          'Una confianza baja significa que el dibujo es ambiguo para este modelo pequeño.',
+        ],
+      };
+---
+
+<a class="skip-link" href="#main"
+  >{lang === 'en' ? 'Skip to content' : 'Saltar al contenido'}</a
+>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={`${base}${lang}/`}>SketchSense</a><nav
+      aria-label={copy.back}
+    >
+      <a href={`${base}${lang}/`}>← {copy.back}</a><a
+        href={`${base}${lang === 'en' ? 'es' : 'en'}/examples/`}
+        >{lang === 'en' ? 'Español' : 'English'}</a
+      >
+    </nav>
+  </div>
+</header>
+<main id="main" class="examples-page container">
+  <p class="eyebrow">{copy.eyebrow}</p><h1>{copy.title}</h1><p
+    class="examples-intro"
+  >
+    {copy.intro}
+  </p>
+  <ul class="category-grid">
+    {
+      categories.map(([english, spanish, symbol]) => (
+        <li>
+          <>
+            <span aria-hidden="true">{symbol}</span>
+            <strong>{lang === 'en' ? english : spanish}</strong>
+            <small>{english}</small>
+          </>
+        </li>
+      ))
+    }
+  </ul>
+  <section class="drawing-tips" aria-labelledby="tips-title">
+    <h2 id="tips-title">{copy.tips}</h2><ul>
+      {copy.tipItems.map((tip) => <li>{tip}</li>)}
+    </ul>
+  </section>
+</main>
