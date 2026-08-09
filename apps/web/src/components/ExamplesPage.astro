@@ -3,23 +3,45 @@ import type { Language } from '../content';
 const { lang } = Astro.props as { lang: Language };
 const base = import.meta.env.BASE_URL;
 const categories = [
-  ['apple', 'manzana', '○'],
-  ['bicycle', 'bicicleta', '◇'],
-  ['bird', 'pájaro', '⌁'],
-  ['book', 'libro', '▭'],
-  ['car', 'auto', '▱'],
-  ['cat', 'gato', '△'],
-  ['chair', 'silla', '⌑'],
-  ['cloud', 'nube', '☁'],
-  ['cup', 'taza', '∪'],
-  ['dog', 'perro', '▽'],
-  ['fish', 'pez', '><>'],
-  ['flower', 'flor', '✿'],
-  ['house', 'casa', '⌂'],
-  ['key', 'llave', '⚿'],
-  ['star', 'estrella', '☆'],
-  ['tree', 'árbol', '♧'],
+  ['apple', 'manzana'],
+  ['bicycle', 'bicicleta'],
+  ['bird', 'pájaro'],
+  ['book', 'libro'],
+  ['car', 'auto'],
+  ['cat', 'gato'],
+  ['chair', 'silla'],
+  ['cloud', 'nube'],
+  ['cup', 'taza'],
+  ['dog', 'perro'],
+  ['fish', 'pez'],
+  ['flower', 'flor'],
+  ['house', 'casa'],
+  ['key', 'llave'],
+  ['star', 'estrella'],
+  ['tree', 'árbol'],
 ] as const;
+const icons: Record<(typeof categories)[number][0], string> = {
+  apple:
+    'M32 20c-12-7-22 3-20 17 2 13 10 22 20 22s18-9 20-22C54 23 44 13 32 20Zm0 0c-1-8 3-13 9-15m-8 9c5 1 10-1 13-5',
+  bicycle:
+    'M16 48a11 11 0 1 0 0-22 11 11 0 0 0 0 22Zm32 0a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM16 37l12-18 10 18H16Zm12-18h9m1 18 10-18h-8',
+  bird: 'M10 39c10 12 31 11 40-4-9 1-16-4-20-13-4 10-11 17-20 17Zm40-4 9-4-9-4M31 34c4 5 9 7 14 5',
+  book: 'M9 14c9-3 17-1 23 5v32c-6-6-14-8-23-5V14Zm46 0c-9-3-17-1-23 5v32c6-6 14-8 23-5V14Z',
+  car: 'M8 42v-9l8-15h31l9 15v9H8Zm8-9h40M20 46a5 5 0 1 1-10 0m44 0a5 5 0 1 1-10 0',
+  cat: 'M13 25 17 8l13 10h5L48 8l3 17v18c0 10-8 16-19 16s-19-6-19-16V25Zm10 12h1m16 0h1M27 46c3 3 7 3 10 0M9 42h14m18 0h14',
+  chair: 'M17 8v29h28V19m-28 18v19m28-19v19M17 26h28',
+  cloud:
+    'M15 48h35c8 0 10-12 2-16-1-9-13-12-19-5-8-8-21-2-19 9-10 1-10 15 1 16Z',
+  cup: 'M13 13h32v26c0 10-7 17-16 17S13 49 13 39V13Zm32 7h5c9 0 9 17 0 17h-5',
+  dog: 'M18 23c3-7 8-11 14-11s11 4 14 11v20c0 10-6 16-14 16s-14-6-14-16V23Zm0 3L7 17v16c0 6 6 9 11 5m28-12 11-9v16c0 6-6 9-11 5M25 36h1m12 0h1M28 46c3 3 5 3 8 0',
+  fish: 'M10 32c10-13 28-17 41 0-13 17-31 13-41 0Zm0 0L3 20v24l7-12Zm28 0h1',
+  flower:
+    'M32 26c-15-17-25 6-7 8-14 9 4 24 9 7 7 16 22-2 7-10 18-2 9-20-6-9 11-22-9-24-8-2-12 2-12 9Zm0 15v18m0-8-10-6m10 8 10-6',
+  house: 'M7 30 32 8l25 22-5-1v29H12V29l-5 1Zm17 28V40h16v18',
+  key: 'M8 25a13 13 0 1 0 26 0A13 13 0 0 0 8 25Zm25 7 24 24m-8-8 7-7m-14 0 7-7',
+  star: 'm32 7 7 17 18 1-14 12 5 18-16-10-16 10 5-18L7 25l18-1 7-17Z',
+  tree: 'M32 7c-7 0-11 5-10 11-8-1-13 6-10 13-8 4-4 16 5 16h12v11h7V47h12c9 0 13-12 5-16 3-7-2-14-10-13 1-6-4-11-11-11Z',
+};
 const copy =
   lang === 'en'
     ? {
@@ -27,7 +49,7 @@ const copy =
         eyebrow: '16 supported categories',
         title: 'What can SketchSense recognize?',
         intro:
-          'These symbols are illustrative prompts, not training samples. Draw the complete silhouette with a medium or thin stroke and leave some white space around it.',
+          'These illustrations are drawing prompts, not training samples. Draw the complete silhouette with a medium or thin stroke and leave some white space around it.',
         tips: 'Drawing tips',
         tipItems: [
           'Prefer the whole object over a close-up face.',
@@ -41,7 +63,7 @@ const copy =
         eyebrow: '16 categorías disponibles',
         title: '¿Qué puede reconocer SketchSense?',
         intro:
-          'Estos símbolos son referencias ilustrativas, no muestras de entrenamiento. Dibuja la silueta completa con un trazo medio o delgado y deja espacio blanco alrededor.',
+          'Estas ilustraciones son referencias para dibujar, no muestras de entrenamiento. Dibuja la silueta completa con un trazo medio o delgado y deja espacio blanco alrededor.',
         tips: 'Consejos para dibujar',
         tipItems: [
           'Prefiere el objeto completo en vez de un primer plano del rostro.',
@@ -75,10 +97,17 @@ const copy =
   </p>
   <ul class="category-grid">
     {
-      categories.map(([english, spanish, symbol]) => (
+      categories.map(([english, spanish]) => (
         <li>
           <>
-            <span aria-hidden="true">{symbol}</span>
+            <svg
+              class="category-icon"
+              viewBox="0 0 64 64"
+              role="img"
+              aria-label={lang === 'en' ? english : spanish}
+            >
+              <path d={icons[english]} />
+            </svg>
             <strong>{lang === 'en' ? english : spanish}</strong>
             <small>{english}</small>
           </>

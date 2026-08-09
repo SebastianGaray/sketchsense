@@ -61,6 +61,7 @@ test('lists every supported category without publishing dataset sketches', async
     'What can SketchSense recognize?',
   );
   await expect(page.locator('.category-grid li')).toHaveCount(16);
+  await expect(page.locator('.category-icon')).toHaveCount(16);
   await expect(
     page.locator('.category-grid li').filter({ hasText: 'cat' }).first(),
   ).toBeVisible();
