@@ -28,6 +28,13 @@ const t =
           'Your strokes, image, tensor, and predictions stay in this browser.',
         stroke: 'Stroke width',
         live: 'Predictions update while you draw.',
+        mode: 'Input mode',
+        freehand: 'Freehand',
+        pixels: '28 × 28 pixels',
+        freehandHelp:
+          'Strokes stay vector-based until they are centered and rasterized for the model.',
+        pixelHelp:
+          'Draw directly on the enlarged 28 × 28 model grid. Switching modes clears the canvas.',
       }
     : {
         draw: 'Área de dibujo',
@@ -53,6 +60,13 @@ const t =
           'Tus trazos, imagen, tensor y predicciones permanecen en este navegador.',
         stroke: 'Grosor del trazo',
         live: 'Las predicciones se actualizan mientras dibujas.',
+        mode: 'Modo de entrada',
+        freehand: 'Dibujo libre',
+        pixels: 'Píxeles 28 × 28',
+        freehandHelp:
+          'Los trazos permanecen vectoriales hasta centrarlos y rasterizarlos para el modelo.',
+        pixelHelp:
+          'Dibuja directamente en la cuadrícula ampliada de 28 × 28. Cambiar de modo limpia el canvas.',
       };
 ---
 
@@ -76,7 +90,36 @@ const t =
   </div>
   <div class="workspace-grid">
     <div>
-      <canvas data-canvas width="640" height="640" aria-label={t.draw}></canvas>
+      <fieldset class="input-mode" data-input-mode>
+        <legend>{t.mode}</legend>
+        <label>
+          <input
+            type="radio"
+            name={`input-mode-${lang}`}
+            value="freehand"
+            checked
+          />
+          <span>{t.freehand}</span>
+        </label>
+        <label>
+          <input type="radio" name={`input-mode-${lang}`} value="pixels" />
+          <span>{t.pixels}</span>
+        </label>
+      </fieldset>
+      <p
+        class="mode-help"
+        data-mode-help
+        data-freehand-help={t.freehandHelp}
+        data-pixel-help={t.pixelHelp}
+      >
+        {t.freehandHelp}
+      </p>
+      <canvas
+        data-canvas
+        data-input-mode="freehand"
+        width="640"
+        height="640"
+        aria-label={t.draw}></canvas>
       <div class="drawing-tools">
         <label for={`stroke-width-${lang}`}>{t.stroke}</label>
         <input
@@ -133,9 +176,15 @@ const t =
   </div>
 </section>
 <script>
-  import { normalizeCanvasRgba, EmptySketchError } from '../lib/preprocessing';
+  import { EmptySketchError } from '../lib/preprocessing';
   import { SketchModel } from '../lib/inference';
   import { isUncertain } from '../lib/confidence';
+  import {
+    normalizePixelGrid,
+    normalizeVectorStrokes,
+    type StrokePoint,
+    type VectorStroke,
+  } from '../lib/stroke-preprocessing';
   const root = document.querySelector<HTMLElement>('[data-experience]')!;
   const canvas = root.querySelector<HTMLCanvasElement>('[data-canvas]')!;
   const preview = root.querySelector<HTMLCanvasElement>('[data-preview]')!;
@@ -150,6 +199,10 @@ const t =
   const strokeOutput = root.querySelector<HTMLOutputElement>(
     '[data-stroke-output]',
   )!;
+  const modeHelp = root.querySelector<HTMLElement>('[data-mode-help]')!;
+  const modeInputs = root.querySelectorAll<HTMLInputElement>(
+    '[data-input-mode] input',
+  );
   const lang = root.dataset.lang ?? 'en';
   const messages =
     lang === 'en'
@@ -177,18 +230,72 @@ const t =
             'Aún no estoy seguro. Agrega detalles distintivos o prueba otra vista.',
         };
   const context = canvas.getContext('2d', { willReadFrequently: true })!;
-  context.fillStyle = '#fff';
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  context.strokeStyle = '#111';
-  context.lineWidth = Number(strokeWidth.value);
-  context.lineCap = 'round';
-  context.lineJoin = 'round';
+  type InputMode = 'freehand' | 'pixels';
+  let inputMode: InputMode = 'freehand';
+  let strokes: VectorStroke[] = [];
+  const pixelGrid = new Float32Array(28 * 28);
+  let currentStroke: { points: StrokePoint[]; width: number } | undefined;
+  let previousPixel: StrokePoint | undefined;
   let drawing = false;
   let hasDrawing = false;
   let ready = false;
   let predictionTimer: number | undefined;
   let predictionSequence = 0;
   const model = new SketchModel(root.dataset.base ?? '/sketchsense/');
+  const configureFreehandContext = () => {
+    context.strokeStyle = '#111';
+    context.lineWidth = Number(strokeWidth.value);
+    context.lineCap = 'round';
+    context.lineJoin = 'round';
+  };
+  const drawPixelGrid = () => {
+    const cell = canvas.width / 28;
+    context.fillStyle = '#fff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = '#111';
+    pixelGrid.forEach((value, index) => {
+      if (value <= 0) return;
+      context.fillRect(
+        (index % 28) * cell,
+        Math.floor(index / 28) * cell,
+        Math.ceil(cell),
+        Math.ceil(cell),
+      );
+    });
+    context.beginPath();
+    context.strokeStyle = '#d8d8d8';
+    context.lineWidth = 1;
+    for (let index = 1; index < 28; index += 1) {
+      const position = index * cell;
+      context.moveTo(position, 0);
+      context.lineTo(position, canvas.height);
+      context.moveTo(0, position);
+      context.lineTo(canvas.width, position);
+    }
+    context.stroke();
+  };
+  const clearSurface = () => {
+    context.fillStyle = '#fff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    if (inputMode === 'pixels') drawPixelGrid();
+    else configureFreehandContext();
+  };
+  const resetDrawing = () => {
+    window.clearTimeout(predictionTimer);
+    predictionSequence += 1;
+    strokes = [];
+    currentStroke = undefined;
+    previousPixel = undefined;
+    pixelGrid.fill(0);
+    hasDrawing = false;
+    clear.disabled = true;
+    predict.disabled = true;
+    results.innerHTML = '<li>—</li>';
+    preview.getContext('2d')!.clearRect(0, 0, 28, 28);
+    status.textContent = ready ? messages.ready : messages.loading;
+    clearSurface();
+  };
+  clearSurface();
   const load = async () => {
     status.textContent = messages.loading;
     retry.hidden = true;
@@ -210,29 +317,85 @@ const t =
       y: ((event.clientY - box.top) * canvas.height) / box.height,
     };
   };
-  canvas.addEventListener('pointerdown', (event) => {
-    drawing = true;
-    canvas.setPointerCapture(event.pointerId);
-    const p = point(event);
-    context.beginPath();
-    context.moveTo(p.x, p.y);
-    event.preventDefault();
-  });
-  canvas.addEventListener('pointermove', (event) => {
-    if (!drawing) return;
-    const p = point(event);
-    context.lineTo(p.x, p.y);
-    context.stroke();
+  const pixelBrushRadius = () =>
+    Math.max(0, Math.min(1, Math.round(Number(strokeWidth.value) / 16) - 1));
+  const updateStrokeOutput = () => {
+    strokeOutput.value =
+      inputMode === 'pixels'
+        ? `${pixelBrushRadius() * 2 + 1} ${lang === 'en' ? 'cell' : 'celda'}`
+        : `${strokeWidth.value} px`;
+  };
+  const markPixel = (p: StrokePoint) => {
+    const x = Math.max(0, Math.min(27, Math.floor((p.x / canvas.width) * 28)));
+    const y = Math.max(0, Math.min(27, Math.floor((p.y / canvas.height) * 28)));
+    const brushRadius = pixelBrushRadius();
+    for (let offsetY = -brushRadius; offsetY <= brushRadius; offsetY += 1) {
+      for (let offsetX = -brushRadius; offsetX <= brushRadius; offsetX += 1) {
+        const targetX = x + offsetX;
+        const targetY = y + offsetY;
+        if (targetX >= 0 && targetX < 28 && targetY >= 0 && targetY < 28)
+          pixelGrid[targetY * 28 + targetX] = 1;
+      }
+    }
+  };
+  const interpolatePixels = (from: StrokePoint, to: StrokePoint) => {
+    const distance = Math.max(Math.abs(to.x - from.x), Math.abs(to.y - from.y));
+    const steps = Math.max(1, Math.ceil((distance / canvas.width) * 56));
+    for (let step = 0; step <= steps; step += 1) {
+      const ratio = step / steps;
+      markPixel({
+        x: from.x + (to.x - from.x) * ratio,
+        y: from.y + (to.y - from.y) * ratio,
+      });
+    }
+  };
+  const drawingChanged = () => {
     hasDrawing = true;
     clear.disabled = false;
     predict.disabled = !ready;
     status.textContent = messages.drawn;
     schedulePrediction(450);
+  };
+  canvas.addEventListener('pointerdown', (event) => {
+    drawing = true;
+    canvas.setPointerCapture(event.pointerId);
+    const p = point(event);
+    if (inputMode === 'pixels') {
+      previousPixel = p;
+      markPixel(p);
+      drawPixelGrid();
+    } else {
+      currentStroke = { points: [p], width: Number(strokeWidth.value) };
+      strokes.push(currentStroke);
+      configureFreehandContext();
+      context.beginPath();
+      context.moveTo(p.x, p.y);
+      context.lineTo(p.x + 0.01, p.y + 0.01);
+      context.stroke();
+    }
+    drawingChanged();
+    event.preventDefault();
+  });
+  canvas.addEventListener('pointermove', (event) => {
+    if (!drawing) return;
+    const p = point(event);
+    if (inputMode === 'pixels') {
+      if (previousPixel) interpolatePixels(previousPixel, p);
+      previousPixel = p;
+      drawPixelGrid();
+    } else {
+      currentStroke?.points.push(p);
+      context.lineTo(p.x, p.y);
+      context.stroke();
+    }
+    drawingChanged();
     event.preventDefault();
   });
   const end = (event: PointerEvent) => {
     if (drawing) {
       drawing = false;
+      currentStroke = undefined;
+      previousPixel = undefined;
       canvas.releasePointerCapture(event.pointerId);
       schedulePrediction(40);
     }
@@ -240,28 +403,32 @@ const t =
   canvas.addEventListener('pointerup', end);
   canvas.addEventListener('pointercancel', end);
   strokeWidth.addEventListener('input', () => {
-    context.lineWidth = Number(strokeWidth.value);
-    strokeOutput.value = `${strokeWidth.value} px`;
+    if (inputMode === 'freehand') configureFreehandContext();
+    updateStrokeOutput();
   });
-  clear.addEventListener('click', () => {
-    window.clearTimeout(predictionTimer);
-    predictionSequence += 1;
-    context.fillStyle = '#fff';
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    hasDrawing = false;
-    clear.disabled = true;
-    predict.disabled = true;
-    results.innerHTML = '<li>—</li>';
-    preview.getContext('2d')!.clearRect(0, 0, 28, 28);
-    status.textContent = messages.ready;
-  });
+  modeInputs.forEach((input) =>
+    input.addEventListener('change', () => {
+      if (!input.checked) return;
+      inputMode = input.value as InputMode;
+      canvas.dataset.inputMode = inputMode;
+      modeHelp.textContent =
+        inputMode === 'pixels'
+          ? modeHelp.dataset.pixelHelp!
+          : modeHelp.dataset.freehandHelp!;
+      updateStrokeOutput();
+      resetDrawing();
+    }),
+  );
+  clear.addEventListener('click', resetDrawing);
   const runPrediction = async () => {
     if (!ready || !hasDrawing) return;
     const sequence = ++predictionSequence;
     try {
       const started = performance.now();
-      const image = context.getImageData(0, 0, canvas.width, canvas.height);
-      const input = normalizeCanvasRgba(image.data, image.width, image.height);
+      const input =
+        inputMode === 'pixels'
+          ? normalizePixelGrid(pixelGrid)
+          : normalizeVectorStrokes(strokes);
       root.querySelector<HTMLElement>('[data-preprocess]')!.textContent =
         `${(performance.now() - started).toFixed(1)} ms`;
       const pixels = preview.getContext('2d')!.createImageData(28, 28);

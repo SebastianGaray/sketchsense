@@ -303,6 +303,58 @@ footer {
   touch-action: none;
   cursor: crosshair;
 }
+.input-mode {
+  display: flex;
+  gap: 0;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  border: 0;
+}
+.input-mode legend {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.input-mode label {
+  position: relative;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.input-mode label + label {
+  margin-left: -1px;
+}
+.input-mode input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.input-mode label:has(input:checked) {
+  z-index: 1;
+  background: var(--text);
+  color: var(--bg);
+}
+.input-mode label:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+.mode-help {
+  min-height: 2.7rem;
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+[data-canvas][data-input-mode='pixels'] {
+  image-rendering: pixelated;
+}
 .actions {
   display: flex;
   gap: 0.75rem;

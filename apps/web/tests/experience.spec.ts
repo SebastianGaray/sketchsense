@@ -44,6 +44,30 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   ).toBe(true);
   await page.locator('[data-clear]').click();
   await expect(page.locator('[data-predict]')).toBeDisabled();
+  await page.getByRole('radio', { name: '28 × 28 pixels' }).check();
+  await expect(canvas).toHaveAttribute('data-input-mode', 'pixels');
+  await expect(page.locator('[data-mode-help]')).toContainText(
+    'directly on the enlarged 28 × 28',
+  );
+  await canvas.scrollIntoViewIfNeeded();
+  const pixelBox = await canvas.boundingBox();
+  if (!pixelBox) throw new Error('Pixel canvas missing');
+  await page.mouse.move(
+    pixelBox.x + pixelBox.width * 0.2,
+    pixelBox.y + pixelBox.height * 0.5,
+  );
+  await page.mouse.down();
+  await page.mouse.move(
+    pixelBox.x + pixelBox.width * 0.8,
+    pixelBox.y + pixelBox.height * 0.5,
+    { steps: 20 },
+  );
+  await page.mouse.up();
+  await expect(page.locator('[data-results] li')).toHaveCount(3, {
+    timeout: 30_000,
+  });
+  await page.locator('[data-clear]').click();
+  await expect(page.locator('[data-predict]')).toBeDisabled();
   await page.getByRole('button', { name: 'Dark' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.getByRole('link', { name: 'Espa\u00f1ol' }).click();
