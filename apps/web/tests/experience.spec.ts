@@ -1,4 +1,9 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+async function navigateTo(page: Page, label: string): Promise<void> {
+  await page.locator('.project-menu summary').click();
+  await page.getByRole('link', { name: label, exact: true }).click();
+}
 
 test('localizes the portfolio return', async ({ page }) => {
   await page.goto('es/');
@@ -27,8 +32,8 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
     'href',
     'https://sebastiangaray.github.io/',
   );
-  await expect(page.locator('.page-nav')).toBeVisible();
-  await expect(page.locator('.page-nav a')).toHaveCount(5);
+  await expect(page.locator('.project-menu')).toBeVisible();
+  await expect(page.locator('.project-menu a')).toHaveCount(5);
   const canvas = page.locator('[data-canvas]');
   await canvas.scrollIntoViewIfNeeded();
   await expect(page.locator('[data-stroke-width]')).toHaveValue('14');
@@ -126,27 +131,28 @@ test('lists every supported category with validated held-out prompts', async ({
     'src',
     /examples\/v3\/.+\.png/,
   );
+  await page.locator('.project-menu summary').click();
   await expect(page.getByRole('link', { name: 'Examples' })).toHaveAttribute(
     'aria-current',
     'page',
   );
   await page.getByRole('link', { name: 'Canvas', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/$/);
-  await page.getByRole('link', { name: 'Model' }).click();
+  await navigateTo(page, 'Model');
   await expect(page).toHaveURL(/\/en\/model\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Model');
-  await page.getByRole('link', { name: 'About' }).click();
+  await navigateTo(page, 'About');
   await expect(page).toHaveURL(/\/en\/about\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
     'From stroke to prediction',
   );
-  await page.getByRole('link', { name: 'Engineering' }).click();
+  await navigateTo(page, 'Engineering');
   await expect(page).toHaveURL(/\/en\/engineering\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText(
     'specified, assisted, and verified',
   );
   await expect(page.locator('.engineering-grid li')).toHaveCount(4);
-  await page.getByRole('link', { name: 'Canvas', exact: true }).click();
+  await navigateTo(page, 'Canvas');
   await expect(page).toHaveURL(/\/en\/$/);
 });
 
@@ -162,11 +168,18 @@ test('fits a mobile viewport without horizontal overflow', async ({ page }) => {
   if (!themeMenu) throw new Error('Theme menu missing');
   expect(themeMenu.x).toBeGreaterThanOrEqual(0);
   expect(themeMenu.x + themeMenu.width).toBeLessThanOrEqual(320);
-  expect(
-    await page.evaluate(
-      () =>
-        document.documentElement.scrollWidth <=
-        document.documentElement.clientWidth,
-    ),
-  ).toBe(true);
+  const overflow = await page.evaluate(() => ({
+    fits:
+      document.documentElement.scrollWidth <=
+      document.documentElement.clientWidth,
+    offenders: [...document.querySelectorAll<HTMLElement>('body *')]
+      .filter((element) => element.getBoundingClientRect().right > innerWidth)
+      .map((element) => ({
+        tag: element.tagName,
+        className: element.className,
+        right: Math.round(element.getBoundingClientRect().right),
+      }))
+      .slice(0, 10),
+  }));
+  expect(overflow.fits, JSON.stringify(overflow.offenders)).toBe(true);
 });

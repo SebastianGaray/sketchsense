@@ -50,19 +50,9 @@ const links = [
 <a class="skip-link" href="#main">{copy.skip}</a>
 <header class="site-header">
   <div class="container header-primary">
-    <div class="header-identity">
-      <a class="brand" href={`${base}${lang}/`} aria-label="SketchSense home"
-        >SketchSense</a
-      >
-      <a
-        class="portfolio-link"
-        data-portfolio-return
-        href="https://sebastiangaray.github.io/"
-        aria-label={lang === 'en'
-          ? 'Return to portfolio'
-          : 'Volver al portafolio'}>← {copy.portfolio}</a
-      >
-    </div>
+    <a class="brand" href={`${base}${lang}/`} aria-label="SketchSense home"
+      >SketchSense</a
+    >
     <nav
       class="utility-nav"
       aria-label={lang === 'en' ? 'Project controls' : 'Controles del proyecto'}
@@ -81,25 +71,34 @@ const links = [
         <span class:list={[lang === 'es' && 'active']}>ES</span>
       </a>
       <a
+        class="portfolio-link"
+        data-portfolio-return
+        href="https://sebastiangaray.github.io/"
+        aria-label={lang === 'en'
+          ? 'Return to portfolio'
+          : 'Volver al portafolio'}>← {copy.portfolio}</a
+      >
+      <a
         class="github-link"
         href="https://github.com/SebastianGaray/sketchsense">GitHub ↗</a
       >
+      <details class="project-menu">
+        <summary>{lang === 'en' ? 'Menu' : 'Menú'}</summary>
+        <div>
+          {
+            links.map((link) => (
+              <a
+                href={link.href}
+                aria-current={active === link.key ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
+      </details>
     </nav>
   </div>
-  <nav class="page-nav" aria-label={navigation.label}>
-    <div class="container page-nav-inner">
-      {
-        links.map((link) => (
-          <a
-            href={link.href}
-            aria-current={active === link.key ? 'page' : undefined}
-          >
-            {link.label}
-          </a>
-        ))
-      }
-    </div>
-  </nav>
 </header>
 <main id="main"><slot /></main>
 <footer><div class="container">{copy.footer}</div></footer>
