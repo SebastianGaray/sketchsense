@@ -8,8 +8,6 @@ const copy =
     ? {
         eyebrow: 'Engineering process',
         title: 'How SketchSense was specified, assisted, and verified',
-        intro:
-          'The implementation followed versioned requirements, bounded AI assistance, human product decisions, and repeatable evidence.',
         steps: [
           [
             '01',
@@ -33,8 +31,6 @@ const copy =
           ],
         ],
         evidence: 'Versioned evidence',
-        evidenceIntro:
-          'The repository keeps requirements, implementation plans, and completed tasks beside the code.',
         links: [
           ['Canvas input SDD', `${repository}/sdd/canvas-input-v4/spec.md`],
           ['Model SDD', `${repository}/sdd/model-v3/spec.md`],
@@ -44,8 +40,6 @@ const copy =
     : {
         eyebrow: 'Proceso de ingeniería',
         title: 'Cómo se especificó, asistió y verificó SketchSense',
-        intro:
-          'La implementación siguió requisitos versionados, asistencia de IA acotada, decisiones humanas de producto y evidencia repetible.',
         steps: [
           [
             '01',
@@ -69,8 +63,6 @@ const copy =
           ],
         ],
         evidence: 'Evidencia versionada',
-        evidenceIntro:
-          'El repositorio conserva requisitos, planes de implementación y tareas terminadas junto al código.',
         links: [
           ['SDD del canvas', `${repository}/sdd/canvas-input-v4/spec.md`],
           ['SDD del modelo', `${repository}/sdd/model-v3/spec.md`],
@@ -82,7 +74,6 @@ const copy =
 <section class="secondary-page container" aria-labelledby="engineering-title">
   <p class="eyebrow">{copy.eyebrow}</p>
   <h1 id="engineering-title">{copy.title}</h1>
-  <p class="page-intro">{copy.intro}</p>
   <ol class="engineering-grid">
     {
       copy.steps.map(([number, title, body]) => (
@@ -98,7 +89,6 @@ const copy =
   </ol>
   <section class="page-section" aria-labelledby="engineering-evidence">
     <h2 id="engineering-evidence">{copy.evidence}</h2>
-    <p>{copy.evidenceIntro}</p>
     <div class="evidence-links">
       {copy.links.map(([label, href]) => <a href={href}>{label} ↗</a>)}
     </div>
