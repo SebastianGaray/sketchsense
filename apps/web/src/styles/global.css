@@ -116,7 +116,6 @@ a:focus-visible {
   flex-wrap: wrap;
   padding-block: 0.5rem;
 }
-.portfolio-link,
 .language-switch,
 .github-link {
   font-size: 0.82rem;
@@ -832,15 +831,6 @@ dd {
   .language-switch .active,
   .language-switch span[aria-hidden='true'] {
     display: none;
-  }
-}
-@media (max-width: 340px) {
-  .portfolio-link {
-    font-size: 0;
-  }
-  .portfolio-link::before {
-    content: '←';
-    font-size: 1rem;
   }
 }
 @media (max-width: 32rem) {
