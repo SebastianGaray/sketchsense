@@ -57,3 +57,4 @@ Completed tasks are checked only when repository evidence exists.
 - [x] **T027** Add bounded progressive inference during drawing and after pointer release while retaining manual prediction. (SS-FR-010, SS-PERF-001)
 - [x] **T028** Add an accessible stroke-width control with a thinner default. (SS-FR-011)
 - [x] **T029** Publish localized category guidance with authored prompts and drawing tips without exposing dataset samples. (SS-FR-011, SS-ML-001)
+- [x] **T030** Define the evidence-gated model v2 roadmap in `sdd/model-v2/`. Complete when fresh-data, experiment, evaluation, browser-budget, privacy, and rollback requirements are explicit.

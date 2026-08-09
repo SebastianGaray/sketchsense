@@ -42,3 +42,5 @@ The model uses a small subset with only 200 examples per class. Ambiguous, faint
 Future changes follow `branch → push → pull request → CI → review → merge to main → deployment`. Create a focused `agent/<short-description>` branch, use English Conventional Commits, keep documentation and SDD aligned, and do not bypass required checks or review.
 
 Requirements live in [spec.md](spec.md), architecture in [plan.md](plan.md), progress in [tasks.md](tasks.md), and visual decisions in [DESIGN.md](DESIGN.md).
+
+Future model-quality work is scoped separately in [the model v2 SDD](sdd/model-v2/spec.md). It requires a fresh test partition and measurable cross-class improvement before replacing the released model.
