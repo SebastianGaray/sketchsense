@@ -48,6 +48,8 @@ Requirements live in [spec.md](spec.md), architecture in [plan.md](plan.md), pro
 
 The current quality upgrade is recorded in [the model v3 SDD](sdd/model-v3/spec.md), including vector-native preprocessing, resolution evidence, uncertainty behavior, and release criteria.
 
+Release history is recorded in [CHANGELOG.md](CHANGELOG.md).
+
 ## License
 
 SketchSense source code is available under the [MIT License](LICENSE). The Quick, Draw! source data retains its separate CC BY 4.0 license and attribution described in [the data and licensing notes](docs/data-and-licensing.md).
