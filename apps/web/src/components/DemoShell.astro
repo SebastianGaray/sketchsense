@@ -54,8 +54,13 @@ const links = [
       <a class="brand" href={`${base}${lang}/`} aria-label="SketchSense home"
         >SketchSense</a
       >
-      <a class="portfolio-link" href="https://sebastiangaray.github.io/"
-        >← {copy.portfolio}</a
+      <a
+        class="portfolio-link"
+        data-portfolio-return
+        href="https://sebastiangaray.github.io/"
+        aria-label={lang === 'en'
+          ? 'Return to portfolio'
+          : 'Volver al portafolio'}>← {copy.portfolio}</a
       >
     </div>
     <nav
