@@ -6,7 +6,6 @@ const t =
   lang === 'en'
     ? {
         draw: 'Drawing area',
-        hint: 'Draw one of the 16 supported objects with a mouse, pen, or touch.',
         clear: 'Clear',
         predict: 'Predict',
         loading: 'Loading the local model…',
@@ -22,23 +21,14 @@ const t =
         timing: 'Measured on this device',
         preprocess: 'Preprocessing',
         inference: 'Inference',
-        limitation:
-          'Freehand drawing requires a pointer. All nearby actions are keyboard accessible.',
-        privacy:
-          'Your strokes, image, tensor, and predictions stay in this browser.',
+        leading: 'Current prediction',
         stroke: 'Stroke width',
-        live: 'Predictions update while you draw.',
         mode: 'Input mode',
         freehand: 'Freehand',
         pixels: '28 × 28 pixels',
-        freehandHelp:
-          'Strokes stay vector-based until they are centered and rasterized for the model.',
-        pixelHelp:
-          'Draw directly on the enlarged 28 × 28 model grid. Switching modes clears the canvas.',
       }
     : {
         draw: 'Área de dibujo',
-        hint: 'Dibuja uno de los 16 objetos admitidos con mouse, lápiz o tacto.',
         clear: 'Limpiar',
         predict: 'Predecir',
         loading: 'Cargando el modelo local…',
@@ -54,19 +44,11 @@ const t =
         timing: 'Medido en este dispositivo',
         preprocess: 'Preprocesamiento',
         inference: 'Inferencia',
-        limitation:
-          'El dibujo libre requiere un puntero. Las acciones cercanas son accesibles con teclado.',
-        privacy:
-          'Tus trazos, imagen, tensor y predicciones permanecen en este navegador.',
+        leading: 'Predicción actual',
         stroke: 'Grosor del trazo',
-        live: 'Las predicciones se actualizan mientras dibujas.',
         mode: 'Modo de entrada',
         freehand: 'Dibujo libre',
         pixels: 'Píxeles 28 × 28',
-        freehandHelp:
-          'Los trazos permanecen vectoriales hasta centrarlos y rasterizarlos para el modelo.',
-        pixelHelp:
-          'Dibuja directamente en la cuadrícula ampliada de 28 × 28. Cambiar de modo limpia el canvas.',
       };
 ---
 
@@ -79,15 +61,16 @@ const t =
   aria-labelledby="workspace-title"
 >
   <div class="workspace-heading">
-    <div>
-      <p class="eyebrow">
-        SketchSense &middot; {
-          lang === 'en' ? 'Local inference' : 'Inferencia local'
-        }
-      </p><h1 id="workspace-title">{t.draw}</h1><p>{t.hint}</p>
-    </div>
-    <p class="privacy">{t.privacy}</p>
+    <p class="eyebrow">
+      SketchSense &middot; {
+        lang === 'en' ? 'Local inference' : 'Inferencia local'
+      }
+    </p><h1 id="workspace-title">{t.draw}</h1>
   </div>
+  <section class="leading-prediction" aria-labelledby="leading-title">
+    <h2 id="leading-title">{t.leading}</h2>
+    <p data-leading-prediction aria-live="polite">—</p>
+  </section>
   <div class="workspace-grid">
     <div>
       <fieldset class="input-mode" data-input-mode>
@@ -106,21 +89,13 @@ const t =
           <span>{t.pixels}</span>
         </label>
       </fieldset>
-      <p
-        class="mode-help"
-        data-mode-help
-        data-freehand-help={t.freehandHelp}
-        data-pixel-help={t.pixelHelp}
-      >
-        {t.freehandHelp}
-      </p>
       <canvas
         data-canvas
         data-input-mode="freehand"
         width="640"
         height="640"
         aria-label={t.draw}></canvas>
-      <div class="drawing-tools">
+      <div class="drawing-tools" data-stroke-control>
         <label for={`stroke-width-${lang}`}>{t.stroke}</label>
         <input
           id={`stroke-width-${lang}`}
@@ -140,7 +115,6 @@ const t =
           disabled>{t.predict}</button
         >
       </div>
-      <p class="canvas-limit">{t.live} {t.limitation}</p>
     </div>
     <aside class="evidence-rail">
       <div class="status-box">
@@ -193,13 +167,18 @@ const t =
   const retry = root.querySelector<HTMLButtonElement>('[data-retry]')!;
   const status = root.querySelector<HTMLElement>('[data-status]')!;
   const results = root.querySelector<HTMLOListElement>('[data-results]')!;
+  const leadingPrediction = root.querySelector<HTMLElement>(
+    '[data-leading-prediction]',
+  )!;
   const strokeWidth = root.querySelector<HTMLInputElement>(
     '[data-stroke-width]',
   )!;
   const strokeOutput = root.querySelector<HTMLOutputElement>(
     '[data-stroke-output]',
   )!;
-  const modeHelp = root.querySelector<HTMLElement>('[data-mode-help]')!;
+  const strokeControl = root.querySelector<HTMLElement>(
+    '[data-stroke-control]',
+  )!;
   const modeInputs = root.querySelectorAll<HTMLInputElement>(
     '[data-input-mode] input',
   );
@@ -291,6 +270,7 @@ const t =
     clear.disabled = true;
     predict.disabled = true;
     results.innerHTML = '<li>—</li>';
+    leadingPrediction.textContent = '—';
     preview.getContext('2d')!.clearRect(0, 0, 28, 28);
     status.textContent = ready ? messages.ready : messages.loading;
     clearSurface();
@@ -411,10 +391,7 @@ const t =
       if (!input.checked) return;
       inputMode = input.value as InputMode;
       canvas.dataset.inputMode = inputMode;
-      modeHelp.textContent =
-        inputMode === 'pixels'
-          ? modeHelp.dataset.pixelHelp!
-          : modeHelp.dataset.freehandHelp!;
+      strokeControl.hidden = inputMode === 'pixels';
       updateStrokeOutput();
       resetDrawing();
     }),
@@ -453,6 +430,10 @@ const t =
           return li;
         }),
       );
+      const leader = predictions[0];
+      leadingPrediction.innerHTML = leader
+        ? `<strong>${leader.label}</strong><span>${(leader.probability * 100).toFixed(1)}%</span>`
+        : '—';
       status.textContent = isUncertain(predictions)
         ? messages.uncertain
         : messages.result;
