@@ -1,0 +1,151 @@
+{
+  "augmentation": {
+    "flips": false,
+    "rotation_degrees": [
+      -8,
+      8
+    ],
+    "scale": [
+      0.88,
+      1.12
+    ],
+    "stroke_variants": [
+      "thin",
+      "original",
+      "thick"
+    ],
+    "translation_fraction": [
+      -0.09,
+      0.09
+    ],
+    "version": "canvas-domain-v2"
+  },
+  "cache": {
+    "file": "medium-v2.npz",
+    "sha256": "87f39b9ca6e512928d8b6d9796ef3f07327fa74f876fa3995529d0bd04097bf3"
+  },
+  "classes": [
+    "apple",
+    "bicycle",
+    "bird",
+    "book",
+    "car",
+    "cat",
+    "chair",
+    "cloud",
+    "cup",
+    "dog",
+    "fish",
+    "flower",
+    "house",
+    "key",
+    "star",
+    "tree"
+  ],
+  "dataset": {
+    "license": "CC BY 4.0",
+    "name": "Google Quick, Draw! Dataset",
+    "source": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap"
+  },
+  "profile": {
+    "name": "medium-v2",
+    "samples_per_class": 1000,
+    "seed": 20260808
+  },
+  "sample_records": 16000,
+  "schema_version": "1.0.0",
+  "source_arrays": {
+    "apple": {
+      "selected_start": 26229,
+      "total_samples": 144722,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/apple.npy"
+    },
+    "bicycle": {
+      "selected_start": 6656,
+      "total_samples": 126527,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/bicycle.npy"
+    },
+    "bird": {
+      "selected_start": 64513,
+      "total_samples": 133572,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/bird.npy"
+    },
+    "book": {
+      "selected_start": 98793,
+      "total_samples": 119364,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/book.npy"
+    },
+    "car": {
+      "selected_start": 150715,
+      "total_samples": 182764,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/car.npy"
+    },
+    "cat": {
+      "selected_start": 56787,
+      "total_samples": 123202,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/cat.npy"
+    },
+    "chair": {
+      "selected_start": 196307,
+      "total_samples": 222706,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/chair.npy"
+    },
+    "cloud": {
+      "selected_start": 57847,
+      "total_samples": 120265,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/cloud.npy"
+    },
+    "cup": {
+      "selected_start": 88239,
+      "total_samples": 130721,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/cup.npy"
+    },
+    "dog": {
+      "selected_start": 118529,
+      "total_samples": 152159,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/dog.npy"
+    },
+    "fish": {
+      "selected_start": 97720,
+      "total_samples": 134150,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/fish.npy"
+    },
+    "flower": {
+      "selected_start": 38739,
+      "total_samples": 144818,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/flower.npy"
+    },
+    "house": {
+      "selected_start": 46351,
+      "total_samples": 135420,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/house.npy"
+    },
+    "key": {
+      "selected_start": 29051,
+      "total_samples": 160965,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/key.npy"
+    },
+    "star": {
+      "selected_start": 106513,
+      "total_samples": 137619,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/star.npy"
+    },
+    "tree": {
+      "selected_start": 118744,
+      "total_samples": 144721,
+      "url": "https://storage.googleapis.com/quickdraw_dataset/full/numpy_bitmap/tree.npy"
+    }
+  },
+  "split_totals": {
+    "test": 1600,
+    "train": 12800,
+    "validation": 1600
+  },
+  "splits": {
+    "test": 100,
+    "train": 800,
+    "validation": 100
+  },
+  "v1_excluded_sample_ids": 3200,
+  "v1_v2_identifier_overlap": 0
+}

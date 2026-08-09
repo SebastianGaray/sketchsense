@@ -30,9 +30,9 @@ export class SketchModel {
   async load(): Promise<void> {
     ort.env.wasm.numThreads = 1;
     const manifestResponse = await fetch(
-      `${this.base}models/model-manifest.v1.json`,
+      `${this.base}models/model-manifest.v2.json`,
     );
-    const modelResponse = await fetch(`${this.base}models/compact-cnn.v1.onnx`);
+    const modelResponse = await fetch(`${this.base}models/compact-cnn.v2.onnx`);
     if (!manifestResponse.ok || !modelResponse.ok)
       throw new Error('Model artifacts are unavailable');
     const manifest = (await manifestResponse.json()) as {
@@ -47,7 +47,7 @@ export class SketchModel {
       .map((value) => value.toString(16).padStart(2, '0'))
       .join('');
     if (
-      manifest.model_version !== '1.0.0' ||
+      manifest.model_version !== '2.0.0' ||
       manifest.preprocessing_version !== '1.0.0' ||
       manifest.onnx?.bytes !== model.byteLength ||
       manifest.onnx.sha256 !== digest

@@ -6,9 +6,9 @@ Visitors draw with mouse, pen, or touch, inspect the exact normalized 28 × 28 m
 
 ## Evidence
 
-The deterministic `small-v1` profile uses 3,200 bounded samples from 16 official Google Quick, Draw! categories: 2,240 train, 480 validation, and 480 test. Raw data is neither committed nor shipped. Quick, Draw! is attributed to Google under CC BY 4.0.
+The deterministic `medium-v2` development profile uses 16,000 bounded samples from 16 official Google Quick, Draw! categories: 12,800 train, 1,600 validation, and 1,600 initially locked test examples. A separate non-overlapping 1,600-example release test was used after artifact-level candidate rejection. Raw data is neither committed nor shipped. Quick, Draw! is attributed to Google under CC BY 4.0.
 
-The selected 106,256-parameter compact CNN reaches 72.71% held-out accuracy, 73.19% macro F1, and 86.88% top-3 accuracy. Its fixed-batch ONNX opset 18 artifact is 441,021 bytes. See [the model card](docs/model-card.md) and [data and licensing notes](docs/data-and-licensing.md).
+The selected 106,256-parameter compact CNN reaches 82.31% release-test accuracy, 82.20% macro F1, 92.63% top-3 accuracy, and 60% worst-class recall. Its fixed-batch ONNX opset 18 artifact is 441,021 bytes. See [the model card](docs/model-card.md) and [data and licensing notes](docs/data-and-licensing.md).
 
 ## Architecture
 
@@ -35,7 +35,7 @@ Dataset preparation and training are explicit, comparatively expensive workflows
 
 ## Limitations
 
-The model uses a small subset with only 200 examples per class. Ambiguous, faint, unusual, or out-of-distribution drawings may be wrong. Confidence is not calibrated probability. The WebAssembly runtime is the largest deployed asset and cold loading depends on the visitor's connection and browser. Freehand drawing has no keyboard equivalent, though every surrounding action is keyboard accessible.
+The model still covers only 16 classes. Ambiguous, faint, unusual, or out-of-distribution drawings may be wrong, and bird, dog, and cat remain among the harder categories. Confidence is not calibrated probability. The WebAssembly runtime is the largest deployed asset and cold loading depends on the visitor's connection and browser. Freehand drawing has no keyboard equivalent, though every surrounding action is keyboard accessible.
 
 ## Contributing
 

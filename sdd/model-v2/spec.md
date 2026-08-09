@@ -1,6 +1,6 @@
 # SketchSense model v2 specification
 
-Status: proposed. This document defines future work and does not change the released v1 model.
+Status: implemented. Model v2 met the release gates on a fresh non-overlapping final test.
 
 ## Objective
 

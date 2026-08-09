@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "model_version": "2.0.0",
+  "preprocessing_version": "1.0.0",
+  "class_manifest_version": "1.0.0",
+  "input": { "name": "input", "shape": [1, 1, 28, 28], "dtype": "float32" },
+  "output": { "name": "logits", "shape": [1, 16] },
+  "onnx": {
+    "bytes": 441021,
+    "sha256": "517302689aff79fbf16021a15f97bcd478cc7fcc1749e9ab650175af322949a2"
+  }
+}

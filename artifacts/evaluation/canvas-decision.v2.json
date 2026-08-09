@@ -1,0 +1,13 @@
+{
+  "schema_version": "2.0.0",
+  "decision": "retain-640-by-640-internal-canvas",
+  "model_input": [1, 1, 28, 28],
+  "reasons": [
+    "The existing canvas already records pointer input at substantially higher resolution than the model contract.",
+    "Preprocessing crops and rescales the occupied bounds, so a larger canvas does not add model features.",
+    "Responsive CSS already gives the drawing area the available viewport width.",
+    "A larger backing buffer would increase memory and preprocessing work without validation evidence of higher recall."
+  ],
+  "interaction_validation": ["chromium-desktop", "chromium-320px-mobile"],
+  "model_quality_strategy": "moderate scale, translation, rotation, rasterization, and stroke-width augmentation"
+}
