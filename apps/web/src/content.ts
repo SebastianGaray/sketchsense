@@ -4,7 +4,7 @@ export type Language = (typeof languages)[number];
 export const content = {
   en: {
     skip: 'Skip to content',
-    portfolio: 'Back to portfolio',
+    portfolio: 'Portfolio',
     language: 'Español',
     theme: 'Theme',
     system: 'System',
@@ -14,7 +14,7 @@ export const content = {
   },
   es: {
     skip: 'Saltar al contenido',
-    portfolio: 'Volver al portafolio',
+    portfolio: 'Portafolio',
     language: 'English',
     theme: 'Tema',
     system: 'Sistema',

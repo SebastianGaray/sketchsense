@@ -1,5 +1,12 @@
 import { expect, test } from '@playwright/test';
 
+test('localizes the portfolio return', async ({ page }) => {
+  await page.goto('es/');
+  await expect(page.locator('[data-portfolio-return]')).toHaveText(
+    '← Portafolio',
+  );
+});
+
 test('loads, draws, predicts, clears, and keeps navigation working', async ({
   page,
 }) => {
@@ -13,6 +20,13 @@ test('loads, draws, predicts, clears, and keeps navigation working', async ({
   });
   await expect(page.locator('[data-global-control="theme"]')).toBeVisible();
   await expect(page.locator('[data-global-control="language"]')).toBeVisible();
+  await expect(page.locator('[data-portfolio-return]')).toHaveText(
+    '← Portfolio',
+  );
+  await expect(page.locator('[data-portfolio-return]')).toHaveAttribute(
+    'href',
+    'https://sebastiangaray.github.io/',
+  );
   await expect(page.locator('.page-nav')).toBeVisible();
   await expect(page.locator('.page-nav a')).toHaveCount(5);
   const canvas = page.locator('[data-canvas]');
