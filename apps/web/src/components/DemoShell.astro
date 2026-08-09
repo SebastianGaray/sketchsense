@@ -53,6 +53,18 @@ const links = [
     <a class="brand" href={`${base}${lang}/`} aria-label="SketchSense home"
       >SketchSense</a
     >
+    <nav class="desktop-nav" aria-label={navigation.label}>
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            aria-current={active === link.key ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
     <nav
       class="utility-nav"
       aria-label={lang === 'en' ? 'Project controls' : 'Controles del proyecto'}
@@ -71,9 +83,16 @@ const links = [
         <span class:list={[lang === 'es' && 'active']}>ES</span>
       </a>
       <a
-        class="github-link"
-        href="https://github.com/SebastianGaray/sketchsense">GitHub ↗</a
+        class="github-mark"
+        href="https://github.com/SebastianGaray/sketchsense"
+        aria-label="GitHub"
       >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8.7 17.7 3 12l5.7-5.7 1.4 1.4L5.8 12l4.3 4.3-1.4 1.4Zm6.6 0-1.4-1.4 4.3-4.3-4.3-4.3 1.4-1.4L21 12l-5.7 5.7Z"
+          ></path>
+        </svg>
+      </a>
       <details class="project-menu">
         <summary>{lang === 'en' ? 'Menu' : 'Menú'}</summary>
         <div>
@@ -96,4 +115,19 @@ const links = [
   </div>
 </header>
 <main id="main"><slot /></main>
-<footer><div class="container">{copy.footer}</div></footer>
+<footer class="site-footer">
+  <div class="container footer-shell">
+    <div>
+      <strong class="footer-brand">SketchSense</strong>
+      <small>© {new Date().getFullYear()} Sebastian Garay</small>
+    </div>
+    <nav aria-label={copy.footerContact}>
+      <a href="https://github.com/SebastianGaray/sketchsense">GitHub</a>
+      <a href="https://www.linkedin.com/in/sebastián-garay-b28610195/"
+        >LinkedIn</a
+      >
+      <a href="mailto:sebastiangarayperez2@gmail.com">{copy.email}</a>
+    </nav>
+    <small>{copy.builtWith}</small>
+  </div>
+</footer>

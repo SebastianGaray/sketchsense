@@ -10,7 +10,9 @@ export const content = {
     system: 'System',
     light: 'Light',
     dark: 'Dark',
-    footer: 'SketchSense by Sebastián Garay · An open portfolio project.',
+    footerContact: 'Email and profiles',
+    email: 'Email',
+    builtWith: 'Built with Astro.',
   },
   es: {
     skip: 'Saltar al contenido',
@@ -20,7 +22,8 @@ export const content = {
     system: 'Sistema',
     light: 'Claro',
     dark: 'Oscuro',
-    footer:
-      'SketchSense por Sebastián Garay · Un proyecto abierto de portafolio.',
+    footerContact: 'Correo y perfiles',
+    email: 'Correo',
+    builtWith: 'Construido con Astro.',
   },
 } as const;
