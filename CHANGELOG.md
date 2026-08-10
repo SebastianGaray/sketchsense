@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1 - 2026-08-09
+
+- Expanded the desktop project navigation while retaining the compact mobile menu.
+- Added the active theme label and a direct GitHub shortcut to the header.
+- Aligned the responsive footer and shared application chrome with the main portfolio.
+- Updated browser coverage for desktop and mobile navigation behavior.
+
 ## 1.0.0 - 2026-08-09
 
 First stable release of SketchSense.
