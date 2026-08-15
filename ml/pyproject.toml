@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "Deterministic ML pipeline for SketchSense"
 requires-python = ">=3.12"
 license = "MIT"
-dependencies = ["jsonschema>=4.23", "numpy>=2.1,<3"]
+dependencies = ["jsonschema>=4.23", "numpy>=2.5.2,<3"]
 
 [dependency-groups]
 dev = [
