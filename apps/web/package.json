@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "astro": "^7.2.0",
+    "astro": "^7.2.8",
     "onnxruntime-web": "^1.22.0",
     "sketchsense": "file:../.."
   },
